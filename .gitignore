@@ -1,6 +1,27 @@
-__pycache__/
-*.pyc
-*.bak
+# System & Temporary
 Thumbs.db
 .DS_Store
+*.bak
+*.log
+__pycache__/
+*.pyc
+
+# Local Scratch & Rendering Scripts
+*.py
+
+# Experiments & Old Animation Frames
+frames/
+
+# Legacy Unused Scripts & CSS
+js/
+css/
+logo/1.png
+logo/2.png
+
+# Internal Guides & Email Templates
+email_templates/
+ai-3d-scrolling-website-guide.md
+implementation_plan.md
+website/sample.html
+website/pharmacy-journal-launch-guide.html
 
