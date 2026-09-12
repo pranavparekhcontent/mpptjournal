@@ -18,8 +18,7 @@ css/
 logo/1.png
 logo/2.png
 
-# Internal Guides & Email Templates
-email_templates/
+# Internal Guides
 ai-3d-scrolling-website-guide.md
 implementation_plan.md
 website/sample.html

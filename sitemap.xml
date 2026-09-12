@@ -95,4 +95,20 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- Global Indexing & Repositories Portal -->
+  <url>
+    <loc>https://mpptjournal.com/#indexing</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- OAI-PMH 2.0 Machine-Readable Metadata Feed -->
+  <url>
+    <loc>https://mpptjournal.com/oai-pmh.xml</loc>
+    <lastmod>2026-09-13</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
 </urlset>

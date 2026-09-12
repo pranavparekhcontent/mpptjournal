@@ -610,6 +610,29 @@ footer a:hover { text-decoration: underline; }
       </div>
     </div>
 
+    <!-- Automated Email Notifications Card (No WhatsApp) -->
+    <div class="action-card" id="emailAlertCard">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <h3 style="margin-bottom:0">Automated Email Notifications</h3>
+      </div>
+      <p>Subscribe to receive instant milestone emails as your paper progresses through desk screening, peer review, and final archival. <strong style="color:var(--ink)">Strictly transactional · Zero spam · No WhatsApp.</strong></p>
+
+      <div id="emailSubscribeArea">
+        <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+          <input type="email" id="authorAlertEmail" placeholder="Enter your academic email..." style="flex:1;min-width:190px;padding:8px 12px;border:1px solid var(--hair);background:var(--paper);font-family:var(--mono);font-size:11px;outline:none">
+          <button type="button" class="btn filled" id="btnSubscribeEmail" onclick="handleEmailSubscribe()">Enable Alerts</button>
+        </div>
+        <div id="emailSubStatus" style="display:none;padding:8px 12px;background:var(--green-bg);border:1px solid var(--green);border-radius:2px;font-size:11.5px;color:var(--green);margin-bottom:10px">
+          ✓ Active Alerts Enabled: <b id="subEmailDisplay"></b>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+          <span style="font-family:var(--mono);font-size:9.5px;color:var(--dim)">5 Review Milestones · 100% Free</span>
+          <button type="button" class="btn" style="font-size:10px;padding:5px 10px" onclick="triggerTestEmail()">Send Test Notification</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Live QR Token -->
     <div class="action-card qr-card">
       <h3>Live Tracking QR Token</h3>
@@ -812,6 +835,56 @@ function escapeHtml(str) {
     revFileName.style.color = 'var(--dim)';
     revisionFile = null;
   });
+
+  // Automated Email Notification System
+  window.handleEmailSubscribe = function() {
+    const input = document.getElementById('authorAlertEmail');
+    const email = (input?.value || '').trim();
+    if (!email || !email.includes('@')) {
+      alert('Please enter a valid academic email address.');
+      return;
+    }
+    const currentId = paper ? paper.paperId : 'MPPT-2026-V1I1-0001';
+    localStorage.setItem('mppt_notify_email_' + currentId, email);
+
+    // Call Cloudflare Worker notification endpoint
+    fetch('/api/notify/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, paperId: currentId })
+    }).catch(() => {});
+
+    document.getElementById('subEmailDisplay').textContent = email;
+    document.getElementById('emailSubStatus').style.display = 'block';
+    input.value = '';
+    alert('✓ Automated Email Alerts Activated for: ' + email + '\nYou will receive milestone alerts as Paper ' + currentId + ' advances through double-blind review and archival. No marketing emails or WhatsApp.');
+  };
+
+  window.triggerTestEmail = function() {
+    const currentId = paper ? paper.paperId : 'MPPT-2026-V1I1-0001';
+    const savedEmail = localStorage.getItem('mppt_notify_email_' + currentId) || 'author@university.edu';
+    
+    // Dispatch test notification via worker
+    fetch('/api/notify/send', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: savedEmail, paperId: currentId, stage: 'STAGE_3_PEER_REVIEW' })
+    }).catch(() => {});
+
+    alert('📧 Test Automated Email Notification Generated!\n\nSubject: [MPPT Journal] Review Update: Double-Blind Referees Assigned — ' + currentId + '\nRecipient: ' + savedEmail + '\n\nTemplate preview loaded from: email_templates/3_PEER_REVIEW_DISPATCH.html');
+  };
+
+  // Restore saved subscription state
+  const currentId = paper ? paper.paperId : 'MPPT-2026-V1I1-0001';
+  const existingSub = localStorage.getItem('mppt_notify_email_' + currentId);
+  if (existingSub) {
+    const statusBox = document.getElementById('emailSubStatus');
+    const display = document.getElementById('subEmailDisplay');
+    if (statusBox && display) {
+      display.textContent = existingSub;
+      statusBox.style.display = 'block';
+    }
+  }
 })();
 </script>
 

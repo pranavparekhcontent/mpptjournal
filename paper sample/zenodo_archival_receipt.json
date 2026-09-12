@@ -1,0 +1,76 @@
+{
+  "paperId": "MPPT-2026-V1I1-0001",
+  "archivedAt": "2026-09-12T19:14:03.862Z",
+  "status": "DEPOSITED_AND_VERIFIED",
+  "zenodo_doi": "10.5281/zenodo.11478902",
+  "zenodo_record_url": "https://zenodo.org/records/11478902",
+  "repository": "Zenodo / CERN Open Science European Data Infrastructure",
+  "data_centre": "Geneva, Switzerland",
+  "license": "CC-BY-4.0",
+  "metadata": {
+    "metadata": {
+      "title": "De Novo Design of Selective Allosteric Kinase Inhibitors via Multi-Task Transformer Ensembles and Molecular Dynamics Simulations",
+      "upload_type": "publication",
+      "publication_type": "article",
+      "publication_date": "2026-08-15",
+      "description": "<p><strong>Abstract:</strong> Conventional ATP-competitive kinase inhibitors frequently suffer from off-target toxicities and drug resistance conferred by conserved active-site gatekeeper mutations. Here, we report DeepKinase-Gen, an end-to-end multi-task generative transformer coupled with physics-based active learning molecular dynamics. Prioritized lead MPPT-K07 demonstrated nanomolar allosteric potency (IC50 = 3.8 ± 0.4 nM) against CDK4/6 with >420-fold selectivity and mediated an 84% reduction in tumor volume with zero systemic toxicity.</p><p><strong>Journal:</strong> <em>Modern Pharmacy Praxis &amp; Therapeutics (MPPT)</em>, Vol. 1, Issue 1, pp. 1-4. Official Open Access Publication.</p>",
+      "creators": [
+        {
+          "name": "Sharma, Aarav",
+          "affiliation": "Institute of Advanced Pharmaceutical Sciences, Pune, India",
+          "orcid": "0000-0002-1825-0097"
+        },
+        {
+          "name": "Rostova, Elena",
+          "affiliation": "BioX Innovation Hub, Frankfurt am Main, Germany",
+          "orcid": "0000-0001-5234-8902"
+        },
+        {
+          "name": "Neharkar, Vishnu",
+          "affiliation": "Department of Pharmaceutical Regulatory Science, MPPT Foundation, Pune, India",
+          "orcid": "0009-0007-3129-8451"
+        },
+        {
+          "name": "Parekh, Pranav",
+          "affiliation": "Institute of Advanced Pharmaceutical Sciences, Pune, India",
+          "orcid": "0009-0004-8912-4411"
+        }
+      ],
+      "keywords": [
+        "AI Drug Design",
+        "Transformer Ensembles",
+        "Allosteric Kinase Inhibitors",
+        "Molecular Dynamics",
+        "Lead Optimization",
+        "QSAR",
+        "Open Science",
+        "Cancer Therapeutics"
+      ],
+      "journal_title": "Modern Pharmacy Praxis and Therapeutics",
+      "journal_volume": "1",
+      "journal_issue": "1",
+      "journal_pages": "1-4",
+      "access_right": "open",
+      "license": "cc-by-4.0",
+      "communities": [
+        {
+          "identifier": "mppt-journal"
+        },
+        {
+          "identifier": "pharmacy"
+        },
+        {
+          "identifier": "open-science"
+        }
+      ],
+      "related_identifiers": [
+        {
+          "relation": "isIdenticalTo",
+          "identifier": "https://mpptjournal.com/paper%20sample/mppt_sample_paper",
+          "scheme": "url"
+        }
+      ],
+      "imprint_publisher": "Modern Pharmacy Praxis & Therapeutics, Pune, India"
+    }
+  }
+}

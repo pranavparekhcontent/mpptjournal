@@ -1,14 +1,34 @@
 # Robots.txt for Modern Pharmacy Praxis & Therapeutics (MPPT Journal)
-# Official Portal: https://mpptjournal.com
+# Official Production Portal: https://mpptjournal.com
+# Open Access Scientific Journal · CC BY 4.0
 
 User-agent: *
 Allow: /
+Allow: /oai-pmh.xml
+Allow: /paper%20sample/
+Allow: /certificate
+Allow: /track
 
-# Specifically allow academic and research crawlers
+# Dedicated Academic Search & Indexing Engines
 User-agent: Googlebot
 Allow: /
 
 User-agent: Google-Scholar-Crawler
+Allow: /
+
+User-agent: SemanticScholarBot
+Allow: /
+
+User-agent: archive.org_bot
+Allow: /
+
+User-agent: ia_archiver
+Allow: /
+
+User-agent: citeseerxbot
+Allow: /
+
+User-agent: BASE-Search-Crawler
 Allow: /
 
 User-agent: Bingbot
@@ -17,9 +37,16 @@ Allow: /
 User-agent: Applebot
 Allow: /
 
-# Disallow private internal directories
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# Disallow internal scripts & dev utilities
 Disallow: /worker/
 Disallow: /.git/
+Disallow: /scripts/
 
-# XML Sitemap Location
+# Machine-Readable Feeds & Sitemap
 Sitemap: https://mpptjournal.com/sitemap.xml

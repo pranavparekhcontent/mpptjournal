@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OAI-PMH xmlns="http://www.openarchives.org/OAI/2.0/"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/
+         http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd">
+  <responseDate>2026-09-13T00:00:00Z</responseDate>
+  <request verb="ListRecords" metadataPrefix="oai_dc">https://mpptjournal.com/oai-pmh.xml</request>
+  
+  <Identify>
+    <repositoryName>Modern Pharmacy Praxis and Therapeutics (MPPT Journal)</repositoryName>
+    <baseURL>https://mpptjournal.com/oai-pmh.xml</baseURL>
+    <protocolVersion>2.0</protocolVersion>
+    <adminEmail>editor@mpptjournal.com</adminEmail>
+    <earliestDatestamp>2026-01-01T00:00:00Z</earliestDatestamp>
+    <deletedRecord>no</deletedRecord>
+    <granularity>YYYY-MM-DDThh:mm:ssZ</granularity>
+    <description>
+      <oai-identifier xmlns="http://www.openarchives.org/OAI/2.0/oai-identifier"
+                      xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai-identifier
+                      http://www.openarchives.org/OAI/2.0/oai-identifier.xsd">
+        <scheme>oai</scheme>
+        <repositoryIdentifier>mpptjournal.com</repositoryIdentifier>
+        <delimiter>:</delimiter>
+        <sampleIdentifier>oai:mpptjournal.com:MPPT-2026-V1I1-0001</sampleIdentifier>
+      </oai-identifier>
+    </description>
+  </Identify>
+
+  <ListRecords>
+    <record>
+      <header>
+        <identifier>oai:mpptjournal.com:MPPT-2026-V1I1-0001</identifier>
+        <datestamp>2026-08-15T00:00:00Z</datestamp>
+        <setSpec>pharmacy:computational_pharmacology</setSpec>
+      </header>
+      <metadata>
+        <oai_dc:dc xmlns:oai_dc="http://www.openarchives.org/OAI/2.0/oai_dc/"
+                   xmlns:dc="http://purl.org/dc/elements/1.1/"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.openarchives.org/OAI/2.0/oai_dc/
+                   http://www.openarchives.org/OAI/2.0/oai_dc.xsd">
+          <dc:title>De Novo Design of Selective Allosteric Kinase Inhibitors via Multi-Task Transformer Ensembles and Molecular Dynamics Simulations</dc:title>
+          <dc:creator>Sharma, Aarav</dc:creator>
+          <dc:creator>Rostova, Elena</dc:creator>
+          <dc:creator>Neharkar, Vishnu</dc:creator>
+          <dc:creator>Parekh, Pranav</dc:creator>
+          <dc:subject>AI Drug Design</dc:subject>
+          <dc:subject>Transformer Ensembles</dc:subject>
+          <dc:subject>Allosteric Kinase Inhibitors</dc:subject>
+          <dc:subject>Molecular Dynamics</dc:subject>
+          <dc:subject>QSAR</dc:subject>
+          <dc:subject>Precision Oncology</dc:subject>
+          <dc:description>Conventional ATP-competitive kinase inhibitors frequently suffer from off-target toxicities and drug resistance conferred by conserved active-site gatekeeper mutations. Here, we report DeepKinase-Gen, an end-to-end multi-task generative transformer coupled with physics-based active learning molecular dynamics. Prioritized lead MPPT-K07 demonstrated nanomolar allosteric potency (IC50 = 3.8 ± 0.4 nM) against CDK4/6 with &gt;420-fold selectivity and mediated an 84% reduction in tumor volume.</dc:description>
+          <dc:publisher>Modern Pharmacy Praxis and Therapeutics, Pune, India</dc:publisher>
+          <dc:date>2026-08-15</dc:date>
+          <dc:type>info:eu-repo/semantics/article</dc:type>
+          <dc:type>Journal Article</dc:type>
+          <dc:format>application/pdf</dc:format>
+          <dc:identifier>https://mpptjournal.com/paper%20sample/mppt_sample_paper</dc:identifier>
+          <dc:identifier>doi:10.5555/mppt.2026.010101</dc:identifier>
+          <dc:identifier>doi:10.5281/zenodo.11478902</dc:identifier>
+          <dc:source>Modern Pharmacy Praxis and Therapeutics; Vol. 1, Issue 1 (2026); pp. 1-4</dc:source>
+          <dc:language>eng</dc:language>
+          <dc:relation>https://mpptjournal.com/paper%20sample/MPPT_Vol1_Issue1_Sample_Paper.pdf</dc:relation>
+          <dc:rights>info:eu-repo/semantics/openAccess</dc:rights>
+          <dc:rights>https://creativecommons.org/licenses/by/4.0/</dc:rights>
+        </oai_dc:dc>
+      </metadata>
+    </record>
+  </ListRecords>
+</OAI-PMH>
