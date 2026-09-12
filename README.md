@@ -26,17 +26,19 @@ Official production repository for **Modern Pharmacy Praxis & Therapeutics (MPPT
 
 ## 📂 Repository Structure
 
-\\\
+```
 mpptjournal/
-├── index.html          # Production homepage with cinematic prologue & 4D glass transition
-├── intro video.mp4     # Official journal prologue cinematic video
+├── index.html              # Production portal, manuscript intake & Razorpay gateway
+├── track.html              # Live manuscript tracking timeline & rebuttal portal
+├── coupon_generator.html   # Editorial cryptographic coupon generator (Email-Locked)
+├── intro video.mp4         # Official journal prologue cinematic video
 ├── logo/
-│   └── logo.png        # Official MPPT gold & burgundy academic crest/seal
-├── website/
-│   └── website.html    # Primary source template
-├── .gitignore          # Repository hygiene & exclusion rules
-└── README.md           # Project documentation
-\\\
+│   └── logo.png            # Official MPPT gold & burgundy academic crest/seal
+├── paper sample/           # Publication-quality sample paper (HTML, PDF, PNG previews)
+├── email_templates/        # Editorial & reviewer formal invitation templates
+├── .gitignore              # Repository hygiene & exclusion rules
+└── README.md               # Project documentation
+```
 
 ---
 

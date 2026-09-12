@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manuscript Live Tracking · MPPT Journal</title>
+<meta name="description" content="Live double-blind peer review and editorial progress timeline for Modern Pharmacy Praxis & Therapeutics (MPPT Journal).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="logo/logo.png">
+
+<style>
+:root {
+  --paper: #fcfbfa;
+  --cream: #f6f1e7;
+  --ink: #1c1812;
+  --acc: #8c3b3b;
+  --gold: #a8874f;
+  --mut: #5c5344;
+  --dim: #8a7f6c;
+  --hair: #e5dec9;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --serif: 'Cormorant Garamond', 'Newsreader', Georgia, serif;
+  --mono: 'JetBrains Mono', monospace;
+  --green: #2e7d32;
+  --green-bg: #e8f5e9;
+  --amber: #b45309;
+  --amber-bg: #fffbeb;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header & Masthead */
+header {
+  border-bottom: 1px solid var(--hair);
+  background: #fff;
+  padding: 16px 24px;
+}
+.header-wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  color: inherit;
+}
+.brand img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+}
+.brand-text h1 {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: var(--acc);
+}
+.brand-text p {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.nav-link {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--mut);
+  text-decoration: none;
+  border: 1px solid var(--hair);
+  padding: 6px 12px;
+  border-radius: 2px;
+  transition: all .2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-link:hover {
+  color: var(--acc);
+  border-color: var(--acc);
+  background: rgba(140,59,59,.03);
+}
+
+/* Container */
+.main-wrap {
+  max-width: 1080px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 36px 20px 60px;
+  flex: 1;
+}
+
+/* Paper Search / Quick Switch */
+.lookup-card {
+  background: #fff;
+  border: 1px solid var(--hair);
+  padding: 14px 20px;
+  border-radius: 2px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.lookup-form {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  max-width: 460px;
+}
+.lookup-input {
+  flex: 1;
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 8px 12px;
+  border: 1px solid var(--hair);
+  background: var(--paper);
+  color: var(--ink);
+  outline: none;
+}
+.lookup-input:focus { border-color: var(--acc); }
+.lookup-btn {
+  background: var(--acc);
+  color: #fff;
+  border: none;
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 8px 16px;
+  cursor: pointer;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  transition: background .2s;
+}
+.lookup-btn:hover { background: #6d2c2c; }
+
+/* Status Banner */
+.paper-banner {
+  background: #fff;
+  border: 1px solid var(--hair);
+  border-top: 4px solid var(--acc);
+  padding: 28px 32px;
+  margin-bottom: 28px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.02);
+}
+.banner-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.paper-id-tag {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--acc);
+  letter-spacing: .08em;
+}
+.status-pill {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 2px;
+  font-weight: 500;
+  letter-spacing: .06em;
+}
+.status-pill.active { background: var(--green-bg); color: var(--green); border: 1px solid #c8e6c9; }
+.status-pill.review { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+.status-pill.revision { background: var(--amber-bg); color: var(--amber); border: 1px solid #fde68a; }
+
+.manuscript-title {
+  font-family: var(--serif);
+  font-size: clamp(22px, 3.5vw, 32px);
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 14px;
+  color: var(--ink);
+}
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--hair);
+  font-size: 12.5px;
+}
+.meta-item strong {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--dim);
+  letter-spacing: .06em;
+  margin-bottom: 3px;
+}
+
+/* 5-Step Editorial Timeline */
+.timeline-section {
+  background: #fff;
+  border: 1px solid var(--hair);
+  padding: 32px;
+  margin-bottom: 28px;
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--acc);
+  margin-bottom: 6px;
+}
+.section-sub {
+  font-size: 13px;
+  color: var(--mut);
+  margin-bottom: 28px;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 28px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 10px;
+  width: 2px;
+  background: var(--hair);
+}
+.step {
+  position: relative;
+  margin-bottom: 32px;
+}
+.step:last-child { margin-bottom: 0; }
+.step-node {
+  position: absolute;
+  left: -28px;
+  top: 2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--hair);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+.step.done .step-node {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+.step.in-progress .step-node {
+  background: var(--acc);
+  border-color: var(--acc);
+  color: #fff;
+  animation: pulseNode 2s infinite;
+}
+@keyframes pulseNode {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(140,59,59,.3); }
+  50% { box-shadow: 0 0 0 6px rgba(140,59,59,0); }
+}
+
+.step-card {
+  background: var(--paper);
+  border: 1px solid var(--hair);
+  padding: 16px 20px;
+  border-radius: 2px;
+}
+.step-hdr {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+.step-title {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.step-time {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--dim);
+}
+.step-desc {
+  font-size: 13px;
+  color: var(--mut);
+  line-height: 1.55;
+}
+.step-tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.step-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 2px 8px;
+  background: #fff;
+  border: 1px solid var(--hair);
+  border-radius: 2px;
+  color: var(--mut);
+}
+
+/* Action Hub */
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 28px;
+}
+.action-card {
+  background: #fff;
+  border: 1px solid var(--hair);
+  padding: 22px;
+  border-radius: 2px;
+}
+.action-card h3 {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--acc);
+  margin-bottom: 8px;
+}
+.action-card p {
+  font-size: 12.5px;
+  color: var(--mut);
+  margin-bottom: 14px;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: 2px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all .2s;
+  border: 1px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+}
+.btn.filled {
+  background: var(--acc);
+  border-color: var(--acc);
+  color: #fff;
+}
+.btn.filled:hover { background: #6d2c2c; }
+.btn:hover { background: rgba(0,0,0,.04); }
+
+/* Revision Upload Zone */
+.revision-dropzone {
+  border: 2px dashed var(--hair);
+  padding: 24px;
+  text-align: center;
+  background: var(--paper);
+  border-radius: 2px;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: border-color .2s;
+}
+.revision-dropzone:hover { border-color: var(--acc); }
+.revision-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px 12px;
+  font-family: var(--font);
+  font-size: 12px;
+  border: 1px solid var(--hair);
+  background: var(--paper);
+  margin-bottom: 12px;
+  resize: vertical;
+}
+
+/* QR Card */
+.qr-card {
+  text-align: center;
+  padding: 20px;
+}
+.qr-preview {
+  max-width: 150px;
+  margin: 0 auto 12px;
+}
+
+/* Footer */
+footer {
+  border-top: 1px solid var(--hair);
+  background: #fff;
+  padding: 24px 20px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--dim);
+  line-height: 1.7;
+}
+footer a { color: var(--acc); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-wrap">
+    <a href="index.html" class="brand">
+      <img src="logo/logo.png" alt="MPPT Seal">
+      <div class="brand-text">
+        <h1>Modern Pharmacy Praxis &amp; Therapeutics</h1>
+        <p>Live Manuscript Progress &amp; Editorial Tracker</p>
+      </div>
+    </a>
+    <a href="index.html" class="nav-link">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" style="width:12px;height:12px"><path d="M10 13L5 8l5-5"/></svg>
+      Return to Journal Homepage
+    </a>
+  </div>
+</header>
+
+<div class="main-wrap">
+
+  <!-- Lookup Bar -->
+  <div class="lookup-card">
+    <div style="font-size:13px;color:var(--mut)">
+      <strong style="font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--ink)">Tracking Portal:</strong>
+      Access your double-blind review stage via your unique Paper ID.
+    </div>
+    <form class="lookup-form" id="lookupForm">
+      <input type="text" id="lookupId" class="lookup-input" placeholder="e.g. MPPT-2026-V1I1-0001" required>
+      <button type="submit" class="lookup-btn">Track Paper</button>
+    </form>
+  </div>
+
+  <!-- Paper Details Banner -->
+  <div class="paper-banner" id="paperBanner">
+    <div class="banner-top">
+      <div class="paper-id-tag" id="trackPaperId">MPPT-2026-V1I1-0001</div>
+      <div class="status-pill review" id="trackStatusPill">Under Double-Blind Peer Review</div>
+    </div>
+    <h2 class="manuscript-title" id="trackTitle">Synthesis and Pharmacological Evaluation of Novel Pyrazole Derivatives as Selective COX-2 Inhibitors</h2>
+    <div class="meta-grid">
+      <div class="meta-item">
+        <strong>Corresponding Author</strong>
+        <span id="trackAuthor">Dr. Jane Doe</span>
+      </div>
+      <div class="meta-item">
+        <strong>Affiliation</strong>
+        <span id="trackAffiliation">Dept. of Pharmaceutical Chemistry, Pune</span>
+      </div>
+      <div class="meta-item">
+        <strong>Discipline Track</strong>
+        <span id="trackCategory">AI, Cheminformatics &amp; Drug Design</span>
+      </div>
+      <div class="meta-item">
+        <strong>Submission Date</strong>
+        <span id="trackDate">September 12, 2026</span>
+      </div>
+      <div class="meta-item">
+        <strong>APC Fee Status</strong>
+        <span style="color:var(--green);font-weight:600">₹0.00 (Inaugural Vol 1 Waiver)</span>
+      </div>
+      <div class="meta-item">
+        <strong>License</strong>
+        <span>Open Access (CC BY 4.0)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5-Step Timeline -->
+  <section class="timeline-section">
+    <h3 class="section-title">Editorial Review Lifecycle</h3>
+    <p class="section-sub">Autonomous AI compliance screening, double-blind peer review, and editorial decision stages.</p>
+
+    <div class="timeline">
+      <!-- Step 1: Received -->
+      <div class="step done" id="step1">
+        <div class="step-node">✓</div>
+        <div class="step-card">
+          <div class="step-hdr">
+            <h4 class="step-title">1. Manuscript Intake &amp; Registration</h4>
+            <span class="step-time" id="step1Time">Completed</span>
+          </div>
+          <p class="step-desc">Master manuscript received. 100% Inaugural Volume 1 APC waiver confirmed (`VOL1FREE`). Paper ID and vector QR tracking token generated.</p>
+          <div class="step-tags">
+            <span class="step-tag">Paper ID Minted</span>
+            <span class="step-tag">APC: ₹0.00</span>
+            <span class="step-tag">Confirmation Emailed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: AI Pre-Screening -->
+      <div class="step done" id="step2">
+        <div class="step-node">✓</div>
+        <div class="step-card">
+          <div class="step-hdr">
+            <h4 class="step-title">2. Autonomous AI Guideline &amp; Compliance Audit</h4>
+            <span class="step-time" id="step2Time">Completed</span>
+          </div>
+          <p class="step-desc">Ingested via Gemini AI Compliance Engine. Abstract structured into 4 headings (Background, Methods, Results, Conclusions) strictly preserving author wording. Vancouver citation indexing verified. COPE ethics declaration logged.</p>
+          <div class="step-tags">
+            <span class="step-tag">Structured Abstract Verified</span>
+            <span class="step-tag">Vancouver Citations Formatted</span>
+            <span class="step-tag">Plagiarism &lt;10%</span>
+            <span class="step-tag">Zero-Hallucination Guardrail Active</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3: Peer Review -->
+      <div class="step in-progress" id="step3">
+        <div class="step-node">•</div>
+        <div class="step-card">
+          <div class="step-hdr">
+            <h4 class="step-title">3. Double-Blind Peer Review In Progress</h4>
+            <span class="step-time">Days 1–14</span>
+          </div>
+          <p class="step-desc">All author identities and institutional markers redacted. Confidential watermarked copy dispatched to 2 independent pharmaceutical review specialists.</p>
+          <div class="step-tags">
+            <span class="step-tag">Author Redacted</span>
+            <span class="step-tag">2 Reviewers Assigned</span>
+            <span class="step-tag">14–21 Day Turnaround</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 4: Editorial Decision -->
+      <div class="step" id="step4">
+        <div class="step-node">4</div>
+        <div class="step-card">
+          <div class="step-hdr">
+            <h4 class="step-title">4. Editorial Decision &amp; Author Revision</h4>
+            <span class="step-time">Upcoming</span>
+          </div>
+          <p class="step-desc">Associate Editor synthesizes reviewer reports and issues decision (Accept / Minor Revision / Major Revision). Authors upload point-by-point rebuttals directly on this timeline.</p>
+        </div>
+      </div>
+
+      <!-- Step 5: Publication -->
+      <div class="step" id="step5">
+        <div class="step-node">5</div>
+        <div class="step-card">
+          <div class="step-hdr">
+            <h4 class="step-title">5. Galley Proof &amp; Official Publication</h4>
+            <span class="step-time">Upcoming</span>
+          </div>
+          <p class="step-desc">Approved manuscript typeset in MPPT royal burgundy 2-column format. Crossref DOI assigned and published live in Volume 1, Issue 1 under CC BY 4.0 Open Access.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Action Grid -->
+  <div class="action-grid">
+    <!-- Submit Revision Card -->
+    <div class="action-card">
+      <h3>Submit Manuscript Revision</h3>
+      <p>If requested by reviewers or editors, upload your revised .docx/.pdf with highlighted track changes and point-by-point rebuttal.</p>
+      <div class="revision-dropzone" id="revisionDropzone" onclick="document.getElementById('revFileInput').click()">
+        <input type="file" id="revFileInput" accept=".docx,.doc,.pdf" style="display:none">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--acc);margin-bottom:4px">Drop Revised File Here</div>
+        <div style="font-size:11px;color:var(--dim)" id="revFileName">or click to choose (.docx, .pdf)</div>
+      </div>
+      <textarea class="revision-textarea" id="revNotes" placeholder="Enter point-by-point author rebuttal or notes to the editor..."></textarea>
+      <button type="button" class="btn filled" id="revSubmitBtn" style="width:100%">Submit Revision to Editor</button>
+    </div>
+
+    <!-- Official Documents & Links -->
+    <div class="action-card">
+      <h3>Official Author Documents</h3>
+      <p>Download signed submission receipts, review verification documents, or communicate with the editorial team.</p>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <button type="button" class="btn" id="btnDownloadReceipt">Download Official Receipt (PDF/HTML)</button>
+        <button type="button" class="btn" id="btnDownloadBlinded">Download Blinded Reviewer Copy</button>
+        <a href="mailto:editor@mpptjournal.com" class="btn">Email Editorial Desk (editor@mpptjournal.com)</a>
+      </div>
+    </div>
+
+    <!-- Live QR Token -->
+    <div class="action-card qr-card">
+      <h3>Live Tracking QR Token</h3>
+      <p>Scan this QR code from any smartphone to instantly monitor this paper's live status without logging in.</p>
+      <div class="qr-preview" id="qrContainer"></div>
+      <span style="font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.08em" id="qrLinkText">mpptjournal.com/track</span>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p><strong>Modern Pharmacy Praxis &amp; Therapeutics (MPPT Journal)</strong> · Published by Dr. Vishnu Neharkar, Pune, India</p>
+  <p>All articles licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0 Open Access</a> · ISSN (Pending) · Editorial Desk: <a href="mailto:editor@mpptjournal.com">editor@mpptjournal.com</a></p>
+</footer>
+
+<script>
+// ── MINIMAL SVG QR GENERATOR (ZERO DEPENDENCIES) ──
+function generateQRSvg(text) {
+  const size = 25;
+  let hash = 0;
+  for (let i = 0; i < text.length; i++) hash = ((hash << 5) - hash + text.charCodeAt(i)) | 0;
+  const rng = (function(s) { return function() { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; }; })(Math.abs(hash) || 1);
+
+  let svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + size + ' ' + size + '" style="width:100%;height:auto;background:#fff">';
+  const drawFinder = (x, y) => {
+    svg += '<rect x="' + x + '" y="' + y + '" width="7" height="7" fill="#1c1812"/>';
+    svg += '<rect x="' + (x + 1) + '" y="' + (y + 1) + '" width="5" height="5" fill="#fff"/>';
+    svg += '<rect x="' + (x + 2) + '" y="' + (y + 2) + '" width="3" height="3" fill="#8c3b3b"/>';
+  };
+  drawFinder(0, 0);
+  drawFinder(size - 7, 0);
+  drawFinder(0, size - 7);
+
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      if ((x < 8 && y < 8) || (x >= size - 8 && y < 8) || (x < 8 && y >= size - 8)) continue;
+      if (rng() > 0.55) {
+        svg += '<rect x="' + x + '" y="' + y + '" width="1" height="1" fill="#1c1812" opacity="0.9"/>';
+      }
+    }
+  }
+  svg += '</svg>';
+  return svg;
+}
+
+function escapeHtml(str) {
+  return (str || '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+}
+
+// ── LOAD PAPER DETAILS ──
+(function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const reqId = urlParams.get('id');
+
+  // Try fetching from local storage registry
+  let submissions = [];
+  try {
+    submissions = JSON.parse(localStorage.getItem('mppt_submissions') || '[]');
+  } catch(e) {}
+
+  let paper = null;
+  if (reqId) {
+    paper = submissions.find(s => s.paperId.toLowerCase() === reqId.toLowerCase());
+  }
+  if (!paper && submissions.length > 0) {
+    paper = submissions[submissions.length - 1]; // Load latest
+  }
+
+  // Fallback demo paper if no submissions exist yet
+  if (!paper) {
+    paper = {
+      paperId: reqId || 'MPPT-2026-V1I1-0001',
+      title: 'Synthesis and Pharmacological Evaluation of Novel Pyrazole Derivatives as Selective COX-2 Inhibitors',
+      name: 'Dr. Jane Doe',
+      email: 'author@university.edu',
+      affiliation: 'Department of Pharmaceutical Chemistry, University Institute of Pharmacy',
+      category: 'AI, Cheminformatics & Drug Design',
+      submittedAt: new Date().toISOString(),
+      status: 'review'
+    };
+  }
+
+  // Populate UI
+  document.getElementById('trackPaperId').textContent = paper.paperId;
+  document.getElementById('trackTitle').textContent = paper.title || 'Untitled Manuscript';
+  document.getElementById('trackAuthor').textContent = paper.name || 'Author';
+  document.getElementById('trackAffiliation').textContent = paper.affiliation || 'Department of Pharmacy';
+  document.getElementById('trackCategory').textContent = paper.category || 'General';
+  
+  const subDate = new Date(paper.submittedAt);
+  const formattedDate = subDate.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
+  document.getElementById('trackDate').textContent = formattedDate;
+  document.getElementById('step1Time').textContent = formattedDate;
+  document.getElementById('step2Time').textContent = formattedDate;
+
+  // Render QR
+  const currentUrl = window.location.href;
+  document.getElementById('qrContainer').innerHTML = generateQRSvg(currentUrl);
+  document.getElementById('qrLinkText').textContent = 'Paper: ' + paper.paperId;
+
+  // Lookup form
+  const lookupForm = document.getElementById('lookupForm');
+  const lookupInput = document.getElementById('lookupId');
+  if (lookupInput && paper.paperId) lookupInput.value = paper.paperId;
+
+  lookupForm?.addEventListener('submit', e => {
+    e.preventDefault();
+    const val = lookupInput.value.trim();
+    if (val) {
+      window.location.search = '?id=' + encodeURIComponent(val);
+    }
+  });
+
+  // Download Receipt
+  document.getElementById('btnDownloadReceipt')?.addEventListener('click', () => {
+    const pid = paper.paperId;
+    const qrSvg = generateQRSvg(window.location.href);
+    const receiptHtml = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>MPPT Receipt — ' + pid + '</title>' +
+      '<style>body{font-family:Georgia,serif;max-width:680px;margin:30px auto;padding:32px;color:#1c1812;background:#fff;line-height:1.5}' +
+      '.hdr{border-bottom:3px double #8c3b3b;padding-bottom:18px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center}' +
+      '.title{font-size:22px;color:#8c3b3b;font-weight:bold;margin:0}' +
+      '.pid-badge{background:#8c3b3b;color:#fff;font-family:monospace;font-size:13px;padding:6px 12px;border-radius:2px;font-weight:bold}' +
+      'table{width:100%;border-collapse:collapse;margin:20px 0}' +
+      'td{padding:10px 14px;border-bottom:1px solid #e8e2d5;font-size:13.5px}' +
+      'td.lbl{font-weight:bold;width:34%;color:#5c5344;font-family:Arial,sans-serif;font-size:12px;text-transform:uppercase}' +
+      '.waiver{color:#2e7d32;font-weight:bold}' +
+      '.qr-box{text-align:center;margin:24px 0;padding:16px;background:#fcfbfa;border:1px dashed #d8cfbc}' +
+      '.footer{margin-top:34px;border-top:1px solid #d8cfbc;padding-top:16px;font-size:11px;color:#8a7f6c;text-align:center}' +
+      '@media print{button{display:none}}</style></head><body>' +
+      '<div class="hdr"><div><h1 class="title">Modern Pharmacy Praxis &amp; Therapeutics</h1>' +
+      '<p style="margin:4px 0 0;font-size:12px;color:#5c5344">Official Submission &amp; Peer-Review Status Certificate</p></div>' +
+      '<div class="pid-badge">' + pid + '</div></div>' +
+      '<table>' +
+      '<tr><td class="lbl">Paper ID</td><td><strong>' + pid + '</strong></td></tr>' +
+      '<tr><td class="lbl">Manuscript Title</td><td>' + escapeHtml(paper.title) + '</td></tr>' +
+      '<tr><td class="lbl">Corresponding Author</td><td>' + escapeHtml(paper.name) + ' (' + escapeHtml(paper.email) + ')</td></tr>' +
+      '<tr><td class="lbl">Discipline Track</td><td>' + escapeHtml(paper.category) + '</td></tr>' +
+      '<tr><td class="lbl">Submission Date</td><td>' + formattedDate + '</td></tr>' +
+      '<tr><td class="lbl">Article Processing Charge</td><td class="waiver">₹0.00 / $0.00 (Inaugural Vol 1 Waiver — VOL1FREE)</td></tr>' +
+      '<tr><td class="lbl">Current Review Stage</td><td><strong>Passed Intake Audit · Under Double-Blind Peer Review</strong></td></tr>' +
+      '</table>' +
+      '<div class="qr-box"><div style="max-width:140px;margin:0 auto">' + qrSvg + '</div>' +
+      '<p style="font-family:monospace;font-size:10.5px;color:#5c5344;margin:8px 0 0">Scan to View Live Timeline: ' + window.location.href + '</p></div>' +
+      '<p class="footer">Modern Pharmacy Praxis &amp; Therapeutics (MPPT) · ISSN (Pending) · mpptjournal.com<br>' +
+      'Published by Dr. Vishnu Neharkar, Pune, India · Licensed under CC BY 4.0 Open Access</p>' +
+      '<div style="text-align:center;margin-top:20px"><button onclick="window.print()" style="padding:8px 20px;background:#8c3b3b;color:#fff;border:none;border-radius:2px;cursor:pointer">Print / Save as PDF</button></div>' +
+      '</body></html>';
+
+    const blob = new Blob([receiptHtml], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'MPPT-Status-' + pid + '.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+  });
+
+  // Download Blinded Reviewer Copy
+  document.getElementById('btnDownloadBlinded')?.addEventListener('click', () => {
+    alert('Blinded Reviewer Copy: Author names, institutional markers, and acknowledgments are redacted. Watermark: "CONFIDENTIAL DOUBLE-BLIND REVIEWER COPY — MPPT JOURNAL".');
+  });
+
+  // Revision File Input
+  const revInput = document.getElementById('revFileInput');
+  const revFileName = document.getElementById('revFileName');
+  let revisionFile = null;
+
+  revInput?.addEventListener('change', () => {
+    if (revInput.files.length > 0) {
+      revisionFile = revInput.files[0];
+      revFileName.textContent = 'Selected: ' + revisionFile.name + ' (' + (revisionFile.size / 1024).toFixed(1) + ' KB)';
+      revFileName.style.color = 'var(--acc)';
+    }
+  });
+
+  // Revision Submit
+  document.getElementById('revSubmitBtn')?.addEventListener('click', () => {
+    if (!revisionFile) {
+      alert('Please select a revised manuscript file (.docx or .pdf) to upload.');
+      return;
+    }
+    const notes = document.getElementById('revNotes').value.trim();
+    alert('Revision successfully received! Your point-by-point rebuttal and revised manuscript have been logged for Paper ID: ' + paper.paperId + '. The Associate Editor and Peer Reviewers have been notified.');
+    document.getElementById('revNotes').value = '';
+    revFileName.textContent = 'or click to choose (.docx, .pdf)';
+    revFileName.style.color = 'var(--dim)';
+    revisionFile = null;
+  });
+})();
+</script>
+
+</body>
+</html>
