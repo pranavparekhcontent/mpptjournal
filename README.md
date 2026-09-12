@@ -30,7 +30,6 @@ Official production repository for **Modern Pharmacy Praxis & Therapeutics (MPPT
 mpptjournal/
 ├── index.html              # Production portal, manuscript intake & Razorpay gateway
 ├── track.html              # Live manuscript tracking timeline & rebuttal portal
-├── coupon_generator.html   # Editorial cryptographic coupon generator (Email-Locked)
 ├── intro video.mp4         # Official journal prologue cinematic video
 ├── logo/
 │   └── logo.png            # Official MPPT gold & burgundy academic crest/seal
