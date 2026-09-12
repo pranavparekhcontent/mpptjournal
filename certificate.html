@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Official Academic Certificates · Modern Pharmacy Praxis &amp; Therapeutics (MPPT)</title>
+<meta name="description" content="Verify and download official MPPT Journal Certificates of Publication, Peer Review Contribution, and Editorial Advisory Board Appointments.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="logo/logo.png">
+
+<style>
+  :root {
+    --gold: #a8874f;
+    --gold-light: #c8ad76;
+    --gold-dark: #7a5e30;
+    --acc: #8c3b3b;
+    --acc-dark: #6e2c2c;
+    --parchment: #fdfbf7;
+    --parchment-border: #ede4d3;
+    --ink: #1c1812;
+    --mut: #574e40;
+    --dim: #857a68;
+    --font-serif: 'Newsreader', Georgia, serif;
+    --font-display: 'Cinzel', Georgia, serif;
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #141210;
+    color: var(--ink);
+    font-family: var(--font-serif);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 14px 40px;
+  }
+
+  /* Interactive Top Web Control Toolbar */
+  .cert-toolbar {
+    width: 100%;
+    max-width: 1080px;
+    background: #201c18;
+    border: 1px solid #3d352b;
+    border-radius: 6px;
+    padding: 14px 20px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    color: #e5ded2;
+  }
+  .toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--gold-light);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 6px 12px;
+    border: 1px solid #4a3e30;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  .back-btn:hover {
+    background: #2e261e;
+    border-color: var(--gold);
+    color: #ffffff;
+  }
+  .cert-type-tabs {
+    display: flex;
+    gap: 6px;
+    background: #171412;
+    padding: 4px;
+    border-radius: 4px;
+    border: 1px solid #332b22;
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    color: #9e917e;
+    font-family: var(--font-mono);
+    font-size: 7.6pt;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { color: #fff; }
+  .tab-btn.active {
+    background: var(--acc);
+    color: #ffffff;
+    font-weight: 600;
+  }
+  .toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .name-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 7.5pt;
+    color: #b5a895;
+  }
+  .name-input {
+    background: #171412;
+    border: 1px solid #4a3e30;
+    color: #ffffff;
+    padding: 6px 10px;
+    border-radius: 3px;
+    font-family: var(--font-sans);
+    font-size: 8.5pt;
+    width: 210px;
+    outline: none;
+    transition: border 0.2s;
+  }
+  .name-input:focus { border-color: var(--gold); }
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 7.8pt;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .btn-print {
+    background: var(--gold);
+    color: #141210;
+    border: 1px solid var(--gold);
+    font-weight: 700;
+  }
+  .btn-print:hover {
+    background: #ba985a;
+    border-color: #ba985a;
+  }
+  .btn-copy {
+    background: #2a241e;
+    color: #e5ded2;
+    border: 1px solid #4a3e30;
+  }
+  .btn-copy:hover { border-color: var(--gold); color: #fff; }
+
+  /* Certificate Sheet Container - Exactly Standard A4 Landscape */
+  .cert-wrapper {
+    width: 100%;
+    max-width: 1080px;
+    display: flex;
+    justify-content: center;
+  }
+  .certificate-sheet {
+    width: 100%;
+    aspect-ratio: 1.414 / 1; /* Standard A4 Landscape aspect ratio */
+    max-width: 1040px;
+    background: var(--parchment);
+    border: 12px solid #221c16;
+    outline: 2px solid var(--gold);
+    outline-offset: -6px;
+    position: relative;
+    padding: 38px 46px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+    overflow: hidden;
+  }
+
+  /* Inner Filigree Borders */
+  .cert-inner-frame {
+    position: absolute;
+    inset: 12px;
+    border: 1.5px solid var(--gold);
+    pointer-events: none;
+  }
+  .cert-inner-frame::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1px solid var(--acc);
+    opacity: 0.5;
+  }
+  /* Corner Ornaments */
+  .corner-ornament {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-color: var(--gold);
+    border-style: double;
+    pointer-events: none;
+  }
+  .corner-tl { top: 18px; left: 18px; border-width: 3px 0 0 3px; }
+  .corner-tr { top: 18px; right: 18px; border-width: 3px 3px 0 0; }
+  .corner-bl { bottom: 18px; left: 18px; border-width: 0 0 3px 3px; }
+  .corner-br { bottom: 18px; right: 18px; border-width: 0 3px 3px 0; }
+
+  /* Watermark Seal */
+  .cert-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 360px;
+    height: 360px;
+    opacity: 0.045;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Certificate Content Layers */
+  .cert-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+  }
+
+  /* Top Masthead */
+  .cert-masthead {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    border-bottom: 1.5px solid var(--gold-light);
+    padding-bottom: 12px;
+  }
+  .cert-logo {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    box-shadow: 0 0 0 2px var(--parchment), 0 2px 8px rgba(140,59,59,0.2);
+    object-fit: cover;
+  }
+  .cert-org-text {
+    text-align: center;
+  }
+  .cert-org-name {
+    font-family: var(--font-display);
+    font-size: 15pt;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    color: var(--ink);
+    text-transform: uppercase;
+  }
+  .cert-org-sub {
+    font-family: var(--font-mono);
+    font-size: 6.8pt;
+    letter-spacing: 0.16em;
+    color: var(--mut);
+    text-transform: uppercase;
+    margin-top: 3px;
+  }
+
+  /* Title Block */
+  .cert-title-block {
+    text-align: center;
+    margin-top: 8px;
+  }
+  .cert-main-title {
+    font-family: var(--font-display);
+    font-size: 19pt;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--acc);
+    text-transform: uppercase;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.05);
+  }
+  .cert-badge-ribbon {
+    display: inline-block;
+    background: var(--gold);
+    color: #ffffff;
+    font-family: var(--font-mono);
+    font-size: 6.5pt;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 2px 14px;
+    margin-top: 4px;
+    border-radius: 2px;
+  }
+
+  /* Body Statement */
+  .cert-body {
+    text-align: center;
+    margin: 10px 0;
+  }
+  .cert-preamble {
+    font-family: var(--font-serif);
+    font-size: 11pt;
+    font-style: italic;
+    color: var(--mut);
+    margin-bottom: 6px;
+  }
+  .cert-recipient {
+    font-family: var(--font-display);
+    font-size: 22pt;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    padding-bottom: 4px;
+    display: inline-block;
+    border-bottom: 2px solid var(--acc);
+    margin-bottom: 8px;
+  }
+  .cert-citation {
+    font-family: var(--font-serif);
+    font-size: 10pt;
+    line-height: 1.45;
+    color: var(--mut);
+    max-width: 820px;
+    margin: 0 auto;
+  }
+  .cert-citation strong.paper-name {
+    color: var(--acc);
+    font-weight: 600;
+    font-family: var(--font-serif);
+    font-style: normal;
+  }
+  .cert-meta-tags {
+    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    font-family: var(--font-mono);
+    font-size: 7.2pt;
+    color: var(--dim);
+  }
+  .cert-meta-tags b { color: var(--ink); }
+
+  /* Bottom Signatures & QR Seal Row */
+  .cert-footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    border-top: 1px solid var(--parchment-border);
+    padding-top: 12px;
+    gap: 14px;
+  }
+
+  /* Left: Official Medallion */
+  .seal-medallion-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .gold-medallion {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ecd599 0%, #b89758 70%, #876a32 100%);
+    border: 2px solid var(--gold-dark);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 6px rgba(255,255,255,0.6), 0 3px 8px rgba(28,24,18,0.18);
+    position: relative;
+    color: #3b2a0c;
+    text-align: center;
+  }
+  .gold-medallion svg { margin-bottom: 1px; }
+  .gold-medallion span.top { font-family: var(--font-mono); font-size: 5pt; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+  .gold-medallion span.bot { font-family: var(--font-mono); font-size: 4.6pt; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .medallion-caption {
+    font-family: var(--font-mono);
+    font-size: 6.2pt;
+    line-height: 1.35;
+    color: var(--mut);
+    text-transform: uppercase;
+  }
+  .medallion-caption strong { color: var(--acc); }
+
+  /* Signatures */
+  .signatures-wrap {
+    display: flex;
+    gap: 36px;
+  }
+  .sig-block {
+    text-align: center;
+    width: 170px;
+  }
+  .sig-cursive {
+    font-family: 'Newsreader', cursive, serif;
+    font-size: 17pt;
+    font-style: italic;
+    color: #2b2319;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sig-line {
+    height: 1px;
+    background: var(--ink);
+    opacity: 0.35;
+    margin: 2px 0 4px;
+  }
+  .sig-name {
+    font-family: var(--font-display);
+    font-size: 7.2pt;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.05em;
+  }
+  .sig-title {
+    font-family: var(--font-mono);
+    font-size: 5.8pt;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  /* Right: QR Code Authenticity Stamp */
+  .cert-qr-block {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #ffffff;
+    border: 1px solid var(--parchment-border);
+    border-left: 3px solid #2e7d32;
+    padding: 6px 10px;
+    border-radius: 2px;
+  }
+  .cert-qr-img {
+    width: 54px;
+    height: 54px;
+    display: block;
+    background: #fff;
+  }
+  .cert-qr-info {
+    font-family: var(--font-mono);
+    font-size: 5.8pt;
+    line-height: 1.3;
+    color: var(--dim);
+  }
+  .cert-qr-info .qr-status {
+    color: #2e7d32;
+    font-weight: 700;
+    font-size: 6.2pt;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .cert-qr-info .qr-id {
+    color: var(--ink);
+    font-weight: 600;
+    margin: 1px 0;
+  }
+  .cert-qr-info .qr-id b { color: var(--acc); }
+
+  /* Print Media Query - Strictly A4 Landscape Page */
+  @media print {
+    body {
+      background: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    .cert-toolbar {
+      display: none !important;
+    }
+    .cert-wrapper {
+      max-width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    .certificate-sheet {
+      box-shadow: none !important;
+      border: 8px solid #221c16 !important;
+      width: 100% !important;
+      height: 98vh !important;
+      aspect-ratio: auto !important;
+      padding: 24px 36px 20px !important;
+      page-break-after: avoid !important;
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+    }
+    @page {
+      size: A4 landscape;
+      margin: 6mm;
+    }
+  }
+
+  @media (max-width: 800px) {
+    .certificate-sheet {
+      aspect-ratio: auto;
+      padding: 24px 16px;
+    }
+    .cert-masthead { flex-direction: column; text-align: center; }
+    .cert-footer { flex-direction: column; align-items: center; gap: 16px; }
+    .signatures-wrap { gap: 18px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Top Web Action Toolbar (Hidden during print) -->
+  <div class="cert-toolbar">
+    <div class="toolbar-left">
+      <a href="paper sample/mppt_sample_paper" class="back-btn">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to Paper
+      </a>
+      <div class="cert-type-tabs">
+        <button class="tab-btn active" id="btn-tab-author" onclick="switchCertificate('author')">🎓 Author Publication</button>
+        <button class="tab-btn" id="btn-tab-reviewer" onclick="switchCertificate('reviewer')">🔍 Peer Reviewer</button>
+        <button class="tab-btn" id="btn-tab-board" onclick="switchCertificate('board')">🏛️ Advisory Board</button>
+      </div>
+    </div>
+    <div class="toolbar-right">
+      <div class="name-input-wrap">
+        <label for="recipientInput">Recipient Name:</label>
+        <input type="text" id="recipientInput" class="name-input" value="Dr. Pranav Parekh" oninput="updateRecipientName(this.value)">
+      </div>
+      <button type="button" class="action-btn btn-print" onclick="window.print()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Download / Print PDF
+      </button>
+      <button type="button" class="action-btn btn-copy" id="btnCopyLink" onclick="copyCertLink()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        <span id="copyLinkText">Copy Link</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Certificate Document Container -->
+  <div class="cert-wrapper">
+    <div class="certificate-sheet" id="certificateSheet">
+      <!-- Ornate Filigree & Frame Elements -->
+      <div class="cert-inner-frame"></div>
+      <div class="corner-ornament corner-tl"></div>
+      <div class="corner-ornament corner-tr"></div>
+      <div class="corner-ornament corner-bl"></div>
+      <div class="corner-ornament corner-br"></div>
+      
+      <!-- Watermark Seal -->
+      <img src="logo/logo.png" alt="MPPT Seal Watermark" class="cert-watermark">
+
+      <!-- Certificate Content Layers -->
+      <div class="cert-content">
+        
+        <!-- Header / Masthead -->
+        <div class="cert-masthead">
+          <img src="logo/logo.png" alt="MPPT Official Journal Seal" class="cert-logo">
+          <div class="cert-org-text">
+            <h1 class="cert-org-name">Modern Pharmacy Praxis &amp; Therapeutics</h1>
+            <div class="cert-org-sub">MPPT Research Foundation · Pune, India · UGC-CARE Benchmarked Open Access Journal</div>
+          </div>
+        </div>
+
+        <!-- Title Block -->
+        <div class="cert-title-block">
+          <h2 class="cert-main-title" id="certMainTitle">Certificate of Publication &amp; Originality</h2>
+          <span class="cert-badge-ribbon" id="certBadgeRibbon">Official Academic Record · Peer-Reviewed Excellence</span>
+        </div>
+
+        <!-- Body Statement -->
+        <div class="cert-body">
+          <p class="cert-preamble" id="certPreamble">This document certifies that</p>
+          <div class="cert-recipient" id="certRecipient">Dr. Pranav Parekh</div>
+          
+          <p class="cert-citation" id="certCitation">
+            has authored and successfully published the original peer-reviewed research article entitled<br>
+            <strong class="paper-name">"De Novo Design of Selective Allosteric Kinase Inhibitors via Multi-Task Transformer Ensembles and Molecular Dynamics Simulations"</strong><br>
+            in <em>Modern Pharmacy Praxis &amp; Therapeutics</em>, Volume 1, Issue 1 (August 2026), having satisfied all double-blind peer review benchmarks and Committee on Publication Ethics (COPE) standards.
+          </p>
+
+          <div class="cert-meta-tags" id="certMetaTags">
+            <span>Paper ID: <b id="metaPaperId">MPPT-2026-V1I1-0001</b></span>
+            <span>·</span>
+            <span>DOI: <b id="metaDoi">10.5555/mppt.2026.010101</b></span>
+            <span>·</span>
+            <span>Plagiarism Index: <b style="color:#2e7d32">3.8% (Original)</b></span>
+            <span>·</span>
+            <span>Date: <b id="metaDate">15 August 2026</b></span>
+          </div>
+        </div>
+
+        <!-- Footer Signatures & QR Code Authenticity Row -->
+        <div class="cert-footer">
+          
+          <!-- Left: Gold Medallion Stamp -->
+          <div class="seal-medallion-wrap">
+            <div class="gold-medallion">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b2a0c" stroke-width="2.2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <polyline points="9 12 11 14 15 10"/>
+              </svg>
+              <span class="top">COPE</span>
+              <span class="bot">VERIFIED</span>
+            </div>
+            <div class="medallion-caption">
+              <strong>Official Seal</strong><br>
+              MPPT Foundation<br>
+              CSIR-NIScPR Registered
+            </div>
+          </div>
+
+          <!-- Signatures -->
+          <div class="signatures-wrap">
+            <div class="sig-block">
+              <div class="sig-cursive">Pranav Parekh</div>
+              <div class="sig-line"></div>
+              <div class="sig-name">Dr. Pranav Parekh, Ph.D.</div>
+              <div class="sig-title">Editor-in-Chief &amp; Founder</div>
+            </div>
+            <div class="sig-block">
+              <div class="sig-cursive">Elena Rostova</div>
+              <div class="sig-line"></div>
+              <div class="sig-name">Prof. Elena Rostova, Ph.D.</div>
+              <div class="sig-title" id="sigTitle2">Editorial Managing Chair</div>
+            </div>
+          </div>
+
+          <!-- Right: Authentic Scannable QR Code -->
+          <div class="cert-qr-block">
+            <img src="paper sample/qr_author.svg" alt="Scan to Verify Certificate Authenticity" class="cert-qr-img" id="certQrImg">
+            <div class="cert-qr-info">
+              <div class="qr-status">✓ Verified Authentic</div>
+              <div class="qr-id">ID: <b id="qrCertId">MPPT-0001-PUB</b></div>
+              <div>Scan camera to verify on<br><code>mpptjournal.com</code></div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var currentCertType = 'author';
+
+    var certData = {
+      author: {
+        title: 'Certificate of Publication & Originality',
+        ribbon: 'Official Academic Record · Peer-Reviewed Excellence',
+        preamble: 'This document certifies that',
+        defaultName: 'Dr. Pranav Parekh',
+        citation: 'has authored and successfully published the original peer-reviewed research article entitled<br><strong class="paper-name">"De Novo Design of Selective Allosteric Kinase Inhibitors via Multi-Task Transformer Ensembles and Molecular Dynamics Simulations"</strong><br>in <em>Modern Pharmacy Praxis &amp; Therapeutics</em>, Volume 1, Issue 1 (August 2026), having satisfied all double-blind peer review benchmarks and Committee on Publication Ethics (COPE) standards.',
+        metaHtml: '<span>Paper ID: <b>MPPT-2026-V1I1-0001</b></span> · <span>DOI: <b>10.5555/mppt.2026.010101</b></span> · <span>Plagiarism Index: <b style="color:#2e7d32">3.8% (Original)</b></span> · <span>Date: <b>15 August 2026</b></span>',
+        sig2Title: 'Editorial Managing Chair',
+        qrImg: 'paper sample/qr_author.svg',
+        certId: 'MPPT-0001-PUB'
+      },
+      reviewer: {
+        title: 'Certificate of Peer Review Excellence',
+        ribbon: 'Recognition of Scholarly Contribution & COPE Ethics',
+        preamble: 'This certificate of scholarly appreciation is presented to',
+        defaultName: 'Dr. Vishnu Neharkar',
+        citation: 'in recognition of distinguished professional contribution as an <strong>External Peer Reviewer</strong> for <em>Modern Pharmacy Praxis &amp; Therapeutics</em>. Your meticulous, unbiased, and constructive evaluation of submitted manuscripts has directly advanced scientific rigor, reproducibility, and academic excellence in pharmaceutical therapeutics.',
+        metaHtml: '<span>Referee ID: <b>REV-2026-081</b></span> · <span>Audit: <b>Double-Blind Protocol</b></span> · <span>Standard: <b>COPE Core Practices</b></span> · <span>Session: <b>2026–2027</b></span>',
+        sig2Title: 'Peer Review Committee Chair',
+        qrImg: 'paper sample/qr_reviewer.svg',
+        certId: 'REV-2026-081'
+      },
+      board: {
+        title: 'Certificate of Editorial Advisory Appointment',
+        ribbon: 'Honorary Board Fellowship · International Panel',
+        preamble: 'The MPPT Research Foundation hereby confers upon',
+        defaultName: 'Prof. Elena Rostova, Ph.D.',
+        citation: 'formal appointment as an <strong>Honorary Member of the International Editorial Advisory Board</strong> of <em>Modern Pharmacy Praxis &amp; Therapeutics</em>. In this capacity, you provide strategic stewardship, interdisciplinary peer oversight, and editorial leadership across computational pharmacology and innovative therapeutics.',
+        metaHtml: '<span>Appointment ID: <b>EAB-2026-HON</b></span> · <span>Term: <b>2026–2029 (Triennial)</b></span> · <span>Track: <b>AI &amp; Computational Therapeutics</b></span>',
+        sig2Title: 'Board of Trustees Director',
+        qrImg: 'paper sample/qr_board.svg',
+        certId: 'EAB-2026-HON'
+      }
+    };
+
+    function updateRecipientName(name) {
+      var val = (name || '').trim();
+      document.getElementById('certRecipient').textContent = val || 'Recipient Name';
+    }
+
+    function switchCertificate(type) {
+      if (!certData[type]) return;
+      currentCertType = type;
+
+      // Update Tab Styles
+      document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+      var btn = document.getElementById('btn-tab-' + type);
+      if (btn) btn.classList.add('active');
+
+      var d = certData[type];
+      document.getElementById('certMainTitle').textContent = d.title;
+      document.getElementById('certBadgeRibbon').textContent = d.ribbon;
+      document.getElementById('certPreamble').textContent = d.preamble;
+      document.getElementById('certCitation').innerHTML = d.citation;
+      document.getElementById('certMetaTags').innerHTML = d.metaHtml;
+      document.getElementById('sigTitle2').textContent = d.sig2Title;
+      document.getElementById('certQrImg').src = d.qrImg;
+      document.getElementById('qrCertId').innerHTML = 'ID: <b>' + d.certId + '</b>';
+
+      // Update recipient input if default
+      var input = document.getElementById('recipientInput');
+      if (input && (!input.value || input.value === certData.author.defaultName || input.value === certData.reviewer.defaultName || input.value === certData.board.defaultName)) {
+        input.value = d.defaultName;
+        updateRecipientName(d.defaultName);
+      }
+    }
+
+    function copyCertLink() {
+      var nameParam = encodeURIComponent(document.getElementById('recipientInput').value.trim());
+      var url = window.location.origin + window.location.pathname + '?type=' + currentCertType + '&name=' + nameParam;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function() {
+          var btn = document.getElementById('copyLinkText');
+          btn.textContent = '✓ Copied Link!';
+          setTimeout(function() { btn.textContent = 'Copy Link'; }, 2200);
+        });
+      }
+    }
+
+    // Initialize from URL parameters
+    document.addEventListener('DOMContentLoaded', function() {
+      var params = new URLSearchParams(window.location.search);
+      var type = params.get('type');
+      if (type && certData[type]) {
+        switchCertificate(type);
+      }
+      var name = params.get('name');
+      if (name) {
+        var input = document.getElementById('recipientInput');
+        input.value = name;
+        updateRecipientName(name);
+      }
+    });
+  </script>
+</body>
+</html>
