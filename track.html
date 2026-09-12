@@ -493,6 +493,10 @@ footer a:hover { text-decoration: underline; }
         <strong>License</strong>
         <span>Open Access (CC BY 4.0)</span>
       </div>
+      <div class="meta-item" id="r2MetaItem" style="display:none">
+        <strong>Cloud Storage (R2)</strong>
+        <span><a id="trackR2Link" href="#" target="_blank" rel="noopener" style="color:var(--acc);font-weight:600;text-decoration:underline">Download Master Manuscript</a></span>
+      </div>
     </div>
   </div>
 
@@ -701,6 +705,17 @@ function escapeHtml(str) {
   document.getElementById('trackDate').textContent = formattedDate;
   document.getElementById('step1Time').textContent = formattedDate;
   document.getElementById('step2Time').textContent = formattedDate;
+
+  // Cloudflare R2 manuscript cloud storage link
+  const r2Box = document.getElementById('r2MetaItem');
+  const r2Link = document.getElementById('trackR2Link');
+  if (paper.r2DownloadUrl && r2Box && r2Link) {
+    r2Box.style.display = 'block';
+    r2Link.href = paper.r2DownloadUrl;
+    r2Link.textContent = 'Download ' + (paper.fileName || 'Manuscript') + ' (Cloud R2)';
+  } else if (r2Box) {
+    r2Box.style.display = 'none';
+  }
 
   // Render QR
   const currentUrl = window.location.href;

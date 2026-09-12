@@ -3,12 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>The MPPT Quarterly — Modern Pharmacy Praxis &amp; Therapeutics · Cinematic Edition</title>
-<meta name="description" content="International open-access, double-blind peer-reviewed journal of pharmaceutical sciences. Volume 1: 100% free APC. Published in Pune, Maharashtra, India.">
+<title>The MPPT Quarterly — Modern Pharmacy Praxis &amp; Therapeutics · Official Journal</title>
+<meta name="description" content="Modern Pharmacy Praxis and Therapeutics (MPPT) is an international, peer-reviewed, open-access quarterly journal in pharmaceutical sciences, drug delivery, clinical pharmacology & therapeutics. Volume 1: 100% free APC waiver.">
+<meta name="keywords" content="pharmacy journal, pharmaceutical sciences, drug delivery systems, clinical pharmacy, pharmacology, toxicology, phytotherapy, pharmacovigilance, open access pharmacy journal, double blind peer review, UGC CARE pharmacy, call for papers pharmacy 2026, free APC journal, MPPT journal">
+<link rel="canonical" href="https://mpptjournal.com/">
+<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+
+<!-- OpenGraph / Social Metadata -->
 <meta property="og:title" content="Modern Pharmacy Praxis and Therapeutics (MPPT Journal)">
-<meta property="og:description" content="International Open-Access Peer-Reviewed Academic Pharmacy Journal. Volume 1 Inaugural Issue Call for Papers (100% Free APC).">
-<meta property="og:image" content="logo/logo.png">
+<meta property="og:description" content="International Open-Access Peer-Reviewed Academic Pharmacy Journal. Volume 1 Call for Papers (100% Free APC). Double-blind peer review within 14-21 days.">
+<meta property="og:image" content="https://mpptjournal.com/logo/logo.png">
+<meta property="og:url" content="https://mpptjournal.com/">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Modern Pharmacy Praxis & Therapeutics">
+
+<!-- Twitter Card Metadata -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The MPPT Quarterly — Modern Pharmacy Praxis & Therapeutics">
+<meta name="twitter:description" content="International Open-Access Peer-Reviewed Academic Pharmacy Journal. Volume 1 Call for Papers (100% Free APC). Fast double-blind peer review.">
+<meta name="twitter:image" content="https://mpptjournal.com/logo/logo.png">
+
+<!-- Google Scholar / Academic Indexing Meta Tags -->
+<meta name="citation_journal_title" content="Modern Pharmacy Praxis and Therapeutics">
+<meta name="citation_journal_abbrev" content="Mod Pharm Praxis Ther">
+<meta name="citation_publisher" content="Modern Pharmacy Praxis & Therapeutics">
+<meta name="citation_issn" content="Pending (CSIR-NIScPR)">
+<meta name="citation_language" content="en">
+
 <meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#080d0a" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -18,7 +39,51 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23f6f1e7'/%3E%3Ctext x='16' y='23' font-family='Georgia' font-size='19' text-anchor='middle' fill='%238c3b3b'%3E%E2%84%9E%3C/text%3E%3C/svg%3E">
 
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Periodical","name":"Modern Pharmacy Praxis and Therapeutics","alternateName":["MPPT","Mod. Pharm. Prax. Ther."],"publisher":{"@type":"Person","name":"Dr. Vishnu Neharkar","address":{"@type":"PostalAddress","addressLocality":"Pune","addressRegion":"Maharashtra","addressCountry":"India"}},"editor":[{"@type":"Person","name":"Dr. Pranav Parekh","jobTitle":"Editor-in-Chief & Operational Head"},{"@type":"Person","name":"Prof. Shubham Waghmare","jobTitle":"Associate Editor & Review Desk"}],"accessMode":"open access","license":"https://creativecommons.org/licenses/by/4.0/"}
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Periodical",
+      "@id": "https://mpptjournal.com/#journal",
+      "name": "Modern Pharmacy Praxis and Therapeutics",
+      "alternateName": ["MPPT", "Mod. Pharm. Prax. Ther."],
+      "url": "https://mpptjournal.com",
+      "publisher": {
+        "@type": "Person",
+        "name": "Dr. Vishnu Neharkar",
+        "jobTitle": "Official Publisher",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Pune",
+          "addressRegion": "Maharashtra",
+          "addressCountry": "India"
+        }
+      },
+      "editor": [
+        {
+          "@type": "Person",
+          "name": "Dr. Pranav Parekh",
+          "jobTitle": "Editor-in-Chief & Operational Head"
+        },
+        {
+          "@type": "Person",
+          "name": "Prof. Shubham Waghmare",
+          "jobTitle": "Associate Editor & Review Desk"
+        }
+      ],
+      "accessMode": "open access",
+      "license": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://mpptjournal.com/#website",
+      "url": "https://mpptjournal.com",
+      "name": "Modern Pharmacy Praxis and Therapeutics",
+      "description": "International peer-reviewed open-access quarterly journal in pharmaceutical sciences.",
+      "publisher": { "@id": "https://mpptjournal.com/#journal" }
+    }
+  ]
+}
 </script>
 <style>
 :root{
@@ -1913,12 +1978,47 @@ document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
       currency: 'INR'
     };
 
-    function proceedFinalSubmission(paymentDetails) {
+    async function proceedFinalSubmission(paymentDetails) {
       // Generate Paper ID
       const paperId = generatePaperId();
       const secToken = Math.random().toString(36).substring(2, 10);
       const trackRel = 'track.html?id=' + encodeURIComponent(paperId) + '&key=' + encodeURIComponent(secToken);
       const trackUrl = window.location.origin ? (window.location.origin.replace(/\/$/, '') + '/' + trackRel) : ('https://mpptjournal.com/' + trackRel);
+
+      // Loading state on submit button
+      const submitBtn = document.getElementById('submitMainBtn');
+      const origBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span style="display:inline-block;width:13px;height:13px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite;margin-right:8px;vertical-align:middle"></span> Uploading Manuscript to Cloud Storage...';
+      }
+
+      // 1. Upload manuscript file to Cloudflare R2 Edge Storage
+      let r2UploadData = null;
+      if (uploadedFile) {
+        try {
+          const fd = new FormData();
+          fd.append('file', uploadedFile);
+          fd.append('paperId', paperId);
+          fd.append('authorEmail', email);
+          fd.append('title', title);
+
+          const r2Resp = await fetch('https://mppt-api.pranavparekhcontent.workers.dev/upload', {
+            method: 'POST',
+            body: fd
+          });
+          if (r2Resp.ok) {
+            r2UploadData = await r2Resp.json();
+          }
+        } catch (r2Err) {
+          console.warn('R2 Cloud storage notice:', r2Err);
+        }
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = origBtnHtml;
+      }
 
       // Store submission record
       const submission = {
@@ -1932,6 +2032,8 @@ document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
         title,
         fileName: uploadedFile.name,
         fileSize: uploadedFile.size,
+        r2Key: r2UploadData ? r2UploadData.r2Key : null,
+        r2DownloadUrl: r2UploadData ? r2UploadData.downloadUrl : null,
         coupon: couponInput.value.trim().toUpperCase(),
         payment: paymentDetails,
         submittedAt: new Date().toISOString(),
@@ -2088,7 +2190,8 @@ document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
           to_email: EMAIL_CFG.editorEmail,
           author_email: sub.email,
           author_affiliation: sub.affiliation,
-          file_name: sub.fileName
+          file_name: sub.fileName,
+          manuscript_r2_url: sub.r2DownloadUrl || 'Stored in Cloudflare R2'
         })
       ]).then(() => {
         if (emailStatus) emailStatus.innerHTML = '<span style="color:#2e7d32">✉️ Receipt emailed to ' + escapeHtml(sub.email) + ' &amp; Editorial Desk</span>';

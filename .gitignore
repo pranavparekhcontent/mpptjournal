@@ -29,4 +29,7 @@ website/pharmacy-journal-launch-guide.html
 coupon_generator.html
 *keygen*.html
 
-
+# Cloudflare Worker Cache & Node Modules
+.wrangler/
+worker/.wrangler/
+worker/node_modules/
