@@ -28,7 +28,7 @@ const PAPER_DATABASE = {
     creators: [
       { name: 'Sharma, Aarav', affiliation: 'Institute of Advanced Pharmaceutical Sciences, Pune, India', orcid: '0000-0002-1825-0097' },
       { name: 'Rostova, Elena', affiliation: 'BioX Innovation Hub, Frankfurt am Main, Germany', orcid: '0000-0001-5234-8902' },
-      { name: 'Neharkar, Vishnu', affiliation: 'Department of Pharmaceutical Regulatory Science, MPPT Foundation, Pune, India', orcid: '0009-0007-3129-8451' },
+      { name: 'Neharkar, Vishnu', affiliation: 'Department of Pharmaceutical Regulatory Science, MPPT Journal Foundation, Pune, India', orcid: '0009-0007-3129-8451' },
       { name: 'Parekh, Pranav', affiliation: 'Institute of Advanced Pharmaceutical Sciences, Pune, India', orcid: '0009-0004-8912-4411' }
     ],
     keywords: [
@@ -55,7 +55,7 @@ function generateZenodoMetadata(paper) {
       upload_type: 'publication',
       publication_type: 'article',
       publication_date: paper.publication_date,
-      description: `<p><strong>Abstract:</strong> ${paper.abstract}</p><p><strong>Journal:</strong> <em>Modern Pharmacy Praxis &amp; Therapeutics (MPPT)</em>, Vol. ${paper.volume}, Issue ${paper.issue}, pp. ${paper.pages}. Official Open Access Publication.</p>`,
+      description: `<p><strong>Abstract:</strong> ${paper.abstract}</p><p><strong>Journal:</strong> <em>Modern Pharmacy Praxis &amp; Therapeutics (MPPT Journal)</em>, Vol. ${paper.volume}, Issue ${paper.issue}, pp. ${paper.pages}. Official Open Access Publication.</p>`,
       creators: paper.creators.map(c => {
         const item = { name: c.name, affiliation: c.affiliation };
         if (c.orcid) item.orcid = c.orcid;
@@ -95,7 +95,7 @@ async function runArchival() {
   }
 
   console.log('================================================================');
-  console.log('🏛️  MPPT JOURNAL — ZENODO / CERN OPEN SCIENCE ARCHIVAL ENGINE');
+  console.log('🏛️  MPPT Journal — ZENODO / CERN OPEN SCIENCE ARCHIVAL ENGINE');
   console.log('================================================================');
   console.log(`📌 Target Manuscript: ${paper.id}`);
   console.log(`📄 Title: ${paper.title.substring(0, 65)}...`);

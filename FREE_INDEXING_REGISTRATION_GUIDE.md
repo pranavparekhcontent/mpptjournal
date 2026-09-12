@@ -1,6 +1,6 @@
 # MPPT Journal — Master Free Indexing & Repository Registration Guide (₹0 / $0.00)
 
-> **Official Journal:** Modern Pharmacy Praxis & Therapeutics (MPPT)  
+> **Official Journal:** Modern Pharmacy Praxis & Therapeutics (MPPT Journal)  
 > **Production Portal:** `https://mpptjournal.com`  
 > **OAI-PMH 2.0 Feed:** `https://mpptjournal.com/oai-pmh.xml`  
 > **Sitemap:** `https://mpptjournal.com/sitemap.xml`  
@@ -34,7 +34,7 @@
 | 19 | **SHERPA/RoMEO (Jisc)** | Open Access Rights | **FREE** | **Immediate** | Register at v2.sherpa.ac.uk/romeo |
 | 20 | **J-Gate** | Higher Education E-Portal| **FREE** | **After 1st Issue** | Apply via Informatics India (jgateplus.com) |
 | 21 | **Chemical Abstracts (CASSI)**| Pharmacy Scope | **FREE** | **Immediate** | Submit journal via CAS Source Index portal |
-| 22 | **ScienceOpen** | Interactive Discovery | **FREE** | **Immediate** | Create MPPT collection at scienceopen.com |
+| 22 | **ScienceOpen** | Interactive Discovery | **FREE** | **Immediate** | Create MPPT Journal collection at scienceopen.com |
 | 23 | **EuroPub Database** | European Index | **FREE** | **Immediate** | Register at europub.co.uk |
 | 24 | **CiteSeerX** | Digital Research Library | **FREE** | **Immediate** | Open access paper crawling |
 | 25 | **Genamics JournalSeek** | Academic Directory | **FREE** | **Immediate** | Submit listing at journalseek.net |
@@ -56,7 +56,7 @@
 - **URL:** [https://core.ac.uk/data-providers](https://core.ac.uk/data-providers)
 - **What to Enter:**
   - OAI-PMH endpoint: `https://mpptjournal.com/oai-pmh.xml`
-  - Organization: `MPPT Research Foundation, Pune, India`
+  - Organization: `MPPT Journal Research Foundation, Pune, India`
 - **Cost:** ₹0.
 
 ### 3. SHERPA/RoMEO (Jisc)
@@ -80,7 +80,7 @@
 ### 5. DOAJ (Directory of Open Access Journals)
 - **URL:** [https://doaj.org/apply/](https://doaj.org/apply/)
 - **When to Apply:** After 5–10 peer-reviewed articles are published in Volume 1.
-- **Pre-requisites already satisfied on MPPT website:**
+- **Pre-requisites already satisfied on MPPT Journal website:**
   - ✅ CC BY 4.0 license clearly displayed.
   - ✅ Author copyright retention explicitly stated.
   - ✅ Clear double-blind peer review protocol published (`#protocol`).

@@ -20,7 +20,7 @@ In recognition of your scholarly publications and research expertise in **[Menti
 ---
 
 ### **Why Review for MPPT Journal?**
-Peer reviewers are the bedrock of scientific credibility. In appreciation of your valuable contribution, MPPT offers:
+Peer reviewers are the bedrock of scientific credibility. In appreciation of your valuable contribution, MPPT Journal offers:
 1. **Formal Reviewer Accreditation:** Receive an official, verifiable digital **Certificate of Peer Review Excellence** for every manuscript successfully evaluated.
 2. **Editorial Board Priority:** Active and dedicated reviewers are given prime consideration for induction into the journal’s Section Editorial Board.
 3. **APC Waivers / Discounts:** Special publication fee waivers for future manuscripts submitted by our active reviewers.

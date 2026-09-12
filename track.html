@@ -74,6 +74,7 @@ header {
   font-weight: 600;
   letter-spacing: .02em;
   color: var(--acc);
+  text-transform: none;
 }
 .brand-text p {
   font-family: var(--mono);
@@ -111,48 +112,189 @@ header {
 }
 
 /* Paper Search / Quick Switch */
-.lookup-card {
+/* Top Tracking & QR Token Panel */
+.lookup-panel {
   background: #fff;
   border: 1px solid var(--hair);
-  padding: 14px 20px;
+  border-top: 3.5px solid var(--acc);
+  padding: 16px 22px;
   border-radius: 2px;
   margin-bottom: 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 20px;
+  box-shadow: 0 3px 14px rgba(28,24,18,.04);
+}
+.lookup-main {
+  flex: 1;
+  min-width: 280px;
+}
+.lookup-kicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
   flex-wrap: wrap;
+}
+.portal-badge {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background: var(--acc);
+  padding: 3px 8px;
+  border-radius: 2px;
+  font-weight: 600;
+}
+.portal-desc {
+  font-size: 12.5px;
+  color: var(--mut);
 }
 .lookup-form {
   display: flex;
   gap: 8px;
+  max-width: 520px;
+  align-items: center;
+}
+.input-wrap {
+  position: relative;
   flex: 1;
-  max-width: 460px;
+  display: flex;
+  align-items: center;
 }
 .lookup-input {
-  flex: 1;
+  width: 100%;
   font-family: var(--mono);
   font-size: 12px;
-  padding: 8px 12px;
+  padding: 9px 12px 9px 34px;
   border: 1px solid var(--hair);
   background: var(--paper);
   color: var(--ink);
   outline: none;
+  border-radius: 2px;
+  transition: border-color .2s, background .2s;
 }
-.lookup-input:focus { border-color: var(--acc); }
+.lookup-input:focus { border-color: var(--acc); background: #fff; }
 .lookup-btn {
   background: var(--acc);
   color: #fff;
-  border: none;
+  border: 1px solid var(--acc);
   font-family: var(--mono);
-  font-size: 11px;
-  padding: 8px 16px;
+  font-size: 11.5px;
+  padding: 9px 20px;
   cursor: pointer;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  transition: all .2s;
+  white-space: nowrap;
+  font-weight: 600;
+  border-radius: 2px;
+}
+.lookup-btn:hover { background: #6d2c2c; border-color: #6d2c2c; box-shadow: 0 2px 8px rgba(140,59,59,.25); }
+.lookup-hints {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--dim);
+  flex-wrap: wrap;
+}
+
+/* Corner Live QR Token */
+.lookup-qr-corner {
+  flex-shrink: 0;
+}
+.qr-token-card {
+  background: var(--paper);
+  border: 1px solid var(--hair);
+  padding: 8px 12px;
+  border-radius: 3px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(28,24,18,.05);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  width: 140px;
+}
+.qr-token-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(140,59,59,.12);
+  border-color: var(--acc);
+}
+.qr-token-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid rgba(201,191,168,.4);
+}
+.qr-token-title {
+  font-family: var(--serif);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--acc);
+  letter-spacing: .02em;
+}
+.qr-token-live {
+  font-family: var(--mono);
+  font-size: 7.5px;
+  font-weight: 700;
+  color: #166534;
+  letter-spacing: .08em;
+}
+.qr-preview-box {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 3px;
+  border: 1px solid var(--hair);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.qr-token-id {
+  font-family: var(--mono);
+  font-size: 8px;
+  color: var(--ink);
+  font-weight: 600;
+  margin-top: 4px;
+  letter-spacing: .02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.qr-token-hint {
+  font-family: var(--mono);
+  font-size: 7px;
+  color: var(--dim);
   letter-spacing: .06em;
   text-transform: uppercase;
-  transition: background .2s;
+  margin-top: 1px;
 }
-.lookup-btn:hover { background: #6d2c2c; }
+
+@media (max-width: 768px) {
+  .lookup-panel {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px;
+  }
+  .lookup-form {
+    max-width: 100%;
+    flex-direction: column;
+  }
+  .lookup-btn {
+    width: 100%;
+  }
+  .lookup-qr-corner {
+    align-self: center;
+    margin-top: 8px;
+  }
+}
 
 /* Status Banner */
 .paper-banner {
@@ -434,9 +576,9 @@ footer a:hover { text-decoration: underline; }
 <header>
   <div class="header-wrap">
     <a href="index.html" class="brand">
-      <img src="logo/logo.png" alt="MPPT Seal">
+      <img src="logo/logo.png" alt="MPPT Journal Seal">
       <div class="brand-text">
-        <h1>Modern Pharmacy Praxis &amp; Therapeutics</h1>
+        <h1>Modern Pharmacy Praxis &amp; Therapeutics (MPPT Journal)</h1>
         <p>Live Manuscript Progress &amp; Editorial Tracker</p>
       </div>
     </a>
@@ -449,16 +591,39 @@ footer a:hover { text-decoration: underline; }
 
 <div class="main-wrap">
 
-  <!-- Lookup Bar -->
-  <div class="lookup-card">
-    <div style="font-size:13px;color:var(--mut)">
-      <strong style="font-family:var(--mono);font-size:11px;text-transform:uppercase;color:var(--ink)">Tracking Portal:</strong>
-      Access your double-blind review stage via your unique Paper ID.
+  <!-- Top Tracking Portal & Live QR Token Panel -->
+  <div class="lookup-panel">
+    <div class="lookup-main">
+      <div class="lookup-kicker">
+        <span class="portal-badge">Live Editorial Portal</span>
+        <span class="portal-desc">Direct Double-Blind Review Tracking &amp; Cryptographic Audit</span>
+      </div>
+      <form class="lookup-form" id="lookupForm">
+        <div class="input-wrap">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--dim)" stroke-width="2" style="position:absolute;left:11px;pointer-events:none"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="lookupId" class="lookup-input" placeholder="e.g. MPPT-2026-V1I1-0001" required>
+        </div>
+        <button type="submit" class="lookup-btn">Track Paper</button>
+      </form>
+      <div class="lookup-hints">
+        <span>✓ 5 Review Milestones</span>
+        <span>✓ Instant Autonomous Sync</span>
+        <span>✓ 100% Free Open Access</span>
+      </div>
     </div>
-    <form class="lookup-form" id="lookupForm">
-      <input type="text" id="lookupId" class="lookup-input" placeholder="e.g. MPPT-2026-V1I1-0001" required>
-      <button type="submit" class="lookup-btn">Track Paper</button>
-    </form>
+
+    <!-- Live QR Token in Top Corner (Near Track Paper Button) -->
+    <div class="lookup-qr-corner" title="Scan to open this live tracker on mobile">
+      <div class="qr-token-card">
+        <div class="qr-token-header">
+          <span class="qr-token-title">Live QR Token</span>
+          <span class="qr-token-live">● LIVE</span>
+        </div>
+        <div class="qr-preview-box" id="qrContainer"></div>
+        <div class="qr-token-id" id="qrLinkText">Paper: MPPT-2026-V1I1-0001</div>
+        <div class="qr-token-hint">Scan from mobile to track</div>
+      </div>
+    </div>
   </div>
 
   <!-- Paper Details Banner -->
@@ -578,7 +743,7 @@ footer a:hover { text-decoration: underline; }
             <h4 class="step-title">5. Galley Proof &amp; Official Publication</h4>
             <span class="step-time">Upcoming</span>
           </div>
-          <p class="step-desc">Approved manuscript typeset in MPPT royal burgundy 2-column format. Crossref DOI assigned and published live in Volume 1, Issue 1 under CC BY 4.0 Open Access.</p>
+          <p class="step-desc">Approved manuscript typeset in MPPT Journal royal burgundy 2-column format. Crossref DOI assigned and published live in Volume 1, Issue 1 under CC BY 4.0 Open Access.</p>
         </div>
       </div>
     </div>
@@ -631,14 +796,6 @@ footer a:hover { text-decoration: underline; }
           <button type="button" class="btn" style="font-size:10px;padding:5px 10px" onclick="triggerTestEmail()">Send Test Notification</button>
         </div>
       </div>
-    </div>
-
-    <!-- Live QR Token -->
-    <div class="action-card qr-card">
-      <h3>Live Tracking QR Token</h3>
-      <p>Scan this QR code from any smartphone to instantly monitor this paper's live status without logging in.</p>
-      <div class="qr-preview" id="qrContainer"></div>
-      <span style="font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.08em" id="qrLinkText">mpptjournal.com/track</span>
     </div>
   </div>
 
@@ -762,7 +919,7 @@ function escapeHtml(str) {
   document.getElementById('btnDownloadReceipt')?.addEventListener('click', () => {
     const pid = paper.paperId;
     const qrSvg = generateQRSvg(window.location.href);
-    const receiptHtml = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>MPPT Receipt — ' + pid + '</title>' +
+    const receiptHtml = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>MPPT Journal Receipt — ' + pid + '</title>' +
       '<style>body{font-family:Georgia,serif;max-width:680px;margin:30px auto;padding:32px;color:#1c1812;background:#fff;line-height:1.5}' +
       '.hdr{border-bottom:3px double #8c3b3b;padding-bottom:18px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center}' +
       '.title{font-size:22px;color:#8c3b3b;font-weight:bold;margin:0}' +
@@ -788,7 +945,7 @@ function escapeHtml(str) {
       '</table>' +
       '<div class="qr-box"><div style="max-width:140px;margin:0 auto">' + qrSvg + '</div>' +
       '<p style="font-family:monospace;font-size:10.5px;color:#5c5344;margin:8px 0 0">Scan to View Live Timeline: ' + window.location.href + '</p></div>' +
-      '<p class="footer">Modern Pharmacy Praxis &amp; Therapeutics (MPPT) · ISSN (Pending) · mpptjournal.com<br>' +
+      '<p class="footer">Modern Pharmacy Praxis &amp; Therapeutics (MPPT Journal) · ISSN (Pending) · mpptjournal.com<br>' +
       'Published by Dr. Vishnu Neharkar, Pune, India · Licensed under CC BY 4.0 Open Access</p>' +
       '<div style="text-align:center;margin-top:20px"><button onclick="window.print()" style="padding:8px 20px;background:#8c3b3b;color:#fff;border:none;border-radius:2px;cursor:pointer">Print / Save as PDF</button></div>' +
       '</body></html>';
@@ -797,7 +954,7 @@ function escapeHtml(str) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'MPPT-Status-' + pid + '.html';
+    a.download = 'MPPT-Journal-Status-' + pid + '.html';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -806,7 +963,7 @@ function escapeHtml(str) {
 
   // Download Blinded Reviewer Copy
   document.getElementById('btnDownloadBlinded')?.addEventListener('click', () => {
-    alert('Blinded Reviewer Copy: Author names, institutional markers, and acknowledgments are redacted. Watermark: "CONFIDENTIAL DOUBLE-BLIND REVIEWER COPY — MPPT JOURNAL".');
+    alert('Blinded Reviewer Copy: Author names, institutional markers, and acknowledgments are redacted. Watermark: "CONFIDENTIAL DOUBLE-BLIND REVIEWER COPY — MPPT Journal".');
   });
 
   // Revision File Input

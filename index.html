@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>The MPPT Quarterly — Modern Pharmacy Praxis &amp; Therapeutics · Official Journal</title>
-<meta name="description" content="Modern Pharmacy Praxis and Therapeutics (MPPT) is an international, peer-reviewed, open-access quarterly journal in pharmaceutical sciences, drug delivery, clinical pharmacology & therapeutics. Volume 1: 100% free APC waiver.">
-<meta name="keywords" content="pharmacy journal, pharmaceutical sciences, drug delivery systems, clinical pharmacy, pharmacology, toxicology, phytotherapy, pharmacovigilance, open access pharmacy journal, double blind peer review, UGC CARE pharmacy, call for papers pharmacy 2026, free APC journal, MPPT journal">
+<title>MPPT Journal — Modern Pharmacy Praxis &amp; Therapeutics · Official Journal</title>
+<meta name="description" content="Modern Pharmacy Praxis and Therapeutics (MPPT Journal) is an international, peer-reviewed, open-access quarterly journal in pharmaceutical sciences, drug delivery, clinical pharmacology & therapeutics. Volume 1: 100% free APC waiver.">
+<meta name="keywords" content="pharmacy journal, pharmaceutical sciences, drug delivery systems, clinical pharmacy, pharmacology, toxicology, phytotherapy, pharmacovigilance, open access pharmacy journal, double blind peer review, UGC CARE pharmacy, call for papers pharmacy 2026, free APC journal, MPPT Journal">
 <link rel="canonical" href="https://mpptjournal.com/">
 <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
 
@@ -19,7 +19,7 @@
 
 <!-- Twitter Card Metadata -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The MPPT Quarterly — Modern Pharmacy Praxis & Therapeutics">
+<meta name="twitter:title" content="MPPT Journal — Modern Pharmacy Praxis & Therapeutics">
 <meta name="twitter:description" content="International Open-Access Peer-Reviewed Academic Pharmacy Journal. Volume 1 Call for Papers (100% Free APC). Fast double-blind peer review.">
 <meta name="twitter:image" content="https://mpptjournal.com/logo/logo.png">
 
@@ -46,7 +46,7 @@
       "@type": "Periodical",
       "@id": "https://mpptjournal.com/#journal",
       "name": "Modern Pharmacy Praxis and Therapeutics",
-      "alternateName": ["MPPT", "Mod. Pharm. Prax. Ther."],
+      "alternateName": ["MPPT Journal", "Mod. Pharm. Prax. Ther."],
       "url": "https://mpptjournal.com",
       "publisher": {
         "@type": "Person",
@@ -108,25 +108,23 @@ a{color:inherit;text-decoration:none}
 .paper-noise{position:fixed;inset:0;z-index:70;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E")}
 #inkbar{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--gold),var(--acc));z-index:120}
 /* nav */
-nav{position:fixed;top:0;left:0;right:0;z-index:90;padding:11px 0;padding-top:max(11px,env(safe-area-inset-top));padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);border-bottom:1px solid var(--line);background:rgba(246,241,231,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:background .3s,border-color .3s,box-shadow .3s}
-nav.scrolled{box-shadow:0 4px 20px rgba(28,24,18,.06);background:rgba(246,241,231,.98)}
-nav .bar{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.brand{display:flex;align-items:center;gap:12px;min-width:0}
-.navseal{width:40px;height:40px;border-radius:50%;box-shadow:0 0 0 1px rgba(28,24,18,.1),0 4px 12px rgba(0,0,0,.15);transition:.45s}
-.brandtext{display:flex;flex-direction:column;line-height:1.25}
-.brand b{font-size:19px;letter-spacing:.15em;font-weight:600;color:var(--ink)}
-.brand span{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--mut)}
-.navlinks{display:flex;gap:26px}
-.navlinks a{font-family:var(--mono);font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);transition:.3s;padding-bottom:2px;border-bottom:1px solid transparent}
+nav{position:fixed;top:0;left:0;right:0;z-index:90;padding:10px 0;padding-top:max(10px,env(safe-area-inset-top));padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);border-bottom:1px solid var(--line);background:rgba(246,241,231,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:background .3s,border-color .3s,box-shadow .3s}
+nav.scrolled{box-shadow:0 4px 20px rgba(28,24,18,.07);background:rgba(246,241,231,.98)}
+nav .bar{display:flex;align-items:center;justify-content:space-between;gap:clamp(16px,2.2vw,36px)}
+.brand{display:flex;align-items:center;gap:15px;min-width:0;text-decoration:none}
+.navseal{width:50px;height:50px;border-radius:50%;box-shadow:0 0 0 1px rgba(28,24,18,.12),0 4px 14px rgba(0,0,0,.12);transition:.35s ease;flex-shrink:0}
+.brand:hover .navseal{transform:scale(1.03);box-shadow:0 0 0 1.5px var(--gold),0 6px 18px rgba(168,135,79,.25)}
+.brandtext{display:flex;flex-direction:column;line-height:1.2;text-transform:none!important}
+.brand b{font-family:var(--serif);font-size:21px;letter-spacing:.02em;font-weight:700;color:var(--ink);white-space:nowrap;text-transform:none!important}
+.brandtext>span{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut);margin-top:2px;white-space:nowrap}
+.navlinks{display:flex;align-items:center;gap:clamp(16px,1.8vw,28px);margin:0 auto}
+.navlinks a{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);transition:.25s ease;padding:4px 0;border-bottom:1.5px solid transparent;white-space:nowrap;text-decoration:none}
 .navlinks a:hover{color:var(--acc);border-color:var(--acc)}
-nav .btn{padding:10px 22px;font-size:12.5px;letter-spacing:.18em}
-.btn{display:inline-flex;align-items:center;gap:10px;padding:12px 24px;font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;transition:.3s;border:1px solid var(--ink);cursor:pointer}
-.btn.filled{background:var(--acc);border-color:var(--acc);color:var(--paper)}
-.btn.filled:hover{background:var(--acc2)}
-.nav-actions{display:flex;align-items:center;gap:10px}
-.nav-track-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);border:1px solid var(--hair);text-decoration:none;transition:all .25s ease;background:rgba(246,241,231,.4)}
-.nav-track-btn:hover{color:var(--acc);border-color:var(--acc);background:rgba(140,59,59,.06)}
-@media(max-width:640px){.nav-actions{gap:6px}.nav-track-btn{padding:7px 10px;font-size:10px;letter-spacing:.08em}}
+.nav-actions{display:flex;align-items:center;gap:12px;flex-shrink:0}
+nav .btn{padding:10px 22px;font-size:11.5px;letter-spacing:.16em;white-space:nowrap;border-radius:2px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:12px 24px;font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;transition:.3s;border:1px solid var(--ink);cursor:pointer;text-decoration:none}
+.btn.filled{background:var(--acc);border-color:var(--acc);color:var(--paper);box-shadow:0 2px 8px rgba(140,59,59,.2)}
+.btn.filled:hover{background:var(--acc2);border-color:var(--acc2);box-shadow:0 4px 14px rgba(140,59,59,.32);transform:translateY(-1px)}
 
 /* ---- ACT II · the paper theatre ---- */
 main{position:relative;z-index:10;background:var(--paper)}
@@ -255,7 +253,7 @@ h2.big em{font-style:italic;font-weight:400;color:var(--acc)}
 .cover .cv-bot{font-family:var(--mono);font-size:7px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);text-align:center}
 .cover .orn{width:34px;height:34px;margin:0 auto 12px}
 .cover .spine{position:absolute;top:0;bottom:0;left:calc(var(--cd)/-2);width:var(--cd);background:linear-gradient(180deg,#f1ead9,#e0d5bd);border:1px solid var(--ink);display:flex;align-items:center;justify-content:center;transform:rotateY(-90deg);backface-visibility:hidden}
-.cover .spine span{writing-mode:vertical-rl;font-family:var(--mono);font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--acc);white-space:nowrap}
+.cover .spine span{writing-mode:vertical-rl;font-family:var(--mono);font-size:8px;letter-spacing:.3em;text-transform:none;color:var(--acc);white-space:nowrap}
 .cover .edge{position:absolute;top:0;bottom:0;right:calc(var(--cd)/-2);width:var(--cd);background:repeating-linear-gradient(90deg,#f1ead9 0 2px,#d3c8ae 2px 3px);border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);transform:rotateY(90deg);backface-visibility:hidden}
 .cover .backface{position:absolute;inset:0;background:linear-gradient(165deg,#efe8d9,#ddd2b6);border:1px solid var(--ink);transform:translateZ(calc(var(--cd)/-2)) rotateY(180deg);backface-visibility:hidden}
 .cover .shade{position:absolute;inset:0;background:#1c1812;opacity:0;transform:translateZ(calc(var(--cd)/2 + .5px));pointer-events:none}
@@ -421,17 +419,17 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
 
 /* Small Laptops & Wide Tablets (961px - 1100px) */
 @media (max-width:1100px){
-  .navlinks{gap:18px}
-  .navlinks a{font-size:11.5px;letter-spacing:.12em}
+  .navlinks{gap:14px}
+  .navlinks a{font-size:10.5px;letter-spacing:.1em}
   .board-callout p{white-space:normal!important;max-width:880px!important}
 }
 
 /* Tablets Landscape & Portrait (769px - 960px) */
 @media (max-width:960px){
-  .brandtext span{display:none}
-  .navlinks{gap:14px}
-  .navlinks a{font-size:11px;letter-spacing:.1em}
-  nav .btn{padding:8px 14px;font-size:11px}
+  .brandtext>span{display:none}
+  .navlinks{gap:10px}
+  .navlinks a{font-size:10px;letter-spacing:.08em}
+  nav .btn{padding:8px 16px;font-size:10.5px}
   .letter{grid-template-columns:1fr}
   .factbox{margin-top:28px}
   .fgrid{grid-template-columns:1fr 1fr}
@@ -448,8 +446,8 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
 /* Phablets & Portrait Tablets (641px - 768px) */
 @media (max-width:768px){
   .navlinks{display:none}
-  .brand b{font-size:17px}
-  .navseal{width:34px;height:34px}
+  .brand b{font-size:18px}
+  .navseal{width:38px;height:38px}
   nav .btn{padding:8px 14px;font-size:10.5px;letter-spacing:.14em}
   .row{grid-template-columns:48px 1fr}
   .row .arrow{display:none}
@@ -629,23 +627,22 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
 <nav id="nav">
   <div class="wrap bar">
     <a class="brand" href="#top">
-      <img class="navseal" src="logo/logo.png" alt="MPPT seal">
-      <span class="brandtext"><b>MPPT</b><span>Research · Practice · Better Health</span></span>
+      <img class="navseal" src="logo/logo.png" alt="MPPT Journal seal">
+      <div class="brandtext">
+        <b style="font-family:var(--serif);text-transform:none!important;font-size:21px">MPPT Journal</b>
+        <span style="font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut)">Research · Practice · Better Health</span>
+      </div>
     </a>
     <div class="navlinks">
-      <a href="#letter">Letter</a>
       <a href="#scope">Scope</a>
       <a href="#issues">Issues &amp; Archive</a>
       <a href="#editorial-board">Editorial Board</a>
       <a href="#protocol">Protocol</a>
       <a href="#indexing">Indexing</a>
-      <a href="/track">Track Status</a>
-      <a href="/certificate" title="Verify &amp; Download Certificates">Certificates</a>
-      <a href="javascript:void(0)" id="nav-replay-intro" class="nav-replay-intro" title="Play Cinematic Video Intro"><span>▶</span> Intro</a>
+      <a href="certificate.html" title="Verify &amp; Download Certificates">Certificates</a>
     </div>
     <div class="nav-actions">
-      <a class="nav-track-btn" href="/track" title="Track Live Review Progress">Track Paper</a>
-      <a class="btn filled" href="#submit">Submit Paper</a>
+      <a class="btn filled" href="track.html" title="Track Live Review Progress">Track Paper</a>
     </div>
   </div>
 </nav>
@@ -705,7 +702,7 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
       <div class="drop">
         <p>Every journal begins as a promise. Ours is simple: rigorous, reproducible pharmaceutical science — reviewed by active doctorate-level researchers, decided in fourteen to twenty-one days, and read by everyone, everywhere, for free.</p>
       </div>
-      <p>We built MPPT because too much good science waits too long behind tolls and opaque queues. The inaugural volume carries no article processing charges, no hidden costs, and no compromise: double-blind review aligned with COPE benchmarks, a similarity ceiling of ten percent, and continuous publication upon acceptance.</p>
+      <p>We built MPPT Journal because too much good science waits too long behind tolls and opaque queues. The inaugural volume carries no article processing charges, no hidden costs, and no compromise: double-blind review aligned with COPE benchmarks, a similarity ceiling of ten percent, and continuous publication upon acceptance.</p>
       <p>If your work moves evidence from molecule to bedside — in pharmacology, delivery science, clinical praxis, computational design, phytotherapy, or regulatory analysis — these pages are yours.</p>
       <p class="sig">— Dr. Pranav Parekh<small>Editor-in-Chief, MPPT Journal</small></p>
     </div>
@@ -778,63 +775,63 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
       <div class="cover c1"><div class="in3">
         <div class="cv-top"><span>Vol. 1 · Issue 1</span><span>2026</span></div>
         <div class="cv-mast">
-          <img src="logo/logo.png" alt="MPPT Logo" class="cv-logo">
+          <img src="logo/logo.png" alt="MPPT Journal Logo" class="cv-logo">
           <span class="cv-name">Modern Pharmacy Praxis &amp; Therapeutics</span>
           <span class="cv-url">mpptjournal.com</span>
         </div>
         <div class="cv-mid"><b>Inaugural Issue<i>Call for Papers</i></b></div>
         <div class="cv-bot">ISSN Pending · Pune, India</div>
-      </div><div class="spine"><span>MPPT · Vol 1 Issue 1</span></div><div class="edge"></div><div class="backface"></div><div class="shade"></div></div>
+      </div><div class="spine"><span>MPPT Journal · Vol 1 Issue 1</span></div><div class="edge"></div><div class="backface"></div><div class="shade"></div></div>
       <div class="cover c2"><div class="in3">
         <div class="cv-top"><span>Vol. 1 · Issue 2</span><span>2026</span></div>
         <div class="cv-mast">
-          <img src="logo/logo.png" alt="MPPT Logo" class="cv-logo">
+          <img src="logo/logo.png" alt="MPPT Journal Logo" class="cv-logo">
           <span class="cv-name">Modern Pharmacy Praxis &amp; Therapeutics</span>
           <span class="cv-url">mpptjournal.com</span>
         </div>
         <div class="cv-mid"><b>Coming Soon</b></div>
         <div class="cv-bot">ISSN Pending · Pune, India</div>
-      </div><div class="spine"><span>MPPT · Vol 1 Issue 2</span></div><div class="edge"></div><div class="backface"></div><div class="shade"></div></div>
+      </div><div class="spine"><span>MPPT Journal · Vol 1 Issue 2</span></div><div class="edge"></div><div class="backface"></div><div class="shade"></div></div>
       <div class="cover c3"><div class="in3">
         <div class="cv-top"><span>Vol. 1 · Issue 3</span><span>2026</span></div>
         <div class="cv-mast">
-          <img src="logo/logo.png" alt="MPPT Logo" class="cv-logo">
+          <img src="logo/logo.png" alt="MPPT Journal Logo" class="cv-logo">
           <span class="cv-name">Modern Pharmacy Praxis &amp; Therapeutics</span>
           <span class="cv-url">mpptjournal.com</span>
         </div>
         <div class="cv-mid"><b>Coming Soon</b></div>
         <div class="cv-bot">ISSN Pending · Pune, India</div>
-      </div><div class="spine"><span>MPPT · Vol 1 Issue 3</span></div><div class="edge"></div><div class="backface"></div><div class="shade"></div></div>
+      </div><div class="spine"><span>MPPT Journal · Vol 1 Issue 3</span></div><div class="edge"></div><div class="backface"></div><div class="shade"></div></div>
       <div class="cover c4"><div class="in3">
         <div class="cv-top"><span>Vol. 1 · Issue 4</span><span>2026</span></div>
         <div class="cv-mast">
-          <img src="logo/logo.png" alt="MPPT Logo" class="cv-logo">
+          <img src="logo/logo.png" alt="MPPT Journal Logo" class="cv-logo">
           <span class="cv-name">Modern Pharmacy Praxis &amp; Therapeutics</span>
           <span class="cv-url">mpptjournal.com</span>
         </div>
         <div class="cv-mid"><b>Coming Soon</b></div>
         <div class="cv-bot">ISSN Pending · Pune, India</div>
-      </div><div class="spine"><span>MPPT · Vol 1 Issue 4</span></div><div class="edge"></div><div class="backface"></div><div class="shade"></div></div>
+      </div><div class="spine"><span>MPPT Journal · Vol 1 Issue 4</span></div><div class="edge"></div><div class="backface"></div><div class="shade"></div></div>
       <div class="cover c5"><div class="in3">
         <div class="cv-top"><span>Vol. 2 · Issue 1</span><span>2027</span></div>
         <div class="cv-mast">
-          <img src="logo/logo.png" alt="MPPT Logo" class="cv-logo">
+          <img src="logo/logo.png" alt="MPPT Journal Logo" class="cv-logo">
           <span class="cv-name">Modern Pharmacy Praxis &amp; Therapeutics</span>
           <span class="cv-url">mpptjournal.com</span>
         </div>
         <div class="cv-mid"><b>Coming Soon</b></div>
         <div class="cv-bot">ISSN Pending · Pune, India</div>
-      </div><div class="spine"><span>MPPT · Vol 2 Issue 1</span></div><div class="edge"></div><div class="backface"></div><div class="shade"></div></div>
+      </div><div class="spine"><span>MPPT Journal · Vol 2 Issue 1</span></div><div class="edge"></div><div class="backface"></div><div class="shade"></div></div>
       <div class="cover c6"><div class="in3">
         <div class="cv-top"><span>Vol. 2 · Issue 2</span><span>2027</span></div>
         <div class="cv-mast">
-          <img src="logo/logo.png" alt="MPPT Logo" class="cv-logo">
+          <img src="logo/logo.png" alt="MPPT Journal Logo" class="cv-logo">
           <span class="cv-name">Modern Pharmacy Praxis &amp; Therapeutics</span>
           <span class="cv-url">mpptjournal.com</span>
         </div>
         <div class="cv-mid"><b>Coming Soon</b></div>
         <div class="cv-bot">ISSN Pending · Pune, India</div>
-      </div><div class="spine"><span>MPPT · Vol 2 Issue 2</span></div><div class="edge"></div><div class="backface"></div><div class="shade"></div></div>
+      </div><div class="spine"><span>MPPT Journal · Vol 2 Issue 2</span></div><div class="edge"></div><div class="backface"></div><div class="shade"></div></div>
     </div>
     <div class="cv-drag">⟵ Drag to browse the archive ⟶</div>
   </div>
@@ -857,7 +854,7 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
       <div style="display:flex;gap:18px;align-items:center;justify-content:center;margin-top:14px;flex-wrap:wrap">
         <a href="mailto:editor@mpptjournal.com?subject=Editorial%20Board%20Application" style="display:inline-flex;align-items:center;gap:8px;color:var(--acc);font-size:15px;font-weight:600;font-style:normal;letter-spacing:.02em;border-bottom:2px solid var(--acc);padding-bottom:3px;transition:.3s">Apply as board member &rarr;</a>
         <span style="color:var(--dim)">·</span>
-        <a href="/certificate?type=board" style="display:inline-flex;align-items:center;gap:6px;color:var(--ink);font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;border:1px solid var(--hair);padding:6px 14px;background:rgba(255,255,255,.5);border-radius:2px;transition:.3s" title="Verify Board Member Credentials &amp; Certificates">🎓 Verify Board Credentials</a>
+        <a href="certificate.html?type=board" style="display:inline-flex;align-items:center;gap:6px;color:var(--ink);font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.08em;text-decoration:none;border:1px solid var(--hair);padding:6px 14px;background:rgba(255,255,255,.5);border-radius:2px;transition:.3s" title="Verify Board Member Credentials &amp; Certificates">🎓 Verify Board Credentials</a>
       </div>
     </div>
   </div>
@@ -1282,7 +1279,7 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
           <span class="ai-badge pass" id="aiAuditBadge">Format Verified</span>
         </div>
         <p class="ai-audit-desc" id="aiAuditSummary">
-          Checking document structure against MPPT guidelines (Structured Abstract, Vancouver References, Ethics Disclosures)...
+          Checking document structure against MPPT Journal guidelines (Structured Abstract, Vancouver References, Ethics Disclosures)...
         </p>
         <div class="ai-actions">
           <button type="button" class="btn" id="aiAuditToggleBtn" style="font-size:10px;padding:4px 10px">View Audit Details</button>
@@ -1399,11 +1396,11 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
         <p style="color:var(--mut);font-size:13.5px;margin-top:10px;text-align:justify;text-justify:inter-word;line-height:1.55">Modern Pharmacy Praxis &amp; Therapeutics — an international open-access, continuous publication journal. Published from Pune, Maharashtra, India.</p>
       </div>
       <div><h4>Editorial</h4><ul><li><a href="mailto:editor@mpptjournal.com">editor@mpptjournal.com</a></li><li><a href="mailto:submissions@mpptjournal.com">submissions@mpptjournal.com</a></li><li><a href="mailto:publisher@mpptjournal.com">publisher@mpptjournal.com</a></li><li><a href="mailto:review@mpptjournal.com">review@mpptjournal.com</a></li></ul></div>
-      <div><h4>Governance</h4><ul><li><a href="#scope">Aims &amp; Scope</a></li><li><a href="#editorial-board">Editorial Board</a></li><li><a href="#indexing">Global Indexing</a></li><li><a href="/certificate">Certificates &amp; Credentials</a></li><li><a href="#protocol">Review Policy</a></li><li>APC Waiver (Vol 1)</li><li>Ethics (COPE)</li></ul></div>
+      <div><h4>Governance</h4><ul><li><a href="#scope">Aims &amp; Scope</a></li><li><a href="#editorial-board">Editorial Board</a></li><li><a href="#indexing">Global Indexing</a></li><li><a href="certificate.html">Certificates &amp; Credentials</a></li><li><a href="#protocol">Review Policy</a></li><li>APC Waiver (Vol 1)</li><li>Ethics (COPE)</li></ul></div>
       <div><h4>Author Desk</h4><ul><li><a href="#submit">Submission</a></li><li>Vancouver Guide</li><li>Plagiarism &lt;10%</li><li><a href="#ccby" id="btn-ccby" class="ccby-trigger" style="color:var(--acc);cursor:pointer;border-bottom:1px dashed var(--acc)" title="Click to view Open Access &amp; Copyright Disclaimer">CC-BY 4.0 ⓘ</a></li></ul></div>
     </div>
     <div class="f-legal">
-      All articles published in <b>Modern Pharmacy Praxis &amp; Therapeutics (MPPT)</b> are licensed under a <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons Attribution 4.0 International License (CC BY 4.0)</a>. Authors retain copyright of their work while granting the journal first publication rights.
+      All articles published in <b>Modern Pharmacy Praxis &amp; Therapeutics (MPPT Journal)</b> are licensed under a <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons Attribution 4.0 International License (CC BY 4.0)</a>. Authors retain copyright of their work while granting the journal first publication rights.
     </div>
     <div class="colophon">
       <span>© 2026 Modern Pharmacy Praxis &amp; Therapeutics. Published by Dr. Vishnu Neharkar, Pune.</span>
@@ -1420,7 +1417,7 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
       <button type="button" class="toast-close" id="toastClose" aria-label="Close disclaimer">&times;</button>
     </div>
     <div class="toast-body">
-      All articles published in <strong>Modern Pharmacy Praxis &amp; Therapeutics (MPPT)</strong> are licensed under a <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons Attribution 4.0 International License (CC BY 4.0)</a>. Authors retain copyright of their work while granting the journal first publication rights.
+      All articles published in <strong>Modern Pharmacy Praxis &amp; Therapeutics (MPPT Journal)</strong> are licensed under a <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">Creative Commons Attribution 4.0 International License (CC BY 4.0)</a>. Authors retain copyright of their work while granting the journal first publication rights.
     </div>
     <div class="toast-foot">
       <span>License Deed: CC BY 4.0</span>
@@ -1434,7 +1431,7 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
   <div class="doc-modal" role="document">
     <div class="doc-modal-header">
       <div>
-        <div class="doc-modal-kicker" id="docModalKicker">MPPT Editorial Standards</div>
+        <div class="doc-modal-kicker" id="docModalKicker">MPPT Journal Editorial Standards</div>
         <h2 class="doc-modal-title" id="docModalTitle">Author Guidelines</h2>
       </div>
       <button type="button" class="doc-modal-close" id="docModalCloseBtn" aria-label="Close document dialog">&times;</button>
@@ -1444,7 +1441,7 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
       <!-- 1. AUTHOR GUIDELINES PANE -->
       <div id="pane-guidelines" class="doc-modal-pane active">
         <h3>1. Aims, Scope &amp; Article Categories</h3>
-        <p><strong>Modern Pharmacy Praxis &amp; Therapeutics (MPPT)</strong> is a peer-reviewed, open-access journal dedicated to clinical and experimental pharmaceutical sciences. We invite submissions under the following categories:</p>
+        <p><strong>Modern Pharmacy Praxis &amp; Therapeutics (MPPT Journal)</strong> is a peer-reviewed, open-access journal dedicated to clinical and experimental pharmaceutical sciences. We invite submissions under the following categories:</p>
         
         <div class="meta-table-wrap">
         <table class="meta-table">
@@ -1512,7 +1509,7 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
       <!-- 2. ETHICS PANE -->
       <div id="pane-ethics" class="doc-modal-pane">
         <h3>1. Ethical Governance &amp; Regulatory Alignment</h3>
-        <p><strong>Modern Pharmacy Praxis &amp; Therapeutics (MPPT)</strong> rigorously enforces the core practices of the <strong>Committee on Publication Ethics (COPE)</strong>, the <strong>International Committee of Medical Journal Editors (ICMJE)</strong>, and the <strong>World Association of Medical Editors (WAME)</strong>.</p>
+        <p><strong>Modern Pharmacy Praxis &amp; Therapeutics (MPPT Journal)</strong> rigorously enforces the core practices of the <strong>Committee on Publication Ethics (COPE)</strong>, the <strong>International Committee of Medical Journal Editors (ICMJE)</strong>, and the <strong>World Association of Medical Editors (WAME)</strong>.</p>
 
         <h3>2. Research Involving Human Participants &amp; Animals</h3>
         <ul>
@@ -1542,16 +1539,16 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
       <!-- 3. COPYRIGHT FORM PANE -->
       <div id="pane-copyright" class="doc-modal-pane">
         <h3>1. Open Access Licensing (Creative Commons CC BY 4.0)</h3>
-        <p>All articles published in <strong>Modern Pharmacy Praxis &amp; Therapeutics (MPPT)</strong> are open access and published under the <strong>Creative Commons Attribution 4.0 International License (CC BY 4.0)</strong>.</p>
+        <p>All articles published in <strong>Modern Pharmacy Praxis &amp; Therapeutics (MPPT Journal)</strong> are open access and published under the <strong>Creative Commons Attribution 4.0 International License (CC BY 4.0)</strong>.</p>
         <p>Under this license, authors, readers, and institutions worldwide are permitted to freely:</p>
         <ul>
           <li><strong>Share:</strong> Copy and redistribute the material in any medium or format.</li>
           <li><strong>Adapt:</strong> Remix, transform, and build upon the material for any purpose, even commercially.</li>
-          <li><strong>Attribution:</strong> You must give appropriate credit to the authors and MPPT, provide a link to the license, and indicate if changes were made.</li>
+          <li><strong>Attribution:</strong> You must give appropriate credit to the authors and MPPT Journal, provide a link to the license, and indicate if changes were made.</li>
         </ul>
 
         <h3>2. Authors Retain Unrestricted Copyright</h3>
-        <p>Authors retain unrestricted copyright of their intellectual property. Unlike traditional subscription journals, <strong>MPPT does not require authors to transfer copyright ownership</strong>. Authors grant MPPT a non-exclusive license for initial publication, digital archiving, and global indexation.</p>
+        <p>Authors retain unrestricted copyright of their intellectual property. Unlike traditional subscription journals, <strong>MPPT Journal does not require authors to transfer copyright ownership</strong>. Authors grant MPPT Journal a non-exclusive license for initial publication, digital archiving, and global indexation.</p>
 
         <h3>3. Self-Archiving &amp; Repository Rights (Green Open Access)</h3>
         <p>Authors have the unencumbered right to deposit all versions of their manuscript:</p>
@@ -1563,7 +1560,7 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
 
         <div class="copyright-box" id="printableCopyrightBox">
           <h4>Official Author Warranty &amp; Publication Agreement</h4>
-          <p><strong>Journal:</strong> Modern Pharmacy Praxis &amp; Therapeutics (MPPT) &middot; ISSN Online: 3048-xxxx</p>
+          <p><strong>Journal:</strong> Modern Pharmacy Praxis &amp; Therapeutics (MPPT Journal) &middot; ISSN Online: 3048-xxxx</p>
           <p><strong>Declaration:</strong> I/We warrant that this manuscript is original, has not been published elsewhere, does not infringe upon any third-party copyright, and that all co-authors have consented to its submission and open-access publication under CC BY 4.0.</p>
           <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:20px;font-family:var(--mono);font-size:11px">
             <div>Corresponding Author: <span class="sig-line"></span></div>
@@ -1575,7 +1572,7 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
 
       <!-- 4. SAMPLE PAPER PANE -->
       <div id="pane-sample" class="doc-modal-pane">
-        <h3>Official MPPT Manuscript Layout &amp; Typography Template</h3>
+        <h3>Official MPPT Journal Manuscript Layout &amp; Typography Template</h3>
         <p>Authors are encouraged to prepare their submissions using the standardized structural layout demonstrated below. Submissions must be formatted in single or double-column, 1.5 line spacing, 12pt serif font (Times New Roman / Georgia) with 1-inch margins.</p>
 
         <div class="sample-paper-box">
@@ -1634,7 +1631,7 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
     </div>
 
     <div class="doc-modal-footer">
-      <div id="docModalFootMeta" style="color:var(--mut)">MPPT Peer-Reviewed Open Access Architecture</div>
+      <div id="docModalFootMeta" style="color:var(--mut)">MPPT Journal Peer-Reviewed Open Access Architecture</div>
       <div style="display:flex;align-items:center;gap:10px">
         <button type="button" class="doc-modal-btn secondary" id="docModalPrintBtn">Print / Save Document</button>
         <button type="button" class="doc-modal-btn" id="docModalActionBtn">Download Template (.docx)</button>
@@ -1936,11 +1933,11 @@ document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
       if (missingDisclosures.length > 0) {
         draftEmail = 'Subject: MPPT Journal Intake Query: Missing Mandatory Disclosure(s) [' + file.name + ']\n\n' +
           'Dear Dr. ' + authorName + ',\n\n' +
-          'Thank you for submitting your manuscript entitled "' + paperTitle + '" to Modern Pharmacy Praxis & Therapeutics (MPPT).\n\n' +
+          'Thank you for submitting your manuscript entitled "' + paperTitle + '" to Modern Pharmacy Praxis & Therapeutics (MPPT Journal).\n\n' +
           'During our autonomous intake audit, our system verified your manuscript file against ICMJE and COPE guidelines. To proceed to double-blind peer review, please clarify the following missing item(s):\n\n' +
           missingDisclosures.map((item, i) => '  ' + (i + 1) + '. ' + item + ' (e.g. Committee approval code or formal waiver statement)').join('\n') + '\n\n' +
           'Zero-Guesswork Guardrail Notice: Our AI is strictly restricted from fabricating or synthesizing regulatory data. Please provide the exact protocol number or declaration via your live timeline link or by replying to this notice.\n\n' +
-          'Sincerely,\nEditorial Desk\nModern Pharmacy Praxis & Therapeutics (MPPT)\neditor@mpptjournal.com | mpptjournal.com';
+          'Sincerely,\nEditorial Desk\nModern Pharmacy Praxis & Therapeutics (MPPT Journal)\neditor@mpptjournal.com | mpptjournal.com';
       }
 
       currentAuditResult = {
@@ -2597,7 +2594,7 @@ document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
         emailjs.send(EMAIL_CFG.serviceId, EMAIL_CFG.templateAuthor, authorParams),
         emailjs.send(EMAIL_CFG.serviceId, EMAIL_CFG.templateEditor, {
           ...authorParams,
-          to_name: 'MPPT Editorial Board',
+          to_name: 'MPPT Journal Editorial Board',
           to_email: EMAIL_CFG.editorEmail,
           author_email: sub.email,
           author_affiliation: sub.affiliation,
@@ -2642,7 +2639,7 @@ document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
       : ('₹' + (payInfo.amount || 1500) + '.00 (' + (payInfo.note || 'Razorpay Verified Payment') + ')');
 
     const qrSvg = generateQRSvg('https://mpptjournal.com/track?id=' + pid);
-    const receiptHtml = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>MPPT Official Submission Receipt — ' + pid + '</title>' +
+    const receiptHtml = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>MPPT Journal Official Submission Receipt — ' + pid + '</title>' +
       '<style>body{font-family:Georgia,serif;max-width:680px;margin:30px auto;padding:32px;color:#1c1812;background:#fff;line-height:1.5}' +
       '.hdr{border-bottom:3px double #8c3b3b;padding-bottom:18px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center}' +
       '.title{font-size:22px;color:#8c3b3b;font-weight:bold;margin:0}' +
@@ -2679,7 +2676,7 @@ document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'MPPT-Receipt-' + pid + '.html';
+    a.download = 'MPPT-Journal-Receipt-' + pid + '.html';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -2735,7 +2732,7 @@ let activeDocPane = 'guidelines';
 
 const docModalConfig = {
   guidelines: {
-    kicker: 'MPPT Editorial Board & Author Desk',
+    kicker: 'MPPT Journal Editorial Board & Author Desk',
     title: 'Author Guidelines & Submission Protocol',
     meta: 'Vancouver Referencing · Max 10% Similarity · 14-21 Day Review',
     actionText: 'Download Template (.docx)',
@@ -2794,7 +2791,7 @@ function downloadManuscriptTemplate() {
 <html>
 <head>
 <meta charset="utf-8">
-<title>MPPT-Manuscript-Template</title>
+<title>MPPT-Journal-Manuscript-Template</title>
 <style>
 body { font-family: 'Times New Roman', serif; font-size: 12pt; line-height: 1.5; margin: 1in; color: #000; }
 h1 { font-size: 18pt; font-weight: bold; line-height: 1.25; margin-bottom: 8pt; }
@@ -2809,7 +2806,7 @@ ol { margin-left: 20pt; }
 </style>
 </head>
 <body>
-<div class="meta">MODERN PHARMACY PRAXIS &amp; THERAPEUTICS (MPPT) &middot; MANUSCRIPT SUBMISSION TEMPLATE</div>
+<div class="meta">MODERN PHARMACY PRAXIS &amp; THERAPEUTICS (MPPT Journal) &middot; MANUSCRIPT SUBMISSION TEMPLATE</div>
 <h1>[Title of Manuscript: Concise, Informative, Max 2 Lines]</h1>
 <div class="authors">Author One<sup>1</sup>, Author Two<sup>2*</sup>, Author Three<sup>3</sup></div>
 <div class="affil">
@@ -2859,7 +2856,7 @@ ol { margin-left: 20pt; }
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'MPPT-Manuscript-Template.doc';
+  a.download = 'MPPT-Journal-Manuscript-Template.doc';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

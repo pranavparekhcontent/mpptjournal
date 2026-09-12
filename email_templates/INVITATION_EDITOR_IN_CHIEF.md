@@ -14,7 +14,7 @@
 
 On behalf of the founding board and the publishing body, it gives me immense honor and privilege to formally invite and appoint you as the **Editor-in-Chief (EiC) and Academic Head** of ***Modern Pharmacy Praxis and Therapeutics* (MPPT Journal)** (ISSN application in process with CSIR-NIScPR, New Delhi).
 
-Having closely observed your scientific acumen, academic dedication, and vision for contemporary pharmaceutical sciences, we are confident that your leadership will establish MPPT as a high-impact, peer-reviewed, open-access scholarly platform adhering to international publishing benchmarks (COPE & ICMJE).
+Having closely observed your scientific acumen, academic dedication, and vision for contemporary pharmaceutical sciences, we are confident that your leadership will establish MPPT Journal as a high-impact, peer-reviewed, open-access scholarly platform adhering to international publishing benchmarks (COPE & ICMJE).
 
 ---
 

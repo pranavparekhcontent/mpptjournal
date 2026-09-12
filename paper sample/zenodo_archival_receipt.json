@@ -13,7 +13,7 @@
       "upload_type": "publication",
       "publication_type": "article",
       "publication_date": "2026-08-15",
-      "description": "<p><strong>Abstract:</strong> Conventional ATP-competitive kinase inhibitors frequently suffer from off-target toxicities and drug resistance conferred by conserved active-site gatekeeper mutations. Here, we report DeepKinase-Gen, an end-to-end multi-task generative transformer coupled with physics-based active learning molecular dynamics. Prioritized lead MPPT-K07 demonstrated nanomolar allosteric potency (IC50 = 3.8 ± 0.4 nM) against CDK4/6 with >420-fold selectivity and mediated an 84% reduction in tumor volume with zero systemic toxicity.</p><p><strong>Journal:</strong> <em>Modern Pharmacy Praxis &amp; Therapeutics (MPPT)</em>, Vol. 1, Issue 1, pp. 1-4. Official Open Access Publication.</p>",
+      "description": "<p><strong>Abstract:</strong> Conventional ATP-competitive kinase inhibitors frequently suffer from off-target toxicities and drug resistance conferred by conserved active-site gatekeeper mutations. Here, we report DeepKinase-Gen, an end-to-end multi-task generative transformer coupled with physics-based active learning molecular dynamics. Prioritized lead MPPT-K07 demonstrated nanomolar allosteric potency (IC50 = 3.8 ± 0.4 nM) against CDK4/6 with >420-fold selectivity and mediated an 84% reduction in tumor volume with zero systemic toxicity.</p><p><strong>Journal:</strong> <em>Modern Pharmacy Praxis &amp; Therapeutics (MPPT Journal)</em>, Vol. 1, Issue 1, pp. 1-4. Official Open Access Publication.</p>",
       "creators": [
         {
           "name": "Sharma, Aarav",
@@ -27,7 +27,7 @@
         },
         {
           "name": "Neharkar, Vishnu",
-          "affiliation": "Department of Pharmaceutical Regulatory Science, MPPT Foundation, Pune, India",
+          "affiliation": "Department of Pharmaceutical Regulatory Science, MPPT Journal Foundation, Pune, India",
           "orcid": "0009-0007-3129-8451"
         },
         {

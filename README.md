@@ -5,7 +5,7 @@
 [![Peer Review](https://img.shields.io/badge/Peer_Review-Double_Blind-0e1210?style=flat-square)](https://mpptjournal.com/#protocol)
 [![APC](https://img.shields.io/badge/APC-100%25_Free_Waiver_(Vol_1)-2e7d32?style=flat-square)](https://mpptjournal.com/#submit)
 
-Official production repository for **Modern Pharmacy Praxis & Therapeutics (MPPT)**, an international, open-access, double-blind peer-reviewed quarterly journal dedicated to advancing pharmaceutical sciences, drug delivery systems, clinical pharmacy, and therapeutics.
+Official production repository for **Modern Pharmacy Praxis & Therapeutics (MPPT Journal)**, an international, open-access, double-blind peer-reviewed quarterly journal dedicated to advancing pharmaceutical sciences, drug delivery systems, clinical pharmacy, and therapeutics.
 
 🌐 **Production Website:** [https://mpptjournal.com](https://mpptjournal.com)  
 ⚡ **Pages CDN:** [https://mpptjournal.pages.dev](https://mpptjournal.pages.dev)  
@@ -32,7 +32,7 @@ mpptjournal/
 ├── track.html              # Live manuscript tracking timeline & rebuttal portal
 ├── intro video.mp4         # Official journal prologue cinematic video
 ├── logo/
-│   └── logo.png            # Official MPPT gold & burgundy academic crest/seal
+│   └── logo.png            # Official MPPT Journal gold & burgundy academic crest/seal
 ├── paper sample/           # Publication-quality sample paper (HTML, PDF, PNG previews)
 ├── email_templates/        # Editorial & reviewer formal invitation templates
 ├── .gitignore              # Repository hygiene & exclusion rules
@@ -50,5 +50,5 @@ This site is automatically deployed via **Cloudflare Pages** upon every commit t
 
 ---
 
-&copy; 2026 Modern Pharmacy Praxis & Therapeutics (MPPT). All articles licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+&copy; 2026 Modern Pharmacy Praxis & Therapeutics (MPPT Journal). All articles licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
