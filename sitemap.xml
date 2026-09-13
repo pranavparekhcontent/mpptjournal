@@ -6,7 +6,7 @@
   <!-- Main Production Journal Portal -->
   <url>
     <loc>https://mpptjournal.com/</loc>
-    <lastmod>2026-09-12</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -15,100 +15,28 @@
     </image:image>
   </url>
 
-  <!-- Manuscript Submission & Intake Portal -->
-  <url>
-    <loc>https://mpptjournal.com/#submit</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
   <!-- Live Author Tracking Timeline -->
   <url>
     <loc>https://mpptjournal.com/track</loc>
-    <lastmod>2026-09-12</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
-  </url>
-
-  <!-- Author Guidelines & Formatting Specifications -->
-  <url>
-    <loc>https://mpptjournal.com/#guidelines</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Editorial Board & Governance -->
-  <url>
-    <loc>https://mpptjournal.com/#editorial-board</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Aims & Scope -->
-  <url>
-    <loc>https://mpptjournal.com/#aims-scope</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Publication Ethics & COPE Malpractice Policies -->
-  <url>
-    <loc>https://mpptjournal.com/#ethics</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Volume 1 Archive & Call for Papers -->
-  <url>
-    <loc>https://mpptjournal.com/#archive</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Sample Research Paper (HTML Publication Layout) -->
-  <url>
-    <loc>https://mpptjournal.com/paper%20sample/mppt_sample_paper</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Sample Research Paper (PDF Fulltext) -->
-  <url>
-    <loc>https://mpptjournal.com/paper%20sample/MPPT_Vol1_Issue1_Sample_Paper.pdf</loc>
-    <lastmod>2026-09-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
   </url>
 
   <!-- Official Academic Certificate Portal -->
   <url>
     <loc>https://mpptjournal.com/certificate</loc>
-    <lastmod>2026-09-13</lastmod>
+    <lastmod>2026-09-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
-  <!-- Global Indexing & Repositories Portal -->
-  <url>
-    <loc>https://mpptjournal.com/#indexing</loc>
-    <lastmod>2026-09-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- OAI-PMH 2.0 Machine-Readable Metadata Feed -->
+  <!-- OAI-PMH 2.0 Metadata Feed -->
   <url>
     <loc>https://mpptjournal.com/oai-pmh.xml</loc>
-    <lastmod>2026-09-13</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
 
 </urlset>

@@ -1,9 +1,9 @@
 {
   "paperId": "MPPT-2026-V1I1-0001",
   "archivedAt": "2026-09-12T19:14:03.862Z",
-  "status": "DEPOSITED_AND_VERIFIED",
-  "zenodo_doi": "10.5281/zenodo.11478902",
-  "zenodo_record_url": "https://zenodo.org/records/11478902",
+  "status": "PENDING_REDEPOSIT",
+  "zenodo_doi": "Pending Deposition",
+  "zenodo_record_url": "https://zenodo.org/communities/mppt-journal",
   "repository": "Zenodo / CERN Open Science European Data Infrastructure",
   "data_centre": "Geneva, Switzerland",
   "license": "CC-BY-4.0",

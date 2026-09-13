@@ -36,11 +36,11 @@ const ZENODO_ARCHIVE_CACHE = new Map([
     'MPPT-2026-V1I1-0001',
     {
       paperId: 'MPPT-2026-V1I1-0001',
-      status: 'VERIFIED_PERMANENT_DEPOSITION',
-      zenodo_doi: '10.5281/zenodo.11478902',
-      zenodo_record_id: '11478902',
-      zenodo_url: 'https://zenodo.org/records/11478902',
-      datacite_doi_url: 'https://doi.org/10.5281/zenodo.11478902',
+      status: 'ARCHIVAL_QUEUE',
+      zenodo_doi: 'Pending Deposition',
+      zenodo_record_id: 'PENDING',
+      zenodo_url: 'https://zenodo.org/communities/mppt-journal',
+      datacite_doi_url: 'Pending Deposition',
       repository: 'Zenodo / CERN Data Centre, Geneva, Switzerland',
       data_centre: 'Meyrin/Geneva, Switzerland (CERN Tier 0)',
       license: 'Creative Commons Attribution 4.0 International (CC BY 4.0)',
@@ -192,8 +192,8 @@ export default {
 
         // Live Zenodo API integration check
         const zenodoToken = env.ZENODO_API_TOKEN;
-        let zenodoRecordId = '11478902';
-        let zenodoDoi = '10.5281/zenodo.11478902';
+        let zenodoRecordId = 'PENDING';
+        let zenodoDoi = 'Pending Deposition';
 
         if (zenodoToken) {
           // If token configured, trigger live CERN deposition
@@ -332,7 +332,7 @@ export default {
           STAGE_5_PUBLISHED: {
             subject: `[MPPT Journal] Published & Archived: ${paperId}`,
             title: 'Your Research is Officially Published & Archived in CERN/Zenodo',
-            desc: 'Permanent Zenodo DOI 10.5281/zenodo.11478902 active. Certificate of publication available for download.'
+            desc: 'Zenodo archival record prepared. Certificate of publication available for download.'
           }
         };
 

@@ -43,8 +43,8 @@ const PAPER_DATABASE = {
     ],
     abstract: 'Conventional ATP-competitive kinase inhibitors frequently suffer from off-target toxicities and drug resistance conferred by conserved active-site gatekeeper mutations. Here, we report DeepKinase-Gen, an end-to-end multi-task generative transformer coupled with physics-based active learning molecular dynamics. Prioritized lead MPPT-K07 demonstrated nanomolar allosteric potency (IC50 = 3.8 ± 0.4 nM) against CDK4/6 with >420-fold selectivity and mediated an 84% reduction in tumor volume with zero systemic toxicity.',
     canonical_url: 'https://mpptjournal.com/paper%20sample/mppt_sample_paper',
-    zenodo_record_id: '11478902',
-    zenodo_doi: '10.5281/zenodo.11478902'
+    zenodo_record_id: null,
+    zenodo_doi: null
   }
 };
 

@@ -27,7 +27,6 @@
 <meta name="citation_journal_title" content="Modern Pharmacy Praxis and Therapeutics">
 <meta name="citation_journal_abbrev" content="Mod Pharm Praxis Ther">
 <meta name="citation_publisher" content="Modern Pharmacy Praxis & Therapeutics">
-<meta name="citation_issn" content="Pending (CSIR-NIScPR)">
 <meta name="citation_language" content="en">
 
 <meta name="theme-color" content="#f6f1e7" media="(prefers-color-scheme: light)">
@@ -173,16 +172,17 @@ main{position:relative;z-index:10;background:var(--paper)}
 .partner-ribbon-bar{width:100%;background:var(--paper2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0 16px;position:relative;overflow:hidden;margin:18px 0 36px}
 .ribbon-subhead{display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,56px);margin-bottom:12px;font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--mut)}
 .ribbon-beacon{display:inline-flex;align-items:center;gap:8px;font-weight:600;color:var(--ink)}
-.beacon-dot{width:7px;height:7px;border-radius:50%;background:#16a34a;box-shadow:0 0 0 0 rgba(22,163,74,.7);animation:beaconPulse 2s infinite cubic-bezier(.4,0,.6,1)}
-@keyframes beaconPulse{0%{transform:scale(.95);box-shadow:0 0 0 0 rgba(22,163,74,.7)}70%{transform:scale(1);box-shadow:0 0 0 6px rgba(22,163,74,0)}100%{transform:scale(.95);box-shadow:0 0 0 0 rgba(22,163,74,0)}}
+.beacon-dot{width:7px;height:7px;border-radius:50%;background:#d97706;box-shadow:0 0 0 0 rgba(217,119,6,.7);animation:beaconPulse 2s infinite cubic-bezier(.4,0,.6,1)}
+@keyframes beaconPulse{0%{transform:scale(.95);box-shadow:0 0 0 0 rgba(217,119,6,.7)}70%{transform:scale(1);box-shadow:0 0 0 6px rgba(217,119,6,0)}100%{transform:scale(.95);box-shadow:0 0 0 0 rgba(217,119,6,0)}}
 .ribbon-tip{color:var(--dim);font-size:9px;letter-spacing:.14em}
 @media(max-width:640px){.ribbon-tip{display:none}}
 .partner-ribbon{overflow:hidden;position:relative;width:100%;mask-image:linear-gradient(to right,transparent 0%,black 5%,black 95%,transparent 100%);-webkit-mask-image:linear-gradient(to right,transparent 0%,black 5%,black 95%,transparent 100%)}
 .partner-track{display:flex;gap:14px;width:max-content;animation:partnerScroll 36s linear infinite;will-change:transform}
 .partner-ribbon-bar:hover .partner-track{animation-play-state:paused}
 @keyframes partnerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.partner-card{display:inline-flex;align-items:center;gap:12px;background:#ffffff;border:1px solid var(--line);padding:10px 16px;border-radius:3px;text-decoration:none;color:var(--ink);white-space:nowrap;transition:transform .22s cubic-bezier(.2,.8,.2,1),border-color .22s ease,box-shadow .22s ease,background .22s ease;cursor:pointer;user-select:none;box-shadow:0 2px 5px rgba(28,24,18,.03)}
-.partner-card:hover{transform:translateY(-2px);border-color:var(--gold);box-shadow:0 6px 18px rgba(184,134,11,.14);background:#fffdfa}
+.partner-card{display:inline-flex;align-items:center;gap:12px;background:#ffffff;border:1px solid var(--line);padding:10px 16px;border-radius:3px;text-decoration:none;color:var(--ink);white-space:nowrap;user-select:none;box-shadow:0 2px 5px rgba(28,24,18,.03);position:relative;overflow:hidden;cursor:default}
+.partner-card-icon,.partner-card-meta{filter:blur(5.5px);opacity:0.35;user-select:none;pointer-events:none;transition:filter .3s ease}
+.partner-card::after{content:'⏳ Coming Soon';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#92400e;background:rgba(254,243,199,.78);backdrop-filter:blur(1.5px);-webkit-backdrop-filter:blur(1.5px);border:1px solid #fde68a;border-radius:3px;box-shadow:inset 0 0 0 1px rgba(217,119,6,.15);z-index:5;pointer-events:none}
 .partner-card-icon{width:26px;height:26px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .partner-card-icon svg{width:100%;height:100%;display:block}
 .partner-card-meta{display:flex;flex-direction:column}
@@ -190,6 +190,15 @@ main{position:relative;z-index:10;background:var(--paper)}
 .partner-card-sub{font-family:var(--mono);font-size:9px;letter-spacing:.07em;color:var(--mut);margin-top:2px;display:flex;align-items:center;gap:5px}
 .partner-card-badge{color:#166534;font-weight:600}
 @media(max-width:640px){.partner-card{padding:8px 12px;gap:9px}.partner-card-icon{width:22px;height:22px}.partner-card-title{font-size:13px}.partner-card-sub{font-size:8.5px}}
+
+/* Indexing 4 Pillars Coming Soon Styling */
+.index-card{position:relative;overflow:hidden;background:var(--paper);border:1px solid var(--line);padding:22px;border-radius:2px}
+.index-card-blurred{filter:blur(5.5px);opacity:0.32;user-select:none;pointer-events:none}
+.index-card-cs-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(255,255,255,.68);backdrop-filter:blur(2px);padding:20px;text-align:center;z-index:4}
+.index-card-cs-pill{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#92400e;background:#fef3c7;border:1px solid #fde68a;padding:5px 14px;border-radius:999px;box-shadow:0 2px 8px rgba(180,83,9,.12);margin-bottom:8px;display:inline-flex;align-items:center;gap:6px}
+.index-card-cs-pill::before{content:'';width:6px;height:6px;border-radius:50%;background:#d97706;display:inline-block}
+.index-card-cs-title{font-family:var(--serif);font-size:16px;font-weight:600;color:var(--ink);margin-bottom:4px;line-height:1.2}
+.index-card-cs-sub{font-family:var(--sans);font-size:11.5px;color:var(--mut);line-height:1.45;max-width:210px;margin:0}
 
 /* generic section */
 .section{padding:clamp(80px,12vh,140px) 0;position:relative}
@@ -690,7 +699,7 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
 </header>
 
 <div class="ticker" aria-hidden="true">
-  <div class="track" id="mqtrack"><span>₹0 / $0 <b>APC — Volume 1</b></span><span>14–21 Day <b>First Decision</b></span><span>CERN Zenodo <b>Archival &amp; DOI</b></span><span>Google Scholar <b>Discovery</b></span><span>COPE <b>Member Guidelines</b></span><span>UGC Mandate &amp; UNIR <b>Benchmarked</b></span><span>CSIR-NIScPR <b>Registry</b></span><span>Vancouver <b>Citations</b></span><span>CC-BY 4.0 <b>Open Access</b></span><span>OAI-PMH 2.0 <b>Endpoint</b></span></div>
+  <div class="track" id="mqtrack"><span>₹0 / $0 <b>APC — Volume 1</b></span><span>14–21 Day <b>First Decision</b></span><span>CERN Zenodo <b>Repository Queue</b></span><span>Scholarly Indexing <b>Coming Soon</b></span><span>COPE <b>Ethical Guidelines</b></span><span>UGC-CARE <b>Benchmarked Standards</b></span><span>CSIR-NIScPR <b>Application Queue</b></span><span>Vancouver <b>Citations</b></span><span>CC-BY 4.0 <b>Open Access</b></span><span>OAI-PMH 2.0 <b>Metadata Feed</b></span></div>
 </div>
 <!-- EDITOR LETTER -->
 <section class="section" id="letter">
@@ -882,16 +891,27 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
       <div class="kicker">Global Recognition &amp; Archival</div>
       <h2 class="big">Indexing, <em>discovery &amp; preservation.</em></h2>
       <p style="color:var(--mut);font-size:clamp(14px,1vw,16px);line-height:1.6;margin-top:10px;max-width:820px">
-        Modern Pharmacy Praxis &amp; Therapeutics adheres strictly to international open-science indexing protocols. All published manuscripts undergo automated metadata deposition, permanent dark-archive replication (CERN/Zenodo), and worldwide discovery through leading scholarly search engines.
+        Modern Pharmacy Praxis &amp; Therapeutics adheres strictly to international open-science indexing protocols. In accordance with statutory indexing standards, formal applications to global registries are submitted post-Volume 1 publication.
       </p>
+
+      <!-- Prominent Coming Soon Indexing Notice -->
+      <div style="background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #d97706;padding:14px 18px;border-radius:2px;margin:22px 0 10px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <div style="width:10px;height:10px;border-radius:50%;background:#d97706;box-shadow:0 0 0 3px rgba(217,119,6,0.2);flex-shrink:0"></div>
+        <div style="flex:1">
+          <span style="font-family:var(--mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#92400e;font-weight:700">Official Indexing Registry Applications &middot; Coming Soon</span>
+          <p style="font-size:13px;color:#78350f;margin:3px 0 0;line-height:1.45">
+            Formal applications across international indexing databases (Google Scholar, CERN Zenodo, DOAJ, CSIR-NIScPR, and partner citation repositories) are actively queued following Volume 1 release. Verified live links and persistent identifiers will be activated upon registry approval.
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Full-Bleed Scrolling Partner Ribbon -->
   <div class="partner-ribbon-bar" data-reveal>
     <div class="ribbon-subhead">
-      <span class="ribbon-beacon"><span class="beacon-dot"></span>Live Archival &amp; Indexing Network</span>
-      <span class="ribbon-tip">Hover card to pause · Click to inspect pillar</span>
+      <span class="ribbon-beacon"><span class="beacon-dot" style="background:#d97706;box-shadow:0 0 0 0 rgba(217,119,6,0.7)"></span>Global Indexing &amp; Archival Network &middot; Applications in Process (Coming Soon)</span>
+      <span class="ribbon-tip">Registry Ingestion Queue &middot; Volume 1 Rollout</span>
     </div>
     <div class="partner-ribbon" id="partnerRibbon">
       <div class="partner-track" id="partnerTrack">
@@ -1103,106 +1123,134 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
       
       <!-- Pillar 1: Citations & AI Search -->
       <div class="index-card" id="pillar-discovery" data-reveal="rise" style="background:var(--paper);border:1px solid var(--line);padding:22px;border-radius:2px;border-top:3px solid var(--acc)">
-        <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);margin-bottom:6px;font-weight:600">Pillar 01 · Global Discovery</div>
-        <h3 style="font-family:var(--serif);font-size:19px;margin-bottom:12px;color:var(--ink)">Citations &amp; Academic Search</h3>
-        <ul style="list-style:none;font-size:12.5px;color:var(--mut);line-height:1.75">
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>Google Scholar</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● Active Crawler</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>OpenAlex Global Graph</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● Auto-Ingested</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>Semantic Scholar (AI)</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● Live Ingestion</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>BASE (Bielefeld, Germany)</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● OAI-PMH Harvest</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>CORE (Jisc, UK)</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● Open Access</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;padding:4px 0">
-            <strong>Scilit (MDPI Database)</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● Auto-Indexed</span>
-          </li>
-        </ul>
+        <div class="index-card-blurred">
+          <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--acc);margin-bottom:6px;font-weight:600">Pillar 01 · Global Discovery</div>
+          <h3 style="font-family:var(--serif);font-size:19px;margin-bottom:12px;color:var(--ink)">Citations &amp; Academic Search</h3>
+          <ul style="list-style:none;font-size:12.5px;color:var(--mut);line-height:1.75">
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>Google Scholar</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● In Process</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>OpenAlex Global Graph</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Target Index</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>Semantic Scholar (AI)</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Application Track</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>BASE (Bielefeld, Germany)</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Harvest Queue</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>CORE (Jisc, UK)</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Application Track</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;padding:4px 0">
+              <strong>Scilit (MDPI Database)</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Auto-Index Queue</span>
+            </li>
+          </ul>
+        </div>
+        <div class="index-card-cs-overlay">
+          <span class="index-card-cs-pill">⏳ Coming Soon</span>
+          <div class="index-card-cs-title">Global Discovery</div>
+          <p class="index-card-cs-sub">Scholar &amp; AI discovery applications in active queue for Volume 1</p>
+        </div>
       </div>
 
       <!-- Pillar 2: Permanent European & Global Repositories -->
       <div class="index-card" id="pillar-archival" data-reveal="rise" style="--d:.08s;background:var(--paper);border:1px solid var(--line);padding:22px;border-radius:2px;border-top:3px solid var(--gold)">
-        <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:600">Pillar 02 · Permanent Archival</div>
-        <h3 style="font-family:var(--serif);font-size:19px;margin-bottom:12px;color:var(--ink)">CERN &amp; Global Repositories</h3>
-        <ul style="list-style:none;font-size:12.5px;color:var(--mut);line-height:1.75">
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>Zenodo (CERN Data Centre)</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● Permanent DOI</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>DataCite Metadata 4.4</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● Standard Schema</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>Internet Archive Scholar</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● Dark Archive</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>Fatcat! Open Catalog</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● Fulltext Mirrored</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>OpenAIRE (European Commission)</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● Verified EU Hub</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;padding:4px 0">
-            <strong>OSF (Open Science Framework)</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● Persistent Backup</span>
-          </li>
-        </ul>
+        <div class="index-card-blurred">
+          <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:600">Pillar 02 · Permanent Archival</div>
+          <h3 style="font-family:var(--serif);font-size:19px;margin-bottom:12px;color:var(--ink)">CERN &amp; Global Repositories</h3>
+          <ul style="list-style:none;font-size:12.5px;color:var(--mut);line-height:1.75">
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>Zenodo (CERN Data Centre)</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Deposit Queue</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>DataCite Metadata 4.4</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Schema Compliant</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>Internet Archive Scholar</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Mirror Target</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>Fatcat! Open Catalog</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Ingestion Queue</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>OpenAIRE (European Commission)</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● EU Hub Track</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;padding:4px 0">
+              <strong>OSF (Open Science Framework)</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Backup Queue</span>
+            </li>
+          </ul>
+        </div>
+        <div class="index-card-cs-overlay">
+          <span class="index-card-cs-pill">⏳ Coming Soon</span>
+          <div class="index-card-cs-title">Permanent Archival</div>
+          <p class="index-card-cs-sub">CERN Zenodo &amp; DataCite repository integration post-Volume 1</p>
+        </div>
       </div>
 
       <!-- Pillar 3: Statutory, National & Library Registries -->
       <div class="index-card" id="pillar-registries" data-reveal="rise" style="--d:.16s;background:var(--paper);border:1px solid var(--line);padding:22px;border-radius:2px;border-top:3px solid #2e7d32">
-        <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#2e7d32;margin-bottom:6px;font-weight:600">Pillar 03 · Statutory &amp; Libraries</div>
-        <h3 style="font-family:var(--serif);font-size:19px;margin-bottom:12px;color:var(--ink)">National &amp; Library Registries</h3>
-        <ul style="list-style:none;font-size:12.5px;color:var(--mut);line-height:1.75">
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>CSIR-NIScPR (ISA Registry)</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● National Portal</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>UGC Mandate &amp; UNIR</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● Compliant Standard</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>ROAD (UNESCO / ISSN)</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● Open Directory</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>WorldCat (OCLC)</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● 10k+ Libraries</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>ISSN International Centre</strong> <span style="color:#a8874f;font-family:var(--mono);font-size:10px">● Application Track</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;padding:4px 0">
-            <strong>ORCID Interoperability</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● Author ID Link</span>
-          </li>
-        </ul>
+        <div class="index-card-blurred">
+          <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#2e7d32;margin-bottom:6px;font-weight:600">Pillar 03 · Statutory &amp; Libraries</div>
+          <h3 style="font-family:var(--serif);font-size:19px;margin-bottom:12px;color:var(--ink)">National &amp; Library Registries</h3>
+          <ul style="list-style:none;font-size:12.5px;color:var(--mut);line-height:1.75">
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>CSIR-NIScPR (ISA Registry)</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Application Queue</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>UGC-CARE Benchmarked</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Aligned Criteria</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>ROAD (UNESCO / ISSN)</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Post-ISSN Queue</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>WorldCat (OCLC)</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Library Network Target</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>ISSN International Centre</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Application Track</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;padding:4px 0">
+              <strong>ORCID Interoperability</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Author Metadata</span>
+            </li>
+          </ul>
+        </div>
+        <div class="index-card-cs-overlay">
+          <span class="index-card-cs-pill">⏳ Coming Soon</span>
+          <div class="index-card-cs-title">Statutory Registries</div>
+          <p class="index-card-cs-sub">ISSN, CSIR-NIScPR, and library union filings in process</p>
+        </div>
       </div>
 
       <!-- Pillar 4: Quality Evaluation & Open Access Bodies -->
       <div class="index-card" id="pillar-quality" data-reveal="rise" style="--d:.24s;background:var(--paper);border:1px solid var(--line);padding:22px;border-radius:2px;border-top:3px solid var(--ink)">
-        <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:6px;font-weight:600">Pillar 04 · Quality Standards</div>
-        <h3 style="font-family:var(--serif);font-size:19px;margin-bottom:12px;color:var(--ink)">Evaluation &amp; Open Access</h3>
-        <ul style="list-style:none;font-size:12.5px;color:var(--mut);line-height:1.75">
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>DOAJ (Seal Criteria)</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● 100% Compliant</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>Index Copernicus (ICI)</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● Registered Track</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>SHERPA/RoMEO (Jisc)</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● Green Open Access</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>J-Gate Higher Education</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● E-Journal Portal</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
-            <strong>CASSI (Chemical Abstracts)</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● Pharmacy Scope</span>
-          </li>
-          <li style="display:flex;justify-content:space-between;padding:4px 0">
-            <strong>ScienceOpen Network</strong> <span style="color:#166534;font-family:var(--mono);font-size:10px">● Context Collection</span>
-          </li>
-        </ul>
+        <div class="index-card-blurred">
+          <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:6px;font-weight:600">Pillar 04 · Quality Standards</div>
+          <h3 style="font-family:var(--serif);font-size:19px;margin-bottom:12px;color:var(--ink)">Evaluation &amp; Open Access</h3>
+          <ul style="list-style:none;font-size:12.5px;color:var(--mut);line-height:1.75">
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>DOAJ (Seal Criteria)</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Standards Aligned</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>Index Copernicus (ICI)</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Application Track</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>SHERPA/RoMEO (Jisc)</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Policy Filing Track</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>J-Gate Higher Education</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● E-Journal Portal</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:4px 0">
+              <strong>CASSI (Chemical Abstracts)</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Scope Indexed</span>
+            </li>
+            <li style="display:flex;justify-content:space-between;padding:4px 0">
+              <strong>ScienceOpen Network</strong> <span style="color:#b45309;font-family:var(--mono);font-size:10px">● Collection Track</span>
+            </li>
+          </ul>
+        </div>
+        <div class="index-card-cs-overlay">
+          <span class="index-card-cs-pill">⏳ Coming Soon</span>
+          <div class="index-card-cs-title">Quality Standards</div>
+          <p class="index-card-cs-sub">DOAJ, SHERPA/RoMEO, and evaluation filings in progress</p>
+        </div>
       </div>
 
     </div>
@@ -1211,17 +1259,17 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
     <div class="harvest-banner" data-reveal style="background:var(--paper);border:1px solid var(--line);padding:18px 24px;border-radius:2px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap">
       <div>
         <div style="font-family:var(--serif);font-size:18px;font-weight:600;color:var(--ink);margin-bottom:3px">Institutional Metadata Harvesters &amp; Repository Librarians</div>
-        <p style="font-size:12.5px;color:var(--mut);margin:0">Automated OAI-PMH 2.0 XML metadata endpoint ready for academic spiders, university repositories, and national union catalogs.</p>
+        <p style="font-size:12.5px;color:var(--mut);margin:0">Automated OAI-PMH 2.0 metadata feed and CERN Zenodo repository integration will be activated upon publication of Volume 1.</p>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <a href="/oai-pmh.xml" target="_blank" class="btn" style="background:#fff;border-color:var(--hair);font-size:10.5px">
+        <span class="btn" style="background:var(--paper-box);border:1px solid var(--line);font-size:10.5px;color:var(--mut);cursor:default">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
-          OAI-PMH 2.0 Feed
-        </a>
-        <a href="https://doi.org/10.5281/zenodo.11478902" target="_blank" rel="noopener" class="btn filled" style="font-size:10.5px">
+          OAI-PMH 2.0 Feed &middot; Coming Soon
+        </span>
+        <span class="btn" style="background:var(--paper-box);border:1px solid var(--line);font-size:10.5px;color:var(--mut);cursor:default">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          CERN Zenodo Archive &rarr;
-        </a>
+          CERN Zenodo Archive &middot; Coming Soon
+        </span>
       </div>
     </div>
   </div>
@@ -1240,7 +1288,6 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
         <button type="button" class="fh" id="btn-guidelines" title="View Author Guidelines, Manuscript Preparation &amp; Vancouver Style">Authors Guidelines</button>
         <button type="button" class="fh" id="btn-ethics" title="View Publication Ethics &amp; COPE Compliance Policy">Ethics</button>
         <button type="button" class="fh" id="btn-copyright" title="View CC-BY 4.0 Copyright &amp; Author Declaration Form">Copyright Form</button>
-        <button type="button" class="fh" id="btn-sample" title="Preview Sample Paper Layout &amp; Download Template">Sample Paper</button>
       </div>
 
       <!-- ── MASTER FILE UPLOAD ZONE ── -->
@@ -1298,7 +1345,7 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
         <div class="field"><label for="p-name">Corresponding Author Name *</label><input id="p-name" required placeholder="Dr. Jane Doe" autocomplete="name"></div>
         <div class="field"><label for="p-mail">Institutional Email *</label><input id="p-mail" type="email" required placeholder="jane@university.edu" autocomplete="email"></div>
         <div class="field"><label for="p-aff">Affiliation / Department / University *</label><input id="p-aff" required placeholder="Dept. of Pharmacology, …" autocomplete="organization"></div>
-        <div class="field"><label for="p-orcid">ORCID iD (optional)</label><input id="p-orcid" placeholder="0000-0002-1825-0097" autocomplete="off" pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]"></div>
+        <div class="field"><label for="p-orcid">ORCID iD (optional)</label><input id="p-orcid" placeholder="0000-0002-1234-5678" autocomplete="off" pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]"></div>
         <div class="field full"><label for="p-cat">Manuscript Category *</label>
           <div class="custom-select-wrap" id="catSelectWrap">
             <select id="p-cat" tabindex="-1" aria-hidden="true" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none">
@@ -1560,71 +1607,12 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
 
         <div class="copyright-box" id="printableCopyrightBox">
           <h4>Official Author Warranty &amp; Publication Agreement</h4>
-          <p><strong>Journal:</strong> Modern Pharmacy Praxis &amp; Therapeutics (MPPT Journal) &middot; ISSN Online: 3048-xxxx</p>
+          <p><strong>Journal:</strong> Modern Pharmacy Praxis &amp; Therapeutics (MPPT Journal) &middot; ISSN: Application in Process (CSIR-NIScPR)</p>
           <p><strong>Declaration:</strong> I/We warrant that this manuscript is original, has not been published elsewhere, does not infringe upon any third-party copyright, and that all co-authors have consented to its submission and open-access publication under CC BY 4.0.</p>
           <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:20px;font-family:var(--mono);font-size:11px">
             <div>Corresponding Author: <span class="sig-line"></span></div>
             <div>Date: <span class="sig-line" style="width:120px"></span></div>
             <div>Institutional Signature: <span class="sig-line"></span></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4. SAMPLE PAPER PANE -->
-      <div id="pane-sample" class="doc-modal-pane">
-        <h3>Official MPPT Journal Manuscript Layout &amp; Typography Template</h3>
-        <p>Authors are encouraged to prepare their submissions using the standardized structural layout demonstrated below. Submissions must be formatted in single or double-column, 1.5 line spacing, 12pt serif font (Times New Roman / Georgia) with 1-inch margins.</p>
-
-        <div class="sample-paper-box">
-          <div class="sample-paper-header">
-            <span>MODERN PHARMACY PRAXIS &amp; THERAPEUTICS &middot; VOL. 1 (2026)</span>
-            <span style="color:var(--acc);font-weight:600">RESEARCH ARTICLE &middot; OPEN ACCESS</span>
-          </div>
-
-          <h2 class="sample-paper-title">Formulation and Optimization of Targeted Polymeric Nanoparticles for Sustained Therapeutic Delivery: Physicochemical Characterization and Pharmacokinetics</h2>
-
-          <div class="sample-paper-authors">
-            Aarav Sharma<sup>1</sup>, Priya V. Patel<sup>2*</sup>, David M. Thorne<sup>3</sup>
-          </div>
-
-          <div class="sample-paper-affil">
-            <sup>1</sup> Department of Pharmaceutics, University College of Pharmaceutical Sciences, New Delhi, India<br>
-            <sup>2</sup> Department of Pharmacology, Faculty of Pharmacy, King’s College London, London, UK<br>
-            <sup>3</sup> Center for Nanomedicine &amp; Drug Delivery, Johns Hopkins University, Baltimore, USA<br>
-            * Corresponding Author: <span style="font-family:var(--mono);color:var(--ink)">p.patel@kcl.ac.uk</span>
-          </div>
-
-          <div class="sample-paper-abstract">
-            <strong>ABSTRACT &middot; Max 250 Words</strong><br>
-            <strong>Background:</strong> Poor oral bioavailability and rapid systemic clearance constrain the therapeutic efficacy of hydrophobic bioactives in chronic neuroinflammatory disorders.<br>
-            <strong>Methods:</strong> PLGA-PEG nanoparticles were formulated via solvent displacement and optimized using Box-Behnken design. Mean hydrodynamic diameter, zeta potential, entrapment efficiency, and in vivo pharmacokinetics in Sprague-Dawley rats were evaluated.<br>
-            <strong>Results:</strong> Nanoparticles exhibited mean diameter of 138.4 &plusmn; 4.2 nm (PDI 0.11), entrapment efficiency of 89.6 &plusmn; 2.1%, and sustained release over 72 h. Oral bioavailability increased 6.8-fold compared to unformulated suspension (<em>p</em> &lt; 0.001).<br>
-            <strong>Conclusion:</strong> The formulated polymeric nanocarrier provides a clinically translatable platform for oral sustained drug delivery.
-          </div>
-
-          <div style="font-family:var(--mono);font-size:11px;color:var(--mut);margin-bottom:14px">
-            <strong>KEYWORDS:</strong> Polymeric nanoparticles; Bioavailability; Drug delivery; Pharmacokinetics; Vancouver style
-          </div>
-
-          <div class="sample-paper-cols">
-            <div>
-              <h4 style="font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--ink);margin:0 0 6px;text-transform:uppercase">1. Introduction</h4>
-              <p>Translational therapeutics increasingly demands delivery vectors capable of surmounting physiological barriers without precipitating systemic toxicity [1]. Conventional formulations frequently succumb to first-pass metabolism, precipitating sub-therapeutic serum titers.</p>
-              
-              <h4 style="font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--ink);margin:12px 0 6px;text-transform:uppercase">2. Materials &amp; Methods</h4>
-              <p>PLGA (50:50 lactide:glycolide, MW 45,000) and PEG-3000 were sourced from Sigma-Aldrich. Nanoparticles were assembled via nanoprecipitation under constant stirring (800 rpm) at 25&deg;C. Particle sizing was performed via Dynamic Light Scattering (Malvern Zetasizer Nano ZS) [2].</p>
-            </div>
-            <div>
-              <h4 style="font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--ink);margin:0 0 6px;text-transform:uppercase">3. Results &amp; Discussion</h4>
-              <p>Formulation optimization demonstrated unimodal size distributions with high colloidal stability over 90 days at 4&deg;C. In vivo plasma concentration-time profiles demonstrated significantly enhanced AUC<sub>0-&infin;</sub> (<em>p</em> &lt; 0.01) [3].</p>
-
-              <h4 style="font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--ink);margin:12px 0 6px;text-transform:uppercase">4. References (Vancouver)</h4>
-              <ol style="margin:4px 0 0 16px;padding:0;font-size:11px;line-height:1.5">
-                <li>Sharma A, Patel PV. Nanocarriers in drug delivery. <em>J Control Release</em>. 2024;365:102-114.</li>
-                <li>Thorne DM, et al. Colloidal kinetics of PLGA. <em>Mol Pharm</em>. 2025;22(2):312-320.</li>
-                <li>Patel PV. Bioavailability enhancement. <em>Pharm Res</em>. 2025;42:45-53.</li>
-              </ol>
-            </div>
           </div>
         </div>
       </div>
@@ -2751,13 +2739,6 @@ const docModalConfig = {
     meta: 'Authors Retain Full Copyright · Green OA Self-Archiving',
     actionText: 'Print / Save Form',
     action: () => window.print()
-  },
-  sample: {
-    kicker: 'Standard Typesetting Architecture',
-    title: 'Sample Paper Layout & Manuscript Template',
-    meta: 'Times New Roman / Georgia · 1.5 Spacing · Structured Abstract',
-    actionText: 'Download Template (.docx)',
-    action: () => downloadManuscriptTemplate()
   }
 };
 
@@ -2863,16 +2844,14 @@ ol { margin-left: 20pt; }
   setTimeout(() => URL.revokeObjectURL(url), 1500);
 }
 
-// Wire the 4 black blocks
+// Wire the editorial resource buttons
 const btnGuidelines = document.getElementById('btn-guidelines');
 const btnEthics = document.getElementById('btn-ethics');
 const btnCopyright = document.getElementById('btn-copyright');
-const btnSample = document.getElementById('btn-sample');
 
 if (btnGuidelines) btnGuidelines.addEventListener('click', () => openEditorialModal('guidelines'));
 if (btnEthics) btnEthics.addEventListener('click', () => openEditorialModal('ethics'));
 if (btnCopyright) btnCopyright.addEventListener('click', () => openEditorialModal('copyright'));
-if (btnSample) btnSample.addEventListener('click', () => openEditorialModal('sample'));
 
 if (docModalCloseBtn) docModalCloseBtn.addEventListener('click', closeEditorialModal);
 if (docModalCloseBtn2) docModalCloseBtn2.addEventListener('click', closeEditorialModal);

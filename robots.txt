@@ -5,48 +5,69 @@
 User-agent: *
 Allow: /
 Allow: /oai-pmh.xml
-Allow: /paper%20sample/
 Allow: /certificate
 Allow: /track
+Disallow: /paper%20sample/
+Disallow: /paper sample/
+Disallow: /worker/
+Disallow: /.git/
+Disallow: /scripts/
 
 # Dedicated Academic Search & Indexing Engines
 User-agent: Googlebot
 Allow: /
+Disallow: /paper%20sample/
+Disallow: /paper sample/
 
 User-agent: Google-Scholar-Crawler
 Allow: /
+Disallow: /paper%20sample/
+Disallow: /paper sample/
 
 User-agent: SemanticScholarBot
 Allow: /
+Disallow: /paper%20sample/
+Disallow: /paper sample/
 
 User-agent: archive.org_bot
 Allow: /
+Disallow: /paper%20sample/
+Disallow: /paper sample/
 
 User-agent: ia_archiver
 Allow: /
+Disallow: /paper%20sample/
+Disallow: /paper sample/
 
 User-agent: citeseerxbot
 Allow: /
+Disallow: /paper%20sample/
+Disallow: /paper sample/
 
 User-agent: BASE-Search-Crawler
 Allow: /
+Disallow: /paper%20sample/
+Disallow: /paper sample/
 
 User-agent: Bingbot
 Allow: /
+Disallow: /paper%20sample/
+Disallow: /paper sample/
 
 User-agent: Applebot
 Allow: /
+Disallow: /paper%20sample/
+Disallow: /paper sample/
 
 User-agent: Baiduspider
 Allow: /
+Disallow: /paper%20sample/
+Disallow: /paper sample/
 
 User-agent: YandexBot
 Allow: /
-
-# Disallow internal scripts & dev utilities
-Disallow: /worker/
-Disallow: /.git/
-Disallow: /scripts/
+Disallow: /paper%20sample/
+Disallow: /paper sample/
 
 # Machine-Readable Feeds & Sitemap
 Sitemap: https://mpptjournal.com/sitemap.xml
