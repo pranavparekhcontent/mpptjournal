@@ -28,7 +28,7 @@ const PAPER_DATABASE = {
     creators: [
       { name: 'Sharma, Aarav', affiliation: 'Institute of Advanced Pharmaceutical Sciences, Pune, India', orcid: '0000-0002-1825-0097' },
       { name: 'Rostova, Elena', affiliation: 'BioX Innovation Hub, Frankfurt am Main, Germany', orcid: '0000-0001-5234-8902' },
-      { name: 'Neharkar, Vishnu', affiliation: 'Department of Pharmaceutical Regulatory Science, MPPT Journal Foundation, Pune, India', orcid: '0009-0007-3129-8451' },
+      { name: 'Neharkar, Vishnu', affiliation: 'Department of Pharmaceutical Regulatory Science, Pune, India', orcid: '0009-0007-3129-8451' },
       { name: 'Parekh, Pranav', affiliation: 'Institute of Advanced Pharmaceutical Sciences, Pune, India', orcid: '0009-0004-8912-4411' }
     ],
     keywords: [

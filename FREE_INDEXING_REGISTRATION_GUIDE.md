@@ -56,7 +56,7 @@
 - **URL:** [https://core.ac.uk/data-providers](https://core.ac.uk/data-providers)
 - **What to Enter:**
   - OAI-PMH endpoint: `https://mpptjournal.com/oai-pmh.xml`
-  - Organization: `MPPT Journal Research Foundation, Pune, India`
+  - Organization: `Published by Dr. Vishnu Neharkar, Pune, India`
 - **Cost:** ₹0.
 
 ### 3. SHERPA/RoMEO (Jisc)
