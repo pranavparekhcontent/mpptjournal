@@ -9,8 +9,6 @@ Allow: /certificate
 Allow: /track
 Disallow: /paper%20sample/
 Disallow: /paper sample/
-Disallow: /mppt-ai
-Disallow: /mppt-ai.html
 Disallow: /worker/
 Disallow: /.git/
 Disallow: /scripts/
@@ -20,15 +18,11 @@ User-agent: Googlebot
 Allow: /
 Disallow: /paper%20sample/
 Disallow: /paper sample/
-Disallow: /mppt-ai
-Disallow: /mppt-ai.html
 
 User-agent: Google-Scholar-Crawler
 Allow: /
 Disallow: /paper%20sample/
 Disallow: /paper sample/
-Disallow: /mppt-ai
-Disallow: /mppt-ai.html
 
 User-agent: SemanticScholarBot
 Allow: /
