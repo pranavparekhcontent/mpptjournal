@@ -16,6 +16,7 @@ const mime = {
   '.json': 'application/json',
   '.pdf': 'application/pdf',
   '.webp': 'image/webp',
+  '.md': 'text/markdown; charset=utf-8',
   '.ico': 'image/x-icon'
 };
 
