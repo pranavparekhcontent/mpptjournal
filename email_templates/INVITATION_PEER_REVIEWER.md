@@ -43,7 +43,7 @@ To register your profile in our editorial database, please reply to this email (
 2. **Current Designation:** [e.g., Associate Professor / Senior Research Fellow]
 3. **Department & Institution:** [e.g., Dept of Pharmacology, ABC College of Pharmacy]
 4. **Primary Research Keywords (3–6 areas):** [e.g., Bioavailability, Diabetes Therapeutics, Phytochemistry, Drug Interactions]
-5. **Institutional / Official Email:**
+5. **Email:** [e.g., abc@xyz.com]
 6. **ORCID ID / Scopus Author ID / Google Scholar URL:**
 
 We look forward to welcoming you into our scholarly review community and collaborating on the advancement of pharmaceutical science.
@@ -75,7 +75,7 @@ Editor-in-Chief
 > **Full Name:** [Your Name]  
 > **Designation:** [Your Designation]  
 > **Institution:** [Your Institution]  
-> **Institutional Email:** [official.email@institution.ac.in]  
+> **Email:** [abc@xyz.com]  
 > **Research Keywords:** [List 3–5 exact areas you are willing to review]  
 > **ORCID ID:** [0000-000X-XXXX-XXXX]  
 >  

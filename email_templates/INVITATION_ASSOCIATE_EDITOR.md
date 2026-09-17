@@ -67,7 +67,7 @@ Editor-in-Chief
 > **Designation:** [Assistant Professor / Associate Professor / Designation]  
 > **Department & Institution:** [Department, College / University Name]  
 > **Specialization Areas / Keywords:** [e.g., Pharmaceutics, Clinical Pharmacy, Pharmacology, Novel Drug Delivery]  
-> **Institutional Email:** [official.email@institution.ac.in]  
+> **Email:** [abc@xyz.com]  
 > **ORCID ID:** [0000-000X-XXXX-XXXX]  
 >  
 > Best regards,  

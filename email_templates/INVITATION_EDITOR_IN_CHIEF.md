@@ -61,7 +61,7 @@ Founder & Publisher
 > **Full Name:** [Dr. Pranav Parekh]  
 > **Current Designation:** [Your Designation]  
 > **Department & Institution:** [Your Institution / College Name]  
-> **Institutional Email:** [Institutional / Official Email]  
+> **Email:** [abc@xyz.com]  
 > **ORCID ID:** [0000-000X-XXXX-XXXX]  
 >  
 > Warm regards,  

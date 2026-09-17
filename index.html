@@ -1346,7 +1346,7 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
 
       <div class="ffields">
         <div class="field"><label for="p-name">Corresponding Author Name *</label><input id="p-name" required placeholder="Dr. Jane Doe" autocomplete="name"></div>
-        <div class="field"><label for="p-mail">Institutional Email *</label><input id="p-mail" type="email" required placeholder="jane@university.edu" autocomplete="email"></div>
+        <div class="field"><label for="p-mail">Email *</label><input id="p-mail" type="email" required placeholder="abc@xyz.com" autocomplete="email"></div>
         <div class="field"><label for="p-aff">Affiliation / Department / University *</label><input id="p-aff" required placeholder="Dept. of Pharmacology, …" autocomplete="organization"></div>
         <div class="field"><label for="p-orcid">ORCID iD (optional)</label><input id="p-orcid" placeholder="0000-0002-1234-5678" autocomplete="off" pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]"></div>
         <div class="field full"><label for="p-cat">Manuscript Category *</label>
@@ -1534,7 +1534,7 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
 
         <h3>2. Manuscript Architecture</h3>
         <ul>
-          <li><strong>Title Page:</strong> Concise, informative title (sentence case or title case, no abbreviations). Include full names of all authors, highest academic degrees, institutional affiliations, and the corresponding author's institutional email and ORCID iD.</li>
+          <li><strong>Title Page:</strong> Concise, informative title (sentence case or title case, no abbreviations). Include full names of all authors, highest academic degrees, institutional affiliations, and the corresponding author's email and ORCID iD.</li>
           <li><strong>Structured Abstract (Max 250 Words):</strong> Formatted with explicit headings: <em>Background</em>, <em>Methods</em>, <em>Results</em>, and <em>Conclusion</em>. No citations or unexpanded abbreviations.</li>
           <li><strong>Keywords:</strong> 4 to 6 MeSH-compliant (Medical Subject Headings) terms separated by semicolons.</li>
           <li><strong>Body Sections:</strong> Introduction (problem statement &amp; hypothesis), Materials &amp; Methods (precise protocols to enable exact replication), Results &amp; Discussion (statistical rigor, <em>p</em>-values, contextualization), and Conclusions.</li>
@@ -2355,7 +2355,7 @@ document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
 
     // Validate email format
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      alert('Please enter a valid institutional email address.');
+      alert('Please enter a valid email address.');
       document.getElementById('p-mail').focus();
       return;
     }

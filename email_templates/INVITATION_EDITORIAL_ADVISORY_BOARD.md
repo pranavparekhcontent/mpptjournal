@@ -43,7 +43,7 @@ To fulfill national and international regulatory norms (CSIR-NIScPR / DOAJ), we 
 1. **Full Name & Academic Title:** [e.g., Prof. Dr. Jane Doe, M.Pharm, PhD]
 2. **Current Designation:** [e.g., Professor & Head, Department of Pharmacy]
 3. **Institutional Affiliation & Address:** [e.g., University / College Name, City, Country]
-4. **Institutional Email ID:** [e.g., jdoe@university.edu / .ac.in]
+4. **Email ID:** [e.g., abc@xyz.com]
 5. **Areas of Specialization (3–5 keywords):**
 6. **ORCID ID / Google Scholar Profile Link:**
 7. *(Optional)* A high-resolution photograph and brief bio (100 words) for the website editorial page.
@@ -80,7 +80,7 @@ Publisher & Founder
 > **Full Name:** [Dr. Full Name]  
 > **Designation:** [Professor / Associate Professor]  
 > **Department & Institution:** [Department Name, College/University, City, Country]  
-> **Institutional Email:** [official.email@institution.ac.in]  
+> **Email:** [abc@xyz.com]  
 > **Specialization Keywords:** [e.g., Pharmacokinetics, Clinical Therapeutics, Community Pharmacy]  
 > **ORCID ID:** [0000-000X-XXXX-XXXX]  
 >  

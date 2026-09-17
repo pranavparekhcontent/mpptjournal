@@ -55,8 +55,8 @@ When asked to audit or inspect an incoming manuscript, check the following **cos
 
 ### A. Title & Author Metadata
 - [ ] **Title:** Concise, informative, maximum 2 lines (max 20 words). No abbreviations.
-- [ ] **Authorship:** Full names of all co-authors, academic affiliations, institutional email addresses.
-- [ ] **Corresponding Author:** Explicitly marked with asterisk (*), institutional email, and ORCID iD.
+- [ ] **Authorship:** Full names of all co-authors, academic affiliations, email addresses.
+- [ ] **Corresponding Author:** Explicitly marked with asterisk (*), email (e.g., abc@xyz.com), and ORCID iD.
 - [ ] **ORCID iD:** Valid format `0000-000X-XXXX-XXXX` for all principal contributors.
 
 ### B. Structured Abstract (Max 250 Words)
