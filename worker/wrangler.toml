@@ -13,24 +13,11 @@ bucket_name = "mppt-manuscripts"
 [[d1_databases]]
 binding = "DB"
 database_name = "mppt-editorial"
-database_id = "" # Fill after: wrangler d1 create mppt-editorial
+database_id = "b9b4fb91-f3d3-46b5-908b-d845104227d0"
 
 # ── Workers AI (Conversational Bot + Plagiarism) ──
 [ai]
 binding = "AI"
-
-# ── Environment Variables ──
-# Set secrets via: wrangler secret put <KEY>
-# TELEGRAM_BOT_TOKEN = "8902857493:AAGtxErtlIblN2aeFgwnm65K7yw8tABEfqk"
-# TELEGRAM_GROUP_ID  = "-1004291559247"
-# ZOHO_SMTP_USER     = "review@mpptjournal.com"
-# ZOHO_SMTP_PASS     = ""
-# ZOHO_EDITOR_USER   = "editor@mpptjournal.com"
-# ZOHO_EDITOR_PASS   = ""
-# RAZORPAY_KEY_ID    = ""
-# RAZORPAY_KEY_SECRET = ""
-# ZENODO_API_TOKEN   = ""
-# ZENODO_SANDBOX     = "false"
 
 [vars]
 JOURNAL_NAME = "Journal of Modern Pharmacy Praxis & Therapeutics"
@@ -39,6 +26,7 @@ JOURNAL_URL = "https://mpptjournal.com"
 CURRENT_VOLUME = "1"
 CURRENT_ISSUE = "1"
 TELEGRAM_GROUP_ID = "-1004291559247"
+TELEGRAM_BOT_TOKEN = "8902857493:AAGtxErtlIblN2aeFgwnm65K7yw8tABEfqk"
 
 # ── Cron Triggers (Deadline Monitoring) ──
 # [triggers]
