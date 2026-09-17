@@ -3,7 +3,7 @@
 **Sender:** Dr. Pranav Parekh, Editor-in-Chief (`editor@mpptjournal.com`)  
 **On Behalf Of:** Dr. Vishnu Neharkar, Publisher & Founder (`publisher@mpptjournal.com`)  
 **Recipient:** `[Title] [Full Name]` (`[Institutional Email]`)  
-**Subject:** Invitation to Join the Editorial Advisory Board — Modern Pharmacy Praxis and Therapeutics (MPPT Journal)
+**Subject:** Invitation to Join the Editorial Advisory Board — Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal)
 
 ---
 
@@ -11,16 +11,16 @@
 
 **Dear [Prof. / Dr. / Respected Scholar Name],**
 
-**Greetings from the Editorial Directorate of *Modern Pharmacy Praxis and Therapeutics* (MPPT Journal).**
+**Greetings from the Editorial Directorate of *Journal of Modern Pharmacy Praxis and Therapeutics* (MPPT Journal).**
 
 We are reaching out to you with great respect for your eminent research contributions and academic leadership in the field of pharmaceutical sciences, specifically your esteemed work in **[Mention Recipient’s Specialization, e.g., Clinical Pharmacy / Pharmacology / Novel Drug Delivery / Pharmacovigilance]**.
 
-It gives us immense honor to formally invite you to join the **Editorial Advisory Board** of ***Modern Pharmacy Praxis and Therapeutics* (MPPT Journal)** — an international, peer-reviewed, open-access scientific journal (online ISSN application in process with National Science Library, CSIR-NIScPR, New Delhi; Crossref DOI indexing partnered).
+It gives us immense honor to formally invite you to join the **Editorial Advisory Board** of ***Journal of Modern Pharmacy Praxis and Therapeutics* (MPPT Journal)** — an international, peer-reviewed, open-access scientific journal (online ISSN application in process with National Science Library, CSIR-NIScPR, New Delhi; Crossref DOI indexing partnered).
 
 ---
 
 ### **About the Journal:**
-*Modern Pharmacy Praxis and Therapeutics* (MPPT Journal) bridges rigorous scientific laboratory research with practical real-world pharmacy applications and clinical outcomes (*praxis*). Our core publishing pillars are:
+*Journal of Modern Pharmacy Praxis and Therapeutics* (MPPT Journal) bridges rigorous scientific laboratory research with practical real-world pharmacy applications and clinical outcomes (*praxis*). Our core publishing pillars are:
 * **Integrity & Independence:** Strictly compliant with the Committee on Publication Ethics (COPE) and ICMJE guidelines.
 * **Rapid & Rigorous Peer Review:** Double-blind evaluation with transparent turnaround times (14–21 days).
 * **Global Open Access:** Ensuring published scholarship is universally accessible to clinicians, researchers, and students without barriers.
@@ -56,12 +56,12 @@ With highest academic regards,
 
 **Dr. Pranav Parekh**  
 Editor-in-Chief  
-*Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*  
+*Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*  
 📧 Email: editor@mpptjournal.com  
 
 **Dr. Vishnu Neharkar**  
 Publisher & Founder  
-*Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*  
+*Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*  
 📧 Email: publisher@mpptjournal.com  
 🌐 Website: https://mpptjournal.com  
 📍 India
@@ -75,7 +75,7 @@ Publisher & Founder
 >  
 > Dear Dr. Pranav Parekh and Dr. Vishnu Neharkar,  
 >  
-> Thank you for the kind invitation. I am honored to accept the invitation to join the Editorial Advisory Board of *Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*.  
+> Thank you for the kind invitation. I am honored to accept the invitation to join the Editorial Advisory Board of *Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*.  
 >  
 > **Full Name:** [Dr. Full Name]  
 > **Designation:** [Professor / Associate Professor]  

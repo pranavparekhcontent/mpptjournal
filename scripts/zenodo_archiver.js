@@ -55,14 +55,14 @@ function generateZenodoMetadata(paper) {
       upload_type: 'publication',
       publication_type: 'article',
       publication_date: paper.publication_date,
-      description: `<p><strong>Abstract:</strong> ${paper.abstract}</p><p><strong>Journal:</strong> <em>Modern Pharmacy Praxis &amp; Therapeutics (MPPT Journal)</em>, Vol. ${paper.volume}, Issue ${paper.issue}, pp. ${paper.pages}. Official Open Access Publication.</p>`,
+      description: `<p><strong>Abstract:</strong> ${paper.abstract}</p><p><strong>Journal:</strong> <em>Journal of Modern Pharmacy Praxis &amp; Therapeutics (MPPT Journal)</em>, Vol. ${paper.volume}, Issue ${paper.issue}, pp. ${paper.pages}. Official Open Access Publication.</p>`,
       creators: paper.creators.map(c => {
         const item = { name: c.name, affiliation: c.affiliation };
         if (c.orcid) item.orcid = c.orcid;
         return item;
       }),
       keywords: paper.keywords,
-      journal_title: 'Modern Pharmacy Praxis and Therapeutics',
+      journal_title: 'Journal of Modern Pharmacy Praxis and Therapeutics',
       journal_volume: paper.volume,
       journal_issue: paper.issue,
       journal_pages: paper.pages,
@@ -80,7 +80,7 @@ function generateZenodoMetadata(paper) {
           scheme: 'url'
         }
       ],
-      imprint_publisher: 'Modern Pharmacy Praxis & Therapeutics, Pune, India'
+      imprint_publisher: 'Journal of Modern Pharmacy Praxis & Therapeutics, Pune, India'
     }
   };
 }

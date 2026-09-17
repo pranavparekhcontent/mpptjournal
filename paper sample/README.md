@@ -1,6 +1,6 @@
 # MPPT Journal Sample Research Paper (Volume 1, Issue 1)
 
-This directory contains the official sample manuscript for **Modern Pharmacy Praxis & Therapeutics (MPPT Journal)**, styled to match the journal's publication theme, color palette, and editorial standards.
+This directory contains the official sample manuscript for **Journal of Modern Pharmacy Praxis & Therapeutics (MPPT Journal)**, styled to match the journal's publication theme, color palette, and editorial standards.
 
 ---
 

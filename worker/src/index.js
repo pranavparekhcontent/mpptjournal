@@ -64,7 +64,7 @@ export default {
     if (url.pathname === '/' || url.pathname === '/health' || url.pathname === '/api/health') {
       return jsonResponse({
         service: 'mppt-api',
-        journal: 'Modern Pharmacy Praxis & Therapeutics',
+        journal: 'Journal of Modern Pharmacy Praxis & Therapeutics',
         status: 'online',
         r2_bucket: 'mppt-manuscripts',
         zenodo_archival: 'active',
@@ -213,7 +213,7 @@ export default {
                 upload_type: 'publication',
                 publication_type: 'article',
                 creators: authors.map(a => ({ name: typeof a === 'string' ? a : a.name })),
-                journal_title: 'Modern Pharmacy Praxis and Therapeutics',
+                journal_title: 'Journal of Modern Pharmacy Praxis and Therapeutics',
                 access_right: 'open',
                 license: 'cc-by-4.0'
               }

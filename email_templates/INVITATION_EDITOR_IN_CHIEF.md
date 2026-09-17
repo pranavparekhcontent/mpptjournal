@@ -2,7 +2,7 @@
 
 **Sender:** Dr. Vishnu Neharkar, Publisher & Founder (`publisher@mpptjournal.com`)  
 **Recipient:** [Dr. Pranav Parekh / Appointee Name] (`[Email Address]`)  
-**Subject:** Official Appointment & Invitation: Editor-in-Chief — Modern Pharmacy Praxis and Therapeutics (MPPT Journal)
+**Subject:** Official Appointment & Invitation: Editor-in-Chief — Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal)
 
 ---
 
@@ -10,9 +10,9 @@
 
 **Dear [Dr. Pranav Parekh / Dr. Name],**
 
-**Greetings from the Publishing Office of Modern Pharmacy Praxis and Therapeutics (MPPT Journal).**
+**Greetings from the Publishing Office of Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal).**
 
-On behalf of the founding board and the publishing body, it gives me immense honor and privilege to formally invite and appoint you as the **Editor-in-Chief (EiC) and Academic Head** of ***Modern Pharmacy Praxis and Therapeutics* (MPPT Journal)** (ISSN application in process with CSIR-NIScPR, New Delhi).
+On behalf of the founding board and the publishing body, it gives me immense honor and privilege to formally invite and appoint you as the **Editor-in-Chief (EiC) and Academic Head** of ***Journal of Modern Pharmacy Praxis and Therapeutics* (MPPT Journal)** (ISSN application in process with CSIR-NIScPR, New Delhi).
 
 Having closely observed your scientific acumen, academic dedication, and vision for contemporary pharmaceutical sciences, we are confident that your leadership will establish MPPT Journal as a high-impact, peer-reviewed, open-access scholarly platform adhering to international publishing benchmarks (COPE & ICMJE).
 
@@ -42,7 +42,7 @@ With warm regards and highest esteem,
 
 **Dr. Vishnu Neharkar**  
 Founder & Publisher  
-*Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*  
+*Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*  
 🌐 Website: https://mpptjournal.com  
 📧 Email: publisher@mpptjournal.com  
 📍 India
@@ -56,7 +56,7 @@ Founder & Publisher
 >  
 > Dear Dr. Vishnu Neharkar,  
 >  
-> I gratefully accept the invitation and appointment as Editor-in-Chief of *Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*. I commit to upholding the highest scientific standards, ethical integrity, and editorial independence in line with COPE and international publishing standards.  
+> I gratefully accept the invitation and appointment as Editor-in-Chief of *Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*. I commit to upholding the highest scientific standards, ethical integrity, and editorial independence in line with COPE and international publishing standards.  
 >  
 > **Full Name:** [Dr. Pranav Parekh]  
 > **Current Designation:** [Your Designation]  

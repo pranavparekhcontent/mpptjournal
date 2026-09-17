@@ -7,7 +7,7 @@
   <request verb="ListRecords" metadataPrefix="oai_dc">https://mpptjournal.com/oai-pmh.xml</request>
   
   <Identify>
-    <repositoryName>Modern Pharmacy Praxis and Therapeutics (MPPT Journal)</repositoryName>
+    <repositoryName>Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal)</repositoryName>
     <baseURL>https://mpptjournal.com/oai-pmh.xml</baseURL>
     <protocolVersion>2.0</protocolVersion>
     <adminEmail>editor@mpptjournal.com</adminEmail>
@@ -51,13 +51,13 @@
           <dc:subject>QSAR</dc:subject>
           <dc:subject>Precision Oncology</dc:subject>
           <dc:description>Conventional ATP-competitive kinase inhibitors frequently suffer from off-target toxicities and drug resistance conferred by conserved active-site gatekeeper mutations. Here, we report DeepKinase-Gen, an end-to-end multi-task generative transformer coupled with physics-based active learning molecular dynamics. Prioritized lead MPPT-K07 demonstrated nanomolar allosteric potency (IC50 = 3.8 ± 0.4 nM) against CDK4/6 with &gt;420-fold selectivity and mediated an 84% reduction in tumor volume.</dc:description>
-          <dc:publisher>Modern Pharmacy Praxis and Therapeutics, Pune, India</dc:publisher>
+          <dc:publisher>Journal of Modern Pharmacy Praxis and Therapeutics, Pune, India</dc:publisher>
           <dc:date>2026-08-15</dc:date>
           <dc:type>info:eu-repo/semantics/article</dc:type>
           <dc:type>Journal Article</dc:type>
           <dc:format>application/pdf</dc:format>
           <dc:identifier>https://mpptjournal.com/paper%20sample/mppt_sample_paper</dc:identifier>
-          <dc:source>Modern Pharmacy Praxis and Therapeutics; Vol. 1, Issue 1 (2026); pp. 1-4</dc:source>
+          <dc:source>Journal of Modern Pharmacy Praxis and Therapeutics; Vol. 1, Issue 1 (2026); pp. 1-4</dc:source>
           <dc:language>eng</dc:language>
           <dc:relation>https://mpptjournal.com/paper%20sample/MPPT_Vol1_Issue1_Sample_Paper.pdf</dc:relation>
           <dc:rights>info:eu-repo/semantics/openAccess</dc:rights>

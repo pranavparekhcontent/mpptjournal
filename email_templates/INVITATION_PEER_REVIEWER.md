@@ -1,9 +1,9 @@
 # ✉️ Official Invitation Email: Peer Reviewer Panel
 
-**Sender:** Editorial Office, *Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*  
+**Sender:** Editorial Office, *Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*  
 **Signed by:** Prof. Shubham Waghmare, Associate Editor (`submission@mpptjournal.com`) & Dr. Pranav Parekh, Editor-in-Chief (`editor@mpptjournal.com`)  
 **Recipient:** `[Title] [Full Name]` (`[Institutional / Academic Email]`)  
-**Subject:** Invitation to Join the Peer Reviewer Panel — Modern Pharmacy Praxis and Therapeutics (MPPT Journal)
+**Subject:** Invitation to Join the Peer Reviewer Panel — Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal)
 
 ---
 
@@ -11,11 +11,11 @@
 
 **Dear [Dr. / Prof. / Scholar Name],**
 
-**Greetings from the Editorial Desk of *Modern Pharmacy Praxis and Therapeutics* (MPPT Journal).**
+**Greetings from the Editorial Desk of *Journal of Modern Pharmacy Praxis and Therapeutics* (MPPT Journal).**
 
 In recognition of your scholarly publications and research expertise in **[Mention Recipient's Field, e.g., Pharmacology / Pharmaceutics / Pharmacognosy / Hospital & Clinical Pharmacy]**, the Editorial Board cordially invites you to join our **Verified Peer Reviewer Panel**.
 
-*Modern Pharmacy Praxis and Therapeutics* (MPPT Journal) is an open-access, peer-reviewed international scientific publication committed to rigorous, transparent, and constructive evaluation of pharmaceutical and clinical research.
+*Journal of Modern Pharmacy Praxis and Therapeutics* (MPPT Journal) is an open-access, peer-reviewed international scientific publication committed to rigorous, transparent, and constructive evaluation of pharmaceutical and clinical research.
 
 ---
 
@@ -52,12 +52,12 @@ With kind regards and appreciation,
 
 **Prof. Shubham Waghmare**  
 Associate Editor & Review Coordinator  
-*Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*  
+*Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*  
 📧 submissions@mpptjournal.com  
 
 **Dr. Pranav Parekh**  
 Editor-in-Chief  
-*Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*  
+*Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*  
 📧 editor@mpptjournal.com  
 🌐 Website: https://mpptjournal.com
 
@@ -70,7 +70,7 @@ Editor-in-Chief
 >  
 > Dear Prof. Shubham Waghmare and Dr. Pranav Parekh,  
 >  
-> I am delighted to accept your invitation to join the Peer Reviewer Panel for *Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*.  
+> I am delighted to accept your invitation to join the Peer Reviewer Panel for *Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*.  
 >  
 > **Full Name:** [Your Name]  
 > **Designation:** [Your Designation]  
