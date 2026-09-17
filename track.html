@@ -731,7 +731,7 @@ footer a:hover { text-decoration: underline; }
             <h4 class="step-title">4. Editorial Decision &amp; Author Revision</h4>
             <span class="step-time">Upcoming</span>
           </div>
-          <p class="step-desc">Associate Editor synthesizes reviewer reports and issues decision (Accept / Minor Revision / Major Revision). Authors upload point-by-point rebuttals directly on this timeline.</p>
+          <p class="step-desc">Managing Editor synthesizes reviewer reports and issues decision (Accept / Minor Revision / Major Revision). Authors upload point-by-point rebuttals directly on this timeline.</p>
         </div>
       </div>
 
@@ -986,7 +986,7 @@ function escapeHtml(str) {
       return;
     }
     const notes = document.getElementById('revNotes').value.trim();
-    alert('Revision successfully received! Your point-by-point rebuttal and revised manuscript have been logged for Paper ID: ' + paper.paperId + '. The Associate Editor and Peer Reviewers have been notified.');
+    alert('Revision successfully received! Your point-by-point rebuttal and revised manuscript have been logged for Paper ID: ' + paper.paperId + '. The Managing Editor and Peer Reviewers have been notified.');
     document.getElementById('revNotes').value = '';
     revFileName.textContent = 'or click to choose (.docx, .pdf)';
     revFileName.style.color = 'var(--dim)';

@@ -25,7 +25,7 @@ As Editor-in-Chief, you will hold supreme scientific and editorial authority:
 1. **Editorial Independence:** Exercise total, uncompromised autonomy over all peer-review outcomes, manuscript acceptance, revisions, and rejections.
 2. **Journal Scope & Quality Control:** Guide the journal’s aims, editorial policies, and special thematic issues bridging pharmaceutical theory with clinical practice (*praxis*).
 3. **Statutory Representation:** Act as the primary editorial signatory for the National Science Library (CSIR-NIScPR / ISSN India), DOAJ, and UGC-CARE indexation submissions.
-4. **Editorial Governance:** Oversee the Associate Editors, preside over the International Advisory Board, and resolve any ethical or authorship inquiries in accordance with COPE guidelines.
+4. **Editorial Governance:** Oversee the Managing Editor and Associate Editors, preside over the International Advisory Board, and resolve any ethical or authorship inquiries in accordance with COPE guidelines.
 
 ---
 

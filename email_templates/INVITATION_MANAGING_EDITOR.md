@@ -1,8 +1,8 @@
-# ✉️ Official Appointment Email: Associate Editor
+# ✉️ Official Appointment Email: Managing Editor
 
 **Sender:** Dr. Vishnu Neharkar, Publisher (`publisher@mpptjournal.com`) & Dr. Pranav Parekh, Editor-in-Chief (`editor@mpptjournal.com`)  
 **Recipient:** [Prof. Shubham Waghmare / Appointee Name] (`[Email Address]`)  
-**Subject:** Official Appointment: Associate Editor — Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal)
+**Subject:** Official Appointment: Managing Editor — Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal)
 
 ---
 
@@ -12,7 +12,7 @@
 
 **Warm greetings from the Editorial Office of Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal).**
 
-Following the recommendations of our Editor-in-Chief and founding board, it gives us immense pleasure to formally appoint you as an **Associate Editor** of ***Journal of Modern Pharmacy Praxis and Therapeutics* (MPPT Journal)** (ISSN in process with CSIR-NIScPR, New Delhi).
+Following the recommendations of our Editor-in-Chief and founding board, it gives us immense pleasure to formally appoint you as the **Managing Editor** of ***Journal of Modern Pharmacy Praxis and Therapeutics* (MPPT Journal)** (ISSN in process with CSIR-NIScPR, New Delhi).
 
 Your academic background, dedication to pharmaceutical research, and peer-review ethics make you an invaluable asset to our editorial operations as we launch this open-access platform dedicated to cutting-edge pharmacy practice and therapeutics.
 
@@ -20,7 +20,7 @@ Your academic background, dedication to pharmaceutical research, and peer-review
 
 ### **Key Responsibilities & Operational Scope:**
 
-As Associate Editor, you will serve as the cornerstone of our editorial desk:
+As Managing Editor, you will serve as the cornerstone of our editorial desk:
 
 1. **Initial Desk Screening:** Screen incoming submissions for scope conformity, author guidelines adherence, and plagiarism reports (similarity threshold &lt; 15%).
 2. **Peer Review Coordination:** Identify and assign two (2) independent, double-blind peer reviewers per manuscript matching their research specialties.
@@ -31,7 +31,7 @@ As Associate Editor, you will serve as the cornerstone of our editorial desk:
 ---
 
 ### **Terms of Tenure:**
-* **Position:** Associate Editor / Editorial Desk Lead
+* **Position:** Managing Editor / Editorial Desk Lead
 * **Tenure:** Two (2) years (renewable)
 * **Status:** Honorary academic editorial appointment
 
@@ -57,11 +57,11 @@ Editor-in-Chief
 ### **REPLY TEMPLATE FOR RECIPIENT (TO CONFIRM):**
 
 > **To:** editor@mpptjournal.com, publisher@mpptjournal.com  
-> **Subject:** Re: Official Appointment: Associate Editor — MPPT Journal  
+> **Subject:** Re: Official Appointment: Managing Editor — MPPT Journal  
 >  
 > Dear Dr. Vishnu Neharkar and Dr. Pranav Parekh,  
 >  
-> Thank you for this honor. I am pleased to accept the appointment as Associate Editor for *Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*. I look forward to coordinating rigorous, ethical, and efficient peer-review processes.  
+> Thank you for this honor. I am pleased to accept the appointment as Managing Editor for *Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal)*. I look forward to coordinating rigorous, ethical, and efficient peer-review processes.  
 >  
 > **Full Name:** [Prof. Shubham Waghmare]  
 > **Designation:** [Assistant Professor / Associate Professor / Designation]  
