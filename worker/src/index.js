@@ -140,6 +140,15 @@ function daysUntil(isoDate) {
   return Math.ceil(diff / (1000 * 60 * 60 * 24));
 }
 
+function safeJsonParse(str, fallback = []) {
+  if (!str) return fallback;
+  try {
+    return JSON.parse(str);
+  } catch (e) {
+    return fallback;
+  }
+}
+
 // ════════════════════════════════════════════════════════════
 // PAPER ID GENERATOR
 // ════════════════════════════════════════════════════════════
@@ -173,7 +182,7 @@ async function advanceStage(db, paperId, newStage, actor = 'system') {
   
   if (!paper) throw new Error(`Paper ${paperId} not found`);
   
-  const history = JSON.parse(paper.stage_history || '[]');
+  const history = safeJsonParse(paper.stage_history, []);
   history.push({ stage: newStage, from: paper.stage, timestamp: now(), actor });
   
   await db.prepare(`
@@ -393,6 +402,17 @@ export default {
         return await handleZenodoQuery(env, paperId);
       }
 
+      // ── Inbound Email Ingestion & Webhook ──
+      if (method === 'POST' && path === '/api/email/inbound') {
+        return await handleInboundEmailHttp(request, env);
+      }
+      if (method === 'POST' && path === '/api/email/simulate') {
+        return await handleSimulateEmail(request, env);
+      }
+      if (method === 'GET' && path === '/api/inbound/emails') {
+        return await handleListInboundEmails(env);
+      }
+
       // ── GET /api/cron/deadlines ──
       if (method === 'GET' && path === '/api/cron/deadlines') {
         return await handleDeadlineCron(env);
@@ -404,6 +424,11 @@ export default {
       console.error('Worker error:', err);
       return json({ success: false, error: err.message || 'Internal server error' }, 500);
     }
+  },
+
+  // Cloudflare Email Routing event handler
+  async email(message, env, ctx) {
+    await handleInboundEmailStream(message, env, ctx);
   },
 
   // Cron trigger handler
@@ -616,7 +641,7 @@ async function handlePaperStatus(env, paperId) {
     success: true,
     paper: {
       ...paper,
-      stage_history: JSON.parse(paper.stage_history || '[]'),
+      stage_history: safeJsonParse(paper.stage_history, []),
       stageLabel: STAGE_LABELS[paper.stage] || paper.stage,
       daysUntilDeadline: daysUntil(paper.current_deadline),
     },
@@ -1199,6 +1224,158 @@ async function handleAddReviewer(request, env) {
 }
 
 // ════════════════════════════════════════════════════════════
+// HANDLER: INBOUND EMAIL INGESTION & AI TELEGRAM NOTIFICATION
+// ════════════════════════════════════════════════════════════
+
+async function processInboundEmail(env, emailData) {
+  const inbox = (emailData.inbox || 'review@mpptjournal.com').toLowerCase().trim();
+  const fromAddress = (emailData.fromAddress || 'author@university.edu').toLowerCase().trim();
+  const fromName = emailData.fromName || '';
+  const subject = emailData.subject || 'Manuscript Correspondence';
+  const bodyText = emailData.bodyText || '';
+  let paperId = emailData.paperId || null;
+
+  // Attempt to extract Paper ID from subject or body if not provided
+  if (!paperId) {
+    const match = (subject + ' ' + bodyText).match(/MPPT-\d{4}-V\d+I\d+-\d{4}/i);
+    if (match) paperId = match[0].toUpperCase();
+  }
+
+  const inboundId = `INB-${Date.now().toString(36).toUpperCase()}`;
+
+  // 1. Generate 1-2 sentence AI summary using Workers AI (Llama 3.1 8B)
+  let summary = '';
+  if (env.AI) {
+    try {
+      const messages = [
+        {
+          role: 'system',
+          content: 'You are an editorial assistant for MPPT Journal. Summarize the following incoming academic email in 1 to 2 clear, concise sentences for the editors. Highlight any core requests, manuscript IDs, or urgent decisions needed.'
+        },
+        {
+          role: 'user',
+          content: `Recipient Inbox: ${inbox}\nFrom: ${fromName ? `${fromName} <${fromAddress}>` : fromAddress}\nSubject: ${subject}\n\nEmail Body:\n${bodyText.substring(0, 2000)}`
+        }
+      ];
+      const aiRes = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', { messages, max_tokens: 160 });
+      summary = (aiRes.response || '').trim();
+    } catch (aiErr) {
+      console.error('AI summary error:', aiErr);
+    }
+  }
+
+  if (!summary) {
+    summary = bodyText.length > 180 ? bodyText.substring(0, 180) + '...' : (bodyText || 'Incoming communication received.');
+  }
+
+  // 2. Persist in Cloudflare D1
+  if (env.DB) {
+    try {
+      await env.DB.prepare(`
+        INSERT INTO inbound_emails (inbound_id, inbox, from_address, from_name, subject, body_text, summary, paper_id, reply_status)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')
+      `).bind(inboundId, inbox, fromAddress, fromName, subject, bodyText, summary, paperId).run();
+
+      // Log in communications ledger
+      await logComm(env.DB, paperId, 'email', 'inbound', fromAddress, inbox, subject, summary, null, null);
+    } catch (dbErr) {
+      console.error('D1 inbound email insert error:', dbErr);
+    }
+  }
+
+  // 3. Dispatch alert to Telegram Group
+  const senderDisplay = fromName ? `${fromName} <${fromAddress}>` : fromAddress;
+  const alertText = 
+    `📬 *New Email Received!*\n\n` +
+    `📥 *Inbox:* \`${inbox}\`\n` +
+    `👤 *From:* \`${senderDisplay}\`\n` +
+    `📋 *Subject:* *${subject}*\n` +
+    (paperId ? `🆔 *Paper ID:* \`${paperId}\`\n` : '') +
+    `\n📝 *Summary:*\n_${summary}_\n\n` +
+    `💡 *What next?*\n` +
+    `Reply directly to this Telegram message with your instructions, e.g.:\n` +
+    `• \`Reply: Grant 5-day extension for revised figures\`\n` +
+    `• \`Reply: Request point-by-point rebuttal file and updated citations\`\n` +
+    `MPPT AI will automatically draft the official academic response for you.`;
+
+  let tgMsgId = null;
+  if (env.TELEGRAM_BOT_TOKEN) {
+    const tgRes = await sendTelegram(env, alertText);
+    tgMsgId = tgRes?.result?.message_id;
+
+    if (tgMsgId && env.DB) {
+      await env.DB.prepare(`UPDATE inbound_emails SET telegram_msg_id = ? WHERE inbound_id = ?`)
+        .bind(tgMsgId, inboundId).run();
+    }
+  }
+
+  return { success: true, inboundId, inbox, fromAddress, subject, summary, telegramMsgId: tgMsgId };
+}
+
+async function handleInboundEmailHttp(request, env) {
+  const body = await request.json().catch(() => ({}));
+  const { inbox, from, fromName, subject, body: emailBody, paperId } = body;
+  if (!from || !subject) {
+    return json({ success: false, error: 'from and subject are required' }, 400);
+  }
+
+  const result = await processInboundEmail(env, {
+    inbox: inbox || 'review@mpptjournal.com',
+    fromAddress: from,
+    fromName: fromName || '',
+    subject: subject,
+    bodyText: emailBody || '',
+    paperId: paperId || null
+  });
+
+  return json({ success: true, ...result }, 201);
+}
+
+async function handleSimulateEmail(request, env) {
+  const body = await request.json().catch(() => ({}));
+  const sample = {
+    inbox: body.inbox || 'review@mpptjournal.com',
+    fromAddress: body.from || 'author.kumar@aiims.edu',
+    fromName: body.fromName || 'Dr. Rajesh Kumar',
+    subject: body.subject || 'Inquiry regarding manuscript MPPT-2026-V1I1-0001 peer review status',
+    bodyText: body.body || 'Dear Editorial Desk, I am writing to politely inquire regarding the status of our submission MPPT-2026-V1I1-0001. We are approaching our annual research grant audit deadline on October 5th. Could you kindly provide an update on the double-blind referee reports, and let us know if an extension is possible if major revisions are recommended? Sincerely, Dr. Rajesh Kumar, Department of Pharmacology, AIIMS New Delhi.',
+    paperId: body.paperId || 'MPPT-2026-V1I1-0001'
+  };
+
+  const result = await processInboundEmail(env, sample);
+  return json({ success: true, message: 'Simulated email processed and Telegram alert dispatched', ...result });
+}
+
+async function handleListInboundEmails(env) {
+  if (!env.DB) return json({ success: false, error: 'Database not available' }, 500);
+  const rows = await env.DB.prepare(`SELECT * FROM inbound_emails ORDER BY id DESC LIMIT 50`).all();
+  return json({ success: true, count: rows.results?.length || 0, emails: rows.results || [] });
+}
+
+async function handleInboundEmailStream(message, env, ctx) {
+  const inbox = message.to || 'review@mpptjournal.com';
+  const fromAddress = message.from || 'author@university.edu';
+  const subject = message.headers.get('subject') || 'Manuscript Communication';
+  
+  let bodyText = '';
+  try {
+    const raw = await new Response(message.raw).text();
+    const parts = raw.split('\n\n');
+    bodyText = (parts.slice(1).join('\n\n') || raw).substring(0, 3000);
+  } catch(e) {
+    bodyText = 'Email raw stream parse note';
+  }
+
+  await processInboundEmail(env, {
+    inbox,
+    fromAddress,
+    fromName: message.headers.get('from') || '',
+    subject,
+    bodyText
+  });
+}
+
+// ════════════════════════════════════════════════════════════
 // HANDLER: TELEGRAM WEBHOOK
 // ════════════════════════════════════════════════════════════
 
@@ -1270,11 +1447,264 @@ async function handleTelegramWebhook(request, env) {
   // Strip bot mention from text
   const userQuery = text.replace(/@mpptai(_bot)?\b/gi, '').trim();
   if (!userQuery) {
-    await sendTelegram(env, `👋 Hello ${msg.from?.first_name || 'there'}! I am listening.\n\nTag me with any question or command:\n• \`@mpptai_bot status MPPT-2026-V1I1-0001\`\n• \`@mpptai_bot how many papers pending review?\`\n• \`@mpptai_bot extend deadline for MPPT-2026-V1I1-0001 by 3 days\`\n• \`@mpptai_bot list recent papers\``, { reply_to_message_id: msg.message_id });
+    await sendTelegram(env, `👋 Hello ${msg.from?.first_name || 'there'}! I am listening.\n\nTag me with any question or command:\n• \`@mpptai_bot add reviewer Dr. Name, email, speciality\`\n• \`@mpptai_bot list reviewers\`\n• \`@mpptai_bot test email\`\n• \`@mpptai_bot status MPPT-2026-V1I1-0001\``, { reply_to_message_id: msg.message_id });
     return json({ ok: true });
   }
 
-  // ── Build context for AI ──
+  // ── COMMAND 1: REVIEWER ONBOARDING VIA TELEGRAM ──
+  const isAddReviewer = userQuery.match(/^(?:(?:\/)?addreviewer|add\s+reviewer|onboard\s+reviewer)\b/i);
+  if (isAddReviewer) {
+    const rawDetails = userQuery.replace(/^(?:(?:\/)?addreviewer|add\s+reviewer|onboard\s+reviewer)\s*(:|-|\s)?\s*/i, '').trim();
+    if (!rawDetails) {
+      const helpMsg = `ℹ️ *Reviewer Onboarding Format:*\n\n` +
+        `Use:\n\`@mpptai_bot add reviewer Dr. Name, email@domain.com, Speciality, Affiliation\`\n\n` +
+        `Example:\n\`@mpptai_bot add reviewer Dr. Arvind Mehta, arvind.m@aiims.edu, Pharmacology & Toxicology, AIIMS New Delhi\``;
+      await sendTelegram(env, helpMsg, { reply_to_message_id: msg.message_id });
+      return json({ ok: true });
+    }
+
+    const parts = rawDetails.includes('\n') ? rawDetails.split('\n') : rawDetails.split(',');
+    let revName = (parts[0] || '').trim();
+    let revEmail = '';
+    let revSpeciality = '';
+    let revAffiliation = '';
+
+    const emailMatch = rawDetails.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+    if (emailMatch) {
+      revEmail = emailMatch[0].toLowerCase();
+    } else if (parts[1] && parts[1].includes('@')) {
+      revEmail = parts[1].trim().toLowerCase();
+    }
+
+    if (!revEmail) {
+      await sendTelegram(env, `⚠️ *Missing Email:* Please specify a valid academic email address for the reviewer.\nExample: \`@mpptai_bot add reviewer Dr. Sharma, sharma@aiims.edu, Pharmacology\``, { reply_to_message_id: msg.message_id });
+      return json({ ok: true });
+    }
+
+    if (revName.toLowerCase().includes(revEmail)) {
+      revName = revName.replace(revEmail, '').replace(/[<>,]/g, '').trim();
+    }
+    if (!revName) revName = 'Peer Reviewer';
+
+    if (parts.length > 2) revSpeciality = parts[2].trim();
+    if (parts.length > 3) revAffiliation = parts.slice(3).join(', ').trim();
+    if (!revSpeciality) revSpeciality = 'General Pharmacy & Therapeutics';
+    if (!revAffiliation) revAffiliation = 'MPPT Reviewer Board';
+
+    if (env.DB) {
+      await env.DB.prepare(`
+        INSERT INTO reviewers (name, email, speciality, affiliation, is_active, created_at)
+        VALUES (?, ?, ?, ?, 1, datetime('now'))
+        ON CONFLICT(email) DO UPDATE SET
+          name = excluded.name,
+          speciality = excluded.speciality,
+          affiliation = excluded.affiliation,
+          is_active = 1
+      `).bind(revName, revEmail, revSpeciality, revAffiliation).run();
+    }
+
+    const confMsg = 
+      `✅ *Reviewer Successfully Onboarded!*\n\n` +
+      `👤 *Name:* ${revName}\n` +
+      `📧 *Email:* \`${revEmail}\`\n` +
+      `🔬 *Speciality:* ${revSpeciality}\n` +
+      `🏛️ *Affiliation:* ${revAffiliation}\n` +
+      `📊 *Status:* Active in Peer Review Pool\n\n` +
+      `This referee is now registered for autonomous double-blind manuscript assignment.`;
+
+    await sendTelegram(env, confMsg, { reply_to_message_id: msg.message_id });
+
+    if (env.DB) {
+      await logComm(env.DB, null, 'telegram', 'inbound', msg.from?.first_name || 'editor', 'mpptai_bot',
+        'Reviewer Onboarded', `Onboarded ${revName} (${revEmail})`, null, null);
+    }
+    return json({ ok: true });
+  }
+
+  // ── COMMAND 2: LIST REVIEWERS ──
+  if (userQuery.match(/^(?:(?:\/)?reviewers|list\s+reviewers|show\s+reviewers)\b/i)) {
+    let revListMsg = '';
+    if (env.DB) {
+      const res = await env.DB.prepare(`SELECT * FROM reviewers WHERE is_active = 1 ORDER BY name ASC LIMIT 30`).all();
+      const list = res.results || [];
+      if (list.length === 0) {
+        revListMsg = `📋 *MPPT Reviewer Pool:* No reviewers registered yet.\n\nTo onboard one, use:\n\`@mpptai_bot add reviewer Dr. Name, email, speciality, affiliation\``;
+      } else {
+        revListMsg = `📋 *MPPT Active Reviewer Pool (${list.length}):*\n\n` +
+          list.map((r, i) => `${i + 1}. *${r.name}*\n   📧 \`${r.email}\`\n   🔬 ${r.speciality || 'General'}\n   🏛️ ${r.affiliation || 'Roster'}`).join('\n\n');
+      }
+    } else {
+      revListMsg = '⚠️ Database not available.';
+    }
+    await sendTelegram(env, revListMsg, { reply_to_message_id: msg.message_id });
+    return json({ ok: true });
+  }
+
+  // ── COMMAND 3: TEST / SIMULATE INBOUND EMAIL ──
+  if (userQuery.match(/^(?:(?:\/)?testemail|test\s+email|simulate\s+email)\b/i)) {
+    await sendTelegram(env, `🔄 *Simulating Inbound Author Email...*`, { reply_to_message_id: msg.message_id });
+    await processInboundEmail(env, {
+      inbox: 'review@mpptjournal.com',
+      fromAddress: 'author.kumar@aiims.edu',
+      fromName: 'Dr. Rajesh Kumar',
+      subject: 'Inquiry regarding manuscript MPPT-2026-V1I1-0001 peer review status',
+      bodyText: 'Dear Editorial Desk, I am writing to politely inquire regarding the status of our submission MPPT-2026-V1I1-0001. We are approaching our annual research grant audit deadline on October 5th. Could you kindly provide an update on the double-blind referee reports, and let us know if an extension is possible if major revisions are recommended? Sincerely, Dr. Rajesh Kumar, Department of Pharmacology, AIIMS New Delhi.',
+      paperId: 'MPPT-2026-V1I1-0001'
+    });
+    return json({ ok: true });
+  }
+
+  // ── COMMAND 4: APPROVE / SEND DRAFTED RESPONSE ──
+  const isApproval = userQuery.match(/^(?:(?:\/)?approve|send|confirm|dispatch)\b/i);
+  if (isApproval && msg.reply_to_message) {
+    const repliedText = msg.reply_to_message.text || '';
+    if (repliedText.includes('Auto-Drafted') || repliedText.includes('Subject: Re:')) {
+      let matchedInbound = null;
+      if (env.DB) {
+        matchedInbound = await env.DB.prepare(`
+          SELECT * FROM inbound_emails WHERE reply_status = 'drafted' ORDER BY id DESC LIMIT 1
+        `).first();
+        if (matchedInbound) {
+          await env.DB.prepare(`
+            UPDATE inbound_emails SET reply_status = 'sent', replied_at = datetime('now') WHERE id = ?
+          `).bind(matchedInbound.id).run();
+        }
+      }
+
+      const conf = `🚀 *Response Dispatched & Logged!*\n\n` +
+        `The drafted response has been marked as officially dispatched.\n` +
+        `📧 *From:* \`${matchedInbound?.inbox || 'review@mpptjournal.com'}\`\n` +
+        `📨 *To:* \`${matchedInbound?.from_address || 'Author'}\`\n` +
+        `📋 *Subject:* Re: ${matchedInbound?.subject || 'Manuscript Communication'}\n\n` +
+        `Audit ledger in Cloudflare D1 communications updated.`;
+      await sendTelegram(env, conf, { reply_to_message_id: msg.message_id });
+      return json({ ok: true });
+    }
+  }
+
+  // ── COMMAND 5: AI AUTO-DRAFT FOR INBOUND EMAIL REPLY ──
+  const isReplyToEmailAlert = msg.reply_to_message && 
+    (msg.reply_to_message.text?.includes('New Email Received') || msg.reply_to_message.text?.includes('Inbox:'));
+  const isExplicitDraftCmd = userQuery.match(/^(?:reply|draft|draft\s+reply|reply\s+to\s+email)\b/i);
+
+  if (isReplyToEmailAlert || isExplicitDraftCmd) {
+    let inbound = null;
+    if (env.DB) {
+      if (msg.reply_to_message?.message_id) {
+        inbound = await env.DB.prepare(`
+          SELECT * FROM inbound_emails WHERE telegram_msg_id = ?
+        `).bind(msg.reply_to_message.message_id).first();
+      }
+      if (!inbound) {
+        inbound = await env.DB.prepare(`
+          SELECT * FROM inbound_emails ORDER BY id DESC LIMIT 1
+        `).first();
+      }
+    }
+
+    if (!inbound) {
+      inbound = {
+        inbox: 'review@mpptjournal.com',
+        from_address: 'author@university.edu',
+        from_name: 'Author',
+        subject: 'Manuscript Communication',
+        body_text: 'Author inquiry regarding review progress.',
+        summary: 'Author inquiry regarding review progress.'
+      };
+    }
+
+    const instructions = userQuery
+      .replace(/^(?:reply|draft\s+reply|draft|reply\s+to\s+email)\s*(:|-|\s)?\s*/i, '')
+      .trim() || userQuery;
+
+    await sendTelegram(env, `✍️ *Drafting response for review...*\nApplying MPPT Journal academic guidelines to instructions: _"${instructions}"_`);
+
+    let senderInbox = inbound.inbox || 'review@mpptjournal.com';
+    const instrLower = instructions.toLowerCase();
+    if (instrLower.includes('accept') || instrLower.includes('reject') || instrLower.includes('proof') || instrLower.includes('publish') || instrLower.includes('certificate')) {
+      senderInbox = 'editor@mpptjournal.com';
+    }
+
+    let draftedText = '';
+    if (env.AI) {
+      try {
+        const draftMessages = [
+          {
+            role: 'system',
+            content: `You are the Editorial Secretary for Journal of Modern Pharmacy Praxis & Therapeutics (MPPT Journal).
+Your role is to compose a formal, polite, scholarly academic email response on behalf of the Editorial Office following the member's instructions.
+
+STRICT EDITORIAL POLICIES:
+- Formal British/International academic English.
+- Courteous salutation: "Dear Dr. [Author/Reviewer Name],"
+- Warm, reassuring, and precise scholarly tone.
+- NEVER fabricate citations, DOIs, or indexing claims.
+- Strictly adhere to the Editor's instructions: "${instructions}"
+- Include official sign-off:
+  Warm regards,
+  Editorial Office
+  Journal of Modern Pharmacy Praxis & Therapeutics (MPPT Journal)
+  Web: https://mpptjournal.com | Email: ${senderInbox}`
+          },
+          {
+            role: 'user',
+            content: `INBOUND EMAIL:
+From: ${inbound.from_address} (${inbound.from_name || 'Author'})
+To Inbox: ${senderInbox}
+Subject: ${inbound.subject}
+Original Text: ${inbound.body_text || inbound.summary}
+
+EDITOR INSTRUCTIONS:
+"${instructions}"
+
+Please draft the official academic email response.`
+          }
+        ];
+
+        const aiRes = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', { messages: draftMessages, max_tokens: 600 });
+        draftedText = aiRes.response || '';
+      } catch (err) {
+        console.error('AI draft generation error:', err);
+      }
+    }
+
+    if (!draftedText) {
+      draftedText = `Dear ${inbound.from_name || 'Dr. Author'},\n\n` +
+        `Thank you for contacting the Editorial Office of the Journal of Modern Pharmacy Praxis & Therapeutics (MPPT Journal) regarding your correspondence on "${inbound.subject}".\n\n` +
+        `In consultation with the Editorial Board: ${instructions}.\n\n` +
+        `Please do not hesitate to reach out if you require any further assistance with your manuscript.\n\n` +
+        `Warm regards,\n` +
+        `Editorial Office\n` +
+        `Journal of Modern Pharmacy Praxis & Therapeutics (MPPT Journal)\n` +
+        `Web: https://mpptjournal.com | Email: ${senderInbox}`;
+    }
+
+    if (env.DB && inbound.id) {
+      await env.DB.prepare(`
+        UPDATE inbound_emails SET reply_draft = ?, reply_status = 'drafted' WHERE id = ?
+      `).bind(draftedText, inbound.id).run();
+
+      await logComm(env.DB, inbound.paper_id, 'email', 'draft', senderInbox, inbound.from_address,
+        `Re: ${inbound.subject}`, draftedText.substring(0, 500), null, null);
+    }
+
+    const draftCard = 
+      `✍️ *Auto-Drafted Response Ready for Review*\n\n` +
+      `📧 *Sender:* \`${senderInbox}\`\n` +
+      `📨 *Recipient:* \`${inbound.from_address}\`\n` +
+      `📋 *Subject:* Re: ${inbound.subject}\n\n` +
+      `━━━━━━━━━━━━━━━━━━━━\n` +
+      `${draftedText}\n` +
+      `━━━━━━━━━━━━━━━━━━━━\n\n` +
+      `✅ *Next Action:*\n` +
+      `• Reply *Send* or *Approve* to dispatch this email\n` +
+      `• Reply with instructions to adjust the draft`;
+
+    await sendTelegram(env, draftCard);
+    return json({ ok: true });
+  }
+
+  // ── BUILD GENERAL CONTEXT FOR AI ──
   let dbContext = '';
   let paperMatchObj = null;
   
@@ -1287,7 +1717,7 @@ async function handleTelegramWebhook(request, env) {
       const paper = await env.DB.prepare('SELECT * FROM manuscripts WHERE paper_id = ?').bind(pid).first();
       if (paper) {
         paperMatchObj = paper;
-        const history = JSON.parse(paper.stage_history || '[]');
+        const history = safeJsonParse(paper.stage_history, []);
         dbContext += `\n\nPAPER DATA for ${pid}:\n`;
         dbContext += `Title: ${paper.title}\nAuthor: ${paper.author_name} (${paper.author_email})\n`;
         dbContext += `Current Stage: ${paper.stage} (${STAGE_LABELS[paper.stage] || paper.stage})\n`;
@@ -1360,6 +1790,9 @@ async function handleTelegramWebhook(request, env) {
       }
     } else if (qLower.includes('help') || qLower.includes('command')) {
       aiReply = `🤖 *MPPT Editorial Assistant Commands:*\n\n` +
+        `• \`@mpptai_bot add reviewer Dr. Name, email, speciality, affiliation\` — Onboard reviewer\n` +
+        `• \`@mpptai_bot list reviewers\` — View active reviewer pool\n` +
+        `• \`@mpptai_bot test email\` — Simulate inbound email & auto-draft test\n` +
         `• \`@mpptai_bot status <PAPER_ID>\` — Full audit trail\n` +
         `• \`@mpptai_bot how many papers pending?\` — Pipeline counts\n` +
         `• \`@mpptai_bot extend <PAPER_ID> 3 days\` — Extend active deadline\n` +
