@@ -156,20 +156,32 @@ function safeJsonParse(str, fallback = []) {
 async function generatePaperId(db, volume, issue) {
   const key = `paper_seq_V${volume}I${issue}`;
   
-  // Ensure counter row exists
-  await db.prepare(`INSERT OR IGNORE INTO counters (counter_key, counter_value) VALUES (?, 0)`)
-    .bind(key).run();
+  // Query total manuscripts currently in database to ensure counter is always ahead
+  const totalRow = await db.prepare(`SELECT COUNT(*) as total FROM manuscripts`).first().catch(() => null);
+  const baseCount = totalRow?.total || 0;
+
+  await db.prepare(`INSERT OR IGNORE INTO counters (counter_key, counter_value) VALUES (?, ?)`).bind(key, baseCount).run();
+  await db.prepare(`UPDATE counters SET counter_value = ? WHERE counter_key = ? AND counter_value < ?`).bind(baseCount, key, baseCount).run();
   
-  // Atomic increment
-  await db.prepare(`UPDATE counters SET counter_value = counter_value + 1 WHERE counter_key = ?`)
-    .bind(key).run();
-  
-  const row = await db.prepare(`SELECT counter_value FROM counters WHERE counter_key = ?`)
-    .bind(key).first();
-  
-  const seq = String(row.counter_value).padStart(4, '0');
+  let attempts = 0;
+  let candidateId = '';
   const year = new Date().getFullYear();
-  return `MPPT-${year}-V${volume}I${issue}-${seq}`;
+
+  while (attempts < 20) {
+    attempts++;
+    await db.prepare(`UPDATE counters SET counter_value = counter_value + 1 WHERE counter_key = ?`).bind(key).run();
+    const row = await db.prepare(`SELECT counter_value FROM counters WHERE counter_key = ?`).bind(key).first();
+    const seq = String(row ? row.counter_value : attempts).padStart(4, '0');
+    candidateId = `MPPT-${year}-V${volume}I${issue}-${seq}`;
+
+    // Verify candidate does not already exist
+    const exists = await db.prepare(`SELECT paper_id FROM manuscripts WHERE paper_id = ?`).bind(candidateId).first();
+    if (!exists) {
+      break;
+    }
+  }
+
+  return candidateId;
 }
 
 // ════════════════════════════════════════════════════════════

@@ -2359,39 +2359,49 @@ document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
     }
 
     async function proceedFinalSubmission(paymentDetails) {
-      // Generate Paper ID
-      const paperId = generatePaperId();
+      // Temporary/fallback Paper ID
+      let paperId = generatePaperId();
       const secToken = Math.random().toString(36).substring(2, 10);
-      const trackRel = 'track.html?id=' + encodeURIComponent(paperId) + '&key=' + encodeURIComponent(secToken);
-      const trackUrl = window.location.origin ? (window.location.origin.replace(/\/$/, '') + '/' + trackRel) : ('https://mpptjournal.com/' + trackRel);
+      let trackRel = 'track.html?id=' + encodeURIComponent(paperId) + '&key=' + encodeURIComponent(secToken);
+      let trackUrl = window.location.origin ? (window.location.origin.replace(/\/$/, '') + '/' + trackRel) : ('https://mpptjournal.com/' + trackRel);
 
       // Loading state on submit button
       const submitBtn = document.getElementById('submitMainBtn');
       const origBtnHtml = submitBtn ? submitBtn.innerHTML : '';
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<span style="display:inline-block;width:13px;height:13px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite;margin-right:8px;vertical-align:middle"></span> Uploading Manuscript to Cloud Storage...';
+        submitBtn.innerHTML = '<span style="display:inline-block;width:13px;height:13px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin 0.8s linear infinite;margin-right:8px;vertical-align:middle"></span> Uploading Manuscript to Edge Storage & Editorial D1...';
       }
 
-      // 1. Upload manuscript file to Cloudflare R2 Edge Storage
+      // 1. Upload manuscript file to Cloudflare Edge API & R2 Storage
       let r2UploadData = null;
       if (uploadedFile) {
         try {
           const fd = new FormData();
           fd.append('file', uploadedFile);
-          fd.append('paperId', paperId);
+          fd.append('authorName', name);
           fd.append('authorEmail', email);
+          fd.append('affiliation', aff);
+          fd.append('orcid', document.getElementById('p-orcid')?.value.trim() || '');
           fd.append('title', title);
+          fd.append('scope', document.getElementById('p-cat')?.value || 'AI, Cheminformatics & Drug Design');
+          fd.append('article_type', 'research');
 
-          const r2Resp = await fetch('https://mppt-api.pranavparekhcontent.workers.dev/upload', {
+          const r2Resp = await fetch('https://mppt-api.pranavparekhcontent.workers.dev/api/submit', {
             method: 'POST',
             body: fd
           });
           if (r2Resp.ok) {
             r2UploadData = await r2Resp.json();
+            // Adopt the authoritative D1 server-minted Paper ID (e.g. MPPT-2026-V1I1-0003)
+            if (r2UploadData && r2UploadData.paperId) {
+              paperId = r2UploadData.paperId;
+              trackRel = 'track.html?id=' + encodeURIComponent(paperId) + '&key=' + encodeURIComponent(secToken);
+              trackUrl = window.location.origin ? (window.location.origin.replace(/\/$/, '') + '/' + trackRel) : ('https://mpptjournal.com/' + trackRel);
+            }
           }
         } catch (r2Err) {
-          console.warn('R2 Cloud storage notice:', r2Err);
+          console.warn('Edge API submission notice:', r2Err);
         }
       }
 
@@ -2408,7 +2418,7 @@ document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
         email,
         affiliation: aff,
         orcid: document.getElementById('p-orcid')?.value.trim() || '',
-        category: document.getElementById('p-cat').value,
+        category: document.getElementById('p-cat')?.value || '',
         title,
         fileName: uploadedFile.name,
         fileSize: uploadedFile.size,
@@ -2430,7 +2440,7 @@ document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
         localStorage.removeItem(STORAGE_KEY);
       } catch (e) { /* storage error */ }
 
-      // Show success modal
+      // Show success modal with official Server Paper ID
       successPaperId.textContent = paperId;
       successQrContainer.innerHTML = generateQRSvg(trackUrl);
       const trackBtn = document.getElementById('successTrackLink');
