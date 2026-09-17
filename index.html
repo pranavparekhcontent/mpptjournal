@@ -1381,16 +1381,11 @@ footer a:hover{color:var(--acc);border-color:var(--acc)}
 
         <label class="declare"><input type="checkbox" id="p-dec" required><span>I declare this work is original, unpublished, not under consideration elsewhere, and adheres to COPE guidelines with plagiarism &lt;10%.</span></label>
 
-        <!-- ── COUPON & PAYMENT SECTION ── -->
-        <div class="field full coupon-section">
-          <label for="p-coupon">APC Coupon Code</label>
-          <div class="coupon-row">
-            <input id="p-coupon" value="VOL1FREE" placeholder="Enter coupon code" autocomplete="off" style="flex:1">
-            <button type="button" class="btn coupon-apply-btn" id="couponApplyBtn">Apply</button>
-          </div>
-          <div class="coupon-result" id="couponResult">
-            <svg viewBox="0 0 20 20" fill="var(--acc)" style="width:16px;height:16px;flex-shrink:0" aria-hidden="true"><path d="M10 0C4.477 0 0 4.477 0 10s4.477 10 10 10 10-4.477 10-10S15.523 0 10 0zm5.707 7.293l-7 7a1 1 0 01-1.414 0l-3-3a1 1 0 011.414-1.414L8 12.172l6.293-6.293a1 1 0 011.414 1.414z"/></svg>
-            <span><strong>VOL1FREE</strong> — Inaugural Volume Waiver Applied · <strong>₹0 / $0</strong> Total</span>
+        <!-- ── POST-ACCEPTANCE APC POLICY CALLOUT ── -->
+        <div class="field full">
+          <div style="background:rgba(140,59,59,.04);border-left:3px solid var(--acc);padding:14px 18px;font-family:var(--mono);font-size:11px;color:var(--mut);line-height:1.6;letter-spacing:.02em">
+            <strong style="color:var(--ink);letter-spacing:.06em;text-transform:uppercase">Zero Submission Fee · Payment Only After Acceptance</strong><br>
+            All manuscripts are submitted and evaluated completely free of charge based strictly on academic merit. Article Processing Charges (APC) apply only upon formal peer-review acceptance. (Inaugural Volume 1: 100% Waiver Guaranteed).
           </div>
         </div>
 
@@ -2117,8 +2112,9 @@ document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
     };
   }
 
-  // ── COUPON VALIDATION ──
+  // ── COUPON VALIDATION (IF APPLICABLE) ──
   function applyCoupon() {
+    if (!couponInput || !couponResult) return;
     const code = couponInput.value.trim().toUpperCase();
     if (!code) {
       couponValid = false;
@@ -2205,25 +2201,27 @@ document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
     triggerAutosave();
   }
 
-  couponApplyBtn.addEventListener('click', applyCoupon);
-  couponInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); applyCoupon(); } });
+  if (couponApplyBtn) couponApplyBtn.addEventListener('click', applyCoupon);
+  if (couponInput) {
+    couponInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); applyCoupon(); } });
+  }
 
   // Re-verify email-locked coupon if author alters email
   const authorMailInput = document.getElementById('p-mail');
-  if (authorMailInput) {
+  if (authorMailInput && couponInput) {
     authorMailInput.addEventListener('blur', () => {
-      if (couponInput && couponInput.value.trim() && couponInput.value.trim().toUpperCase() !== 'VOL1FREE') {
+      if (couponInput.value.trim() && couponInput.value.trim().toUpperCase() !== 'VOL1FREE') {
         applyCoupon();
       }
     });
   }
 
   // Auto-apply on page load if pre-filled
-  if (couponInput.value.trim()) setTimeout(applyCoupon, 200);
+  if (couponInput && couponInput.value.trim()) setTimeout(applyCoupon, 200);
 
   // ── LOCAL STORAGE AUTO-SAVE ──
   const STORAGE_KEY = 'mppt_submission_draft';
-  const SAVE_FIELDS = ['p-name', 'p-mail', 'p-aff', 'p-orcid', 'p-cat', 'p-title', 'p-coupon'];
+  const SAVE_FIELDS = ['p-name', 'p-mail', 'p-aff', 'p-orcid', 'p-cat', 'p-title'];
   let saveTimer = null;
 
   function triggerAutosave() {
@@ -2360,23 +2358,6 @@ document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
       return;
     }
 
-    // Re-verify coupon at submission time to ensure strict cryptographic binding to the current email
-    if (couponInput && couponInput.value.trim() && couponInput.value.trim().toUpperCase() !== 'VOL1FREE') {
-      applyCoupon();
-      if (!couponValid) {
-        alert('The entered coupon code is invalid, expired, or not authorized for the email: ' + email + '.\n\nPlease check your email and coupon code, or clear the coupon to continue.');
-        couponInput.focus();
-        return;
-      }
-    }
-
-    // ── RAZORPAY PAYMENT GATEWAY (TEST MODE / READY FOR PAID VOLUMES) ──
-    const RAZORPAY_CONFIG = {
-      keyId: localStorage.getItem('mppt_razorpay_key') || 'rzp_test_51HGw8KqjZTEST',
-      amount: 150000, // ₹1,500 in paise (standard APC for future paid volumes)
-      currency: 'INR'
-    };
-
     async function proceedFinalSubmission(paymentDetails) {
       // Generate Paper ID
       const paperId = generatePaperId();
@@ -2433,7 +2414,7 @@ document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
         fileSize: uploadedFile.size,
         r2Key: r2UploadData ? r2UploadData.r2Key : null,
         r2DownloadUrl: r2UploadData ? r2UploadData.downloadUrl : null,
-        coupon: couponInput.value.trim().toUpperCase(),
+        coupon: 'POST_ACCEPTANCE_BILLING',
         payment: paymentDetails,
         submittedAt: new Date().toISOString(),
         status: 'received',
@@ -2464,82 +2445,18 @@ document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
       // Reset form
       form.reset();
       removeFile();
-      couponResult.style.display = 'none';
+      if (couponResult) couponResult.style.display = 'none';
       couponValid = false;
-
-      // Re-set coupon default
-      couponInput.value = 'VOL1FREE';
-      setTimeout(applyCoupon, 300);
     }
 
-    // If coupon is 100% waiver (e.g. VOL1FREE or 100% cryptographic token): Zero-payment bypass!
-    if (couponValid && appliedDiscountPct === 100) {
-      proceedFinalSubmission({
-        mode: 'WAIVER',
-        coupon: couponInput.value.trim().toUpperCase(),
-        amount: 0,
-        currency: 'INR',
-        note: '100% Inaugural Volume / Editorial Waiver'
-      });
-      return;
-    }
-
-    // Calculate effective payable amount (with partial coupon discount if applied)
-    const basePaise = RAZORPAY_CONFIG.amount; // 150000 = ₹1,500
-    const finalPaise = appliedDiscountPct > 0 
-      ? Math.round(basePaise * (100 - appliedDiscountPct) / 100)
-      : basePaise;
-
-    // Otherwise, open Razorpay Checkout (supports UPI, Netbanking, Cards, and International Payments)
-    if (window.Razorpay) {
-      const options = {
-        key: RAZORPAY_CONFIG.keyId,
-        amount: finalPaise,
-        currency: RAZORPAY_CONFIG.currency,
-        name: 'Journal of Modern Pharmacy Praxis & Therapeutics',
-        description: 'Article Processing Charge (APC) — ' + title.substring(0, 40),
-        image: 'logo/logo.png',
-        prefill: {
-          name: name,
-          email: email
-        },
-        notes: {
-          manuscript_title: title.substring(0, 50),
-          category: document.getElementById('p-cat').value,
-          coupon: couponInput.value.trim().toUpperCase(),
-          discount_pct: appliedDiscountPct + '%'
-        },
-        theme: {
-          color: '#8c3b3b'
-        },
-        handler: function(response) {
-          proceedFinalSubmission({
-            mode: 'RAZORPAY',
-            paymentId: response.razorpay_payment_id,
-            amount: finalPaise / 100,
-            currency: RAZORPAY_CONFIG.currency,
-            note: appliedDiscountPct > 0 ? ('Razorpay Paid (' + appliedDiscountPct + '% Coupon Applied)') : 'Razorpay Verified Payment'
-          });
-        },
-        modal: {
-          ondismiss: function() {
-            alert('Payment was not completed. You can re-enter the code "VOL1FREE" for a 100% inaugural waiver (₹0) or retry payment.');
-          }
-        }
-      };
-      try {
-        const rzp = new Razorpay(options);
-        rzp.open();
-      } catch (err) {
-        if (confirm('Razorpay checkout is in Test Mode. Would you like to apply the 100% Vol 1 Waiver (VOL1FREE) instead?')) {
-          couponInput.value = 'VOL1FREE';
-          applyCoupon();
-          proceedFinalSubmission({ mode: 'WAIVER', coupon: 'VOL1FREE', amount: 0, currency: 'INR', note: '100% Volume Waiver' });
-        }
-      }
-    } else {
-      alert('Payment gateway could not be loaded. Please apply coupon "VOL1FREE" for a 100% inaugural fee waiver.');
-    }
+    // Direct intake: Zero submission fee. Payment is strictly post-acceptance after formal peer review.
+    proceedFinalSubmission({
+      mode: 'POST_ACCEPTANCE',
+      coupon: 'POST_ACCEPTANCE_BILLING',
+      amount: 0,
+      currency: 'INR',
+      note: 'Zero Submission Fee · APC Payable Only After Acceptance (Vol 1 Waiver Guaranteed)'
+    });
   });
 
   // ── EMAILJS TRANSACTIONAL NOTIFICATIONS (AUTHOR RECEIPT + EDITOR ALERT) ──
@@ -2558,8 +2475,8 @@ document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
   function dispatchSubmissionEmails(sub, trackLink) {
     const emailStatus = document.getElementById('successEmailStatus');
     const payInfo = sub.payment || {};
-    const waiverDesc = (payInfo.mode === 'WAIVER')
-      ? ((payInfo.coupon || 'VOL1FREE') + ' (100% Inaugural Waiver — ₹0.00 / $0.00)')
+    const waiverDesc = (payInfo.mode === 'POST_ACCEPTANCE' || payInfo.mode === 'WAIVER')
+      ? 'Zero Submission Fee · APC Invoiced Only After Formal Acceptance (Vol 1 Waiver Guaranteed)'
       : (payInfo.note || ('Paid ₹' + payInfo.amount + ' via Razorpay'));
 
     const authorParams = {
@@ -2625,9 +2542,9 @@ document.querySelectorAll('[data-count]').forEach(el=>co.observe(el));
     } catch(e) {}
 
     const payInfo = subData.payment || {};
-    const payLabel = (payInfo.mode === 'WAIVER')
-      ? ('₹0.00 / $0.00 (100% Inaugural Waiver — ' + (payInfo.coupon || subData.coupon || 'VOL1FREE') + ')')
-      : ('₹' + (payInfo.amount || 1500) + '.00 (' + (payInfo.note || 'Razorpay Verified Payment') + ')');
+    const payLabel = (payInfo.mode === 'POST_ACCEPTANCE' || payInfo.mode === 'WAIVER')
+      ? '₹0.00 (Zero Submission Fee · APC Payable Only Post-Acceptance)'
+      : ('₹' + (payInfo.amount || 1500) + '.00 (' + (payInfo.note || 'Payment Received') + ')');
 
     const qrSvg = generateQRSvg('https://mpptjournal.com/track?id=' + pid);
     const receiptHtml = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>MPPT Journal Official Submission Receipt — ' + pid + '</title>' +
