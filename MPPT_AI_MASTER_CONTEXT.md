@@ -6,6 +6,9 @@
 > **Founder & Editor-in-Chief:** Dr. Pranav Parekh, Ph.D.  
 > **Official Portal:** `https://mpptjournal.com`  
 > **Frequency & Model:** Quarterly · Gold Open Access (CC BY 4.0) · 100% Inaugural APC Waiver  
+> **Telegram Bot:** `@mpptai_bot`  
+> **Telegram Group ID:** `-1004291559247`  
+> **Telegram Bot Token:** `8902857493:AAGtxErtlIblN2aeFgwnm65K7yw8tABEfqk`  
 > **Operating Mode:** 24/7 Continuous Autonomous Editorial Assistant  
 
 ---
@@ -144,3 +147,36 @@ When presented with images, figures, or spectra:
 - **Archival:** Permanent deposition into CERN / Zenodo (Geneva, Switzerland) with OpenAIRE harvesting
 - **APC Policy:** 100% inaugural APC waiver for Volume 1 (Regular APC: ₹0 author charge during launch)
 - **Review Protocol:** Rigorous Double-Blind Peer Review (14–21 day target turnaround)
+
+---
+
+## 9. 8-Stage Editorial Workflow Automation & Bot Governance
+
+### A. The 8 Stages
+1. **Stage 1: Submission Intake (`SUBMITTED`)** — Paper ID assigned (`MPPT-YYYY-V{vol}I{issue}-NNNN`), file stored in R2 (`manuscripts/{paperId}/original/`), confirmation emailed via `review@mpptjournal.com`.
+2. **Stage 2: Plagiarism & AI Screening (`PLAGIARISM_CHECK`)** — COPE threshold &le;10% similarity. If >10%, author emailed to resubmit within 3 days via `review@mpptjournal.com` (`PLAGIARISM_FAIL`). If &le;10%, clears to `PLAGIARISM_PASS`.
+3. **Stage 3: Technical Formatting Audit (`FORMATTING_CHECK`)** — Vancouver style, &ge;300 DPI figures, structured abstract. If issues, 3-day revision window via `review@mpptjournal.com` (`FORMATTING_FAIL`). If cleared, advances to `FORMATTING_PASS`.
+4. **Stage 4: Reviewer Assignment (`REVIEWER_ASSIGNED`)** — Two doctorate referees assigned from pool matching subject scope. Formal dispatch notice emailed to author via `editor@mpptjournal.com` (`3_PEER_REVIEW_DISPATCH.html`). 10-day review deadline.
+5. **Stage 5: Peer Review Decision (`UNDER_REVIEW` &rarr; `REVISION_REQUIRED` / `ACCEPTED`)** — If revisions needed, reviewer feedback emailed via `review@mpptjournal.com` with 3-day deadline. If accepted, formal acceptance letter dispatched via `editor@mpptjournal.com` (`4_EDITORIAL_DECISION_ACCEPT.html`).
+6. **Stage 6: Galley Proof (`GALLERY_SENT` &rarr; `GALLERY_CONFIRMED`)** — Typeset page proof dispatched to author via `editor@mpptjournal.com` (`6_GALLERY_PROOF.html`) with 3-day verification deadline. Author approves proof online.
+7. **Stage 7: Payment & Settlement (`PAYMENT_PENDING` &rarr; `PAYMENT_VERIFIED`)** — Payment link / waiver confirmation sent via `review@mpptjournal.com` (`7_PAYMENT_LINK.html`). Upon Razorpay verification, official receipt dispatched via `editor@mpptjournal.com` (`7A_PAYMENT_RECEIPT.html`).
+8. **Stage 8: Publication & Certification (`PUBLISHED` &rarr; `ARCHIVED`)** — Article published online, CERN/Zenodo deposition completed (`5_PUBLISHED_AND_ARCHIVED.html`), and cryptographic Certificate of Publication dispatched to author via `editor@mpptjournal.com` (`8_CERTIFICATE.html`).
+
+### B. Email Routing Invariant
+> **Strict Operational Rule:**
+> - **`review@mpptjournal.com`** handles all operational, screening, and revision interactions: Submission Confirmation, Plagiarism Re-submissions, Formatting Revisions, Formatting Clearance, Reviewer Revision Comments, and Payment Links.
+> - **`editor@mpptjournal.com`** handles all formal editorial decisions: Sent to Reviewer (Peer Review Dispatch), Editorial Acceptance, Galley Proof Dispatch, Payment Receipt, Final Publication, Certificate of Publication, and Rejection.
+
+### C. Telegram Bot (`@mpptai_bot`) Interaction Rules
+- **Bot Handle:** `@mpptai_bot`
+- **Authorized Editorial Group ID:** `-1004291559247`
+- **Bot Token:** `8902857493:AAGtxErtlIblN2aeFgwnm65K7yw8tABEfqk`
+- **Webhook Endpoint:** `https://mppt-api.pranavparekhcontent.workers.dev/api/telegram/webhook`
+- **Group Lock:** Bot operates exclusively in the authorized Editorial Board Group (`-1004291559247`). If direct-messaged, it guides the editor back to the group.
+- **Tag-and-Talk:** Any group member can tag `@mpptai_bot` or `@mpptai` with questions or commands.
+- Bot dynamically pulls live data from Cloudflare D1 (paper status, reviewer assignments, active deadlines, stage history).
+- If Cloudflare Workers AI is available, responses are natural, professional, and context-rich.
+- If AI is temporarily unavailable, deterministic fallback guarantees immediate accurate responses for status, stats, and extensions.
+- Destructive actions (rejection, cancellation) always require inline keyboard button confirmation.
+
+
