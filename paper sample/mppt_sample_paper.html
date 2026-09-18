@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="robots" content="noindex, nofollow, noarchive">
-<title>Sample Publication Paper Layout · Journal of Modern Pharmacy Praxis &amp; Therapeutics</title>
-<meta name="description" content="Demonstration Publication Layout for Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal).">
+<title>Volume 1, Issue 1 · Journal of Modern Pharmacy Praxis &amp; Therapeutics</title>
+<meta name="description" content="Inaugural Research Article for Journal of Modern Pharmacy Praxis and Therapeutics (MPPT Journal).">
 
 <!-- Open Graph Preview -->
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Journal of Modern Pharmacy Praxis &amp; Therapeutics">
 <meta property="og:title" content="De Novo Design of Selective Allosteric Kinase Inhibitors via Multi-Task Transformer Ensembles and Molecular Dynamics Simulations">
-<meta property="og:description" content="Sample paper layout for Journal of Modern Pharmacy Praxis &amp; Therapeutics (MPPT Journal).">
+<meta property="og:description" content="Official Inaugural Research Article · Journal of Modern Pharmacy Praxis &amp; Therapeutics (MPPT Journal).">
 <meta name="DC.rights" content="Creative Commons Attribution 4.0 International (CC BY 4.0)">
 
 <!-- Schema.org ScholarlyArticle JSON-LD -->
@@ -1149,6 +1149,176 @@
     margin-right: 4px;
   }
 
+  /* ===================================================
+     LIFECYCLE STAGES & WATERMARKS (Reviewer, Proof, Final)
+     =================================================== */
+  /* Top Mode Banners */
+  .mode-banner {
+    display: none;
+    margin-bottom: 20px;
+    padding: 10px 16px;
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    font-size: 8pt;
+    line-height: 1.45;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .mode-banner.mode-reviewer {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    border-left: 4px solid #b91c1c;
+    color: #991b1b;
+  }
+  .mode-banner.mode-proof {
+    background: #fffbeb;
+    border: 1px solid #fcd34d;
+    border-left: 4px solid #d97706;
+    color: #92400e;
+  }
+  .mode-banner-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 8.2pt;
+    white-space: nowrap;
+  }
+  .mode-proof-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #b45309;
+    color: #ffffff !important;
+    padding: 5px 12px;
+    font-size: 7.6pt;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
+    border-radius: 2px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background .2s;
+  }
+  .mode-proof-btn:hover {
+    background: #92400e;
+  }
+
+  /* Watermarks */
+  .paper-watermark {
+    display: none;
+    position: fixed;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-32deg);
+    pointer-events: none;
+    z-index: 80;
+    text-align: center;
+    line-height: 1.35;
+    user-select: none;
+    white-space: nowrap;
+  }
+  .paper-watermark-text {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+  }
+  .paper-watermark-reviewer .paper-watermark-text {
+    font-size: 52pt;
+    color: rgba(185, 28, 28, 0.065);
+  }
+  .paper-watermark-proof .paper-watermark-text {
+    font-size: 46pt;
+    color: rgba(180, 83, 9, 0.065);
+  }
+  .paper-sheet.is-reviewer .paper-watermark-reviewer {
+    display: block;
+  }
+  .paper-sheet.is-proof .paper-watermark-proof {
+    display: block;
+  }
+
+  /* Blinded Mask for Double-Blind Evaluation */
+  .blind-mask {
+    display: none;
+    background: #fdf8f6;
+    border: 1px dashed rgba(140, 59, 59, 0.4);
+    border-left: 3.5px solid var(--acc);
+    padding: 12px 16px;
+    border-radius: 2px;
+    margin-bottom: 12px;
+  }
+  .paper-sheet.is-reviewer .real-author-content {
+    display: none !important;
+  }
+  .paper-sheet.is-reviewer .blind-mask {
+    display: block !important;
+  }
+  .paper-sheet.is-reviewer .real-orig-card {
+    display: none !important;
+  }
+  .paper-sheet.is-reviewer .blind-orig-card {
+    display: block !important;
+  }
+  .paper-sheet.is-reviewer .real-credit {
+    display: none !important;
+  }
+  .paper-sheet.is-reviewer .blind-credit {
+    display: block !important;
+  }
+
+  /* Top Bar Mode Switcher */
+  .mode-switcher {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(28, 24, 18, 0.06);
+    border: 1px solid rgba(28, 24, 18, 0.14);
+    border-radius: 3px;
+    padding: 2px;
+    gap: 3px;
+    margin-right: 6px;
+  }
+  .mode-switch-btn {
+    background: transparent;
+    border: none;
+    padding: 4px 10px;
+    font-family: var(--font-mono);
+    font-size: 7.2pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--mut);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .mode-switch-btn:hover {
+    color: var(--ink);
+    background: rgba(255, 255, 255, 0.6);
+  }
+  .mode-switch-btn.active {
+    background: #ffffff;
+    color: var(--ink);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    font-weight: 700;
+  }
+  .mode-switch-btn.active[data-mode="reviewer"] {
+    color: #991b1b;
+  }
+  .mode-switch-btn.active[data-mode="proof"] {
+    color: #b45309;
+  }
+  .mode-switch-btn.active[data-mode="final"] {
+    color: #166534;
+  }
+
   /* Print Stylesheet for Vector-Sharp Academic PDF Compilation */
   @media print {
     @page {
@@ -1193,6 +1363,40 @@
       break-after: avoid !important;
       page-break-after: avoid !important;
     }
+    .mode-banner {
+      display: flex !important;
+      border-width: 1px !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    .paper-sheet.is-reviewer .paper-watermark-reviewer {
+      display: block !important;
+      position: fixed !important;
+      top: 45% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) rotate(-32deg) !important;
+      z-index: 99999 !important;
+    }
+    .paper-sheet.is-proof .paper-watermark-proof {
+      display: block !important;
+      position: fixed !important;
+      top: 45% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) rotate(-32deg) !important;
+      z-index: 99999 !important;
+    }
+    .paper-watermark-reviewer .paper-watermark-text {
+      font-size: 54pt !important;
+      color: rgba(185, 28, 28, 0.08) !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    .paper-watermark-proof .paper-watermark-text {
+      font-size: 48pt !important;
+      color: rgba(180, 83, 9, 0.08) !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
   }
 </style>
 </head>
@@ -1210,19 +1414,31 @@
         <span class="act-journal-name">Journal of Modern Pharmacy Praxis &amp; Therapeutics</span>
       </div>
       <div class="action-right">
+        <!-- Manuscript Lifecycle Version Mode Switcher -->
+        <div class="mode-switcher" id="modeSwitcher" role="group" aria-label="Manuscript Version Mode">
+          <button type="button" class="mode-switch-btn active" data-mode="final" onclick="setPaperMode('final')" title="Official Published Version (Clean · Cryptographic QR)">
+            <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#16a34a"></span> Published
+          </button>
+          <button type="button" class="mode-switch-btn" data-mode="reviewer" onclick="setPaperMode('reviewer')" title="Double-Blind Reviewer Copy (Under Review · Author Details Blinded)">
+            <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#dc2626"></span> Reviewer (Blinded)
+          </button>
+          <button type="button" class="mode-switch-btn" data-mode="proof" onclick="setPaperMode('proof')" title="Author Galley Proof Copy (Uncorrected)">
+            <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#d97706"></span> Galley Proof
+          </button>
+        </div>
         <button type="button" class="act-btn" onclick="openCiteModal()">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2H4c-1.25 0-2 .75-2 2v6c0 7 1 8 8 8z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2h-4c-1.25 0-2 .75-2 2v6c0 7 1 8 8 8z"/></svg>
           Cite Paper
         </button>
-        <a href="../certificate.html?type=author&id=MPPT-2026-V1I1-0001" target="_blank" class="act-btn act-btn-cert" title="Official Downloadable Publication Certificate">
+        <a href="../certificate.html?type=author&id=MPPT-2026-V1I1-0001" target="_blank" class="act-btn act-btn-cert" id="btnCert" title="Official Downloadable Publication Certificate">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
           Certificate
         </a>
-        <button type="button" class="act-btn act-btn-linkedin" onclick="openLinkedinModal()" title="Share on LinkedIn">
+        <button type="button" class="act-btn act-btn-linkedin" id="btnShare" onclick="openLinkedinModal()" title="Share on LinkedIn">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
           Share
         </button>
-        <a href="MPPT_Vol1_Issue1_Sample_Paper.pdf" download class="act-btn act-btn-primary" onclick="trackDownloadClick()">
+        <a href="MPPT_Vol1_Issue1_Sample_Paper.pdf" download="MPPT_Vol1_Issue1_Inaugural_Article.pdf" id="btnDownloadPdf" class="act-btn act-btn-primary" onclick="handleDownloadPdf(event)">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Download PDF
         </a>
@@ -1232,6 +1448,37 @@
 
   <!-- Printable Academic Paper Container with 4-Sided Web Margins -->
   <main class="paper-sheet" id="paperContent">
+
+    <!-- Paper Watermarks for Printed / Rendered PDF and Lifecycle Proof Stages -->
+    <div class="paper-watermark paper-watermark-reviewer" aria-hidden="true">
+      <div class="paper-watermark-text">REVIEWER COPY · UNDER REVIEW</div>
+    </div>
+    <div class="paper-watermark paper-watermark-proof" aria-hidden="true">
+      <div class="paper-watermark-text">GALLEY PROOF COPY · UNCORRECTED PROOF</div>
+    </div>
+
+    <!-- Mode Callout Banners for Authors & Peer Reviewers -->
+    <div class="mode-banner mode-reviewer" id="modeBannerReviewer" style="display:none;">
+      <div class="mode-banner-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="11" r="3"/><path d="M12 2v2M12 20v2"/></svg>
+      </div>
+      <div class="mode-banner-content">
+        <div class="mode-banner-title">Double-Blind Peer Review Evaluation Copy</div>
+        <div class="mode-banner-desc">Author identities, institutional affiliations, contact emails, and cryptographic QR signatures have been strictly redacted for impartial, double-blind peer review in accordance with COPE &amp; ICMJE ethical guidelines.</div>
+      </div>
+      <div class="mode-banner-tag">Stage: Under Review</div>
+    </div>
+
+    <div class="mode-banner mode-proof" id="modeBannerProof" style="display:none;">
+      <div class="mode-banner-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      </div>
+      <div class="mode-banner-content">
+        <div class="mode-banner-title">Author Galley Proof Copy · Uncorrected Proof</div>
+        <div class="mode-banner-desc">This is an uncorrected galley proof copy dispatched for author verification, typesetting correction, and final sign-off prior to official publication. Do not cite as final version of record.</div>
+      </div>
+      <div class="mode-banner-tag">Stage: Galley Proof</div>
+    </div>
 
   <!-- Journal Top Masthead -->
   <header class="journal-masthead">
@@ -1269,49 +1516,63 @@
   <!-- Authors Section Row: Justified Author Details & Proof of Originality Card -->
   <div class="authors-section-row">
     <div class="authors-info-col">
-      <!-- Authors with Verified ORCID iD Badges -->
-      <div class="author-list">
-        <span class="author-item">
-          <span class="author">Aarav Sharma</span><sup>1</sup>
-          <a href="https://orcid.org/0000-0002-1825-0097" target="_blank" rel="noopener noreferrer" class="orcid-link" title="Verified ORCID iD: 0000-0002-1825-0097">
-            <svg class="orcid-icon" width="13" height="13" viewBox="0 0 256 256"><path fill="#A6CE39" d="M256,128c0,70.7-57.3,128-128,128C57.3,256,0,198.7,0,128C0,57.3,57.3,0,128,0C198.7,0,256,57.3,256,128z"/><path fill="#FFFFFF" d="M86.3,186.2H70.9V79.1h15.4V186.2z M78.6,65.3c-5.4,0-9.8-4.4-9.8-9.8c0-5.4,4.4-9.8,9.8-9.8c5.4,0,9.8,4.4,9.8,9.8C88.4,60.9,84,65.3,78.6,65.3z M108.9,79.1h41.4c25.4,0,41.2,16.8,41.2,40.1c0,23.4-15.8,40.1-41.2,40.1h-41.4V79.1z M124.3,94.2v50.9h26c15.6,0,25.3-9.5,25.3-25.5c0-15.9-9.7-25.5-25.3-25.5H124.3z"/></svg>
-          </a>
-        </span>,
-        <span class="author-item">
-          <span class="author">Elena Rostova</span><sup>2</sup>
-          <a href="https://orcid.org/0000-0001-5234-8902" target="_blank" rel="noopener noreferrer" class="orcid-link" title="Verified ORCID iD: 0000-0001-5234-8902">
-            <svg class="orcid-icon" width="13" height="13" viewBox="0 0 256 256"><path fill="#A6CE39" d="M256,128c0,70.7-57.3,128-128,128C57.3,256,0,198.7,0,128C0,57.3,57.3,0,128,0C198.7,0,256,57.3,256,128z"/><path fill="#FFFFFF" d="M86.3,186.2H70.9V79.1h15.4V186.2z M78.6,65.3c-5.4,0-9.8-4.4-9.8-9.8c0-5.4,4.4-9.8,9.8-9.8c5.4,0,9.8,4.4,9.8,9.8C88.4,60.9,84,65.3,78.6,65.3z M108.9,79.1h41.4c25.4,0,41.2,16.8,41.2,40.1c0,23.4-15.8,40.1-41.2,40.1h-41.4V79.1z M124.3,94.2v50.9h26c15.6,0,25.3-9.5,25.3-25.5c0-15.9-9.7-25.5-25.3-25.5H124.3z"/></svg>
-          </a>
-        </span>,
-        <span class="author-item">
-          <span class="author">Vishnu Neharkar</span><sup>3</sup>
-          <a href="https://orcid.org/0009-0007-3129-8451" target="_blank" rel="noopener noreferrer" class="orcid-link" title="Verified ORCID iD: 0009-0007-3129-8451">
-            <svg class="orcid-icon" width="13" height="13" viewBox="0 0 256 256"><path fill="#A6CE39" d="M256,128c0,70.7-57.3,128-128,128C57.3,256,0,198.7,0,128C0,57.3,57.3,0,128,0C198.7,0,256,57.3,256,128z"/><path fill="#FFFFFF" d="M86.3,186.2H70.9V79.1h15.4V186.2z M78.6,65.3c-5.4,0-9.8-4.4-9.8-9.8c0-5.4,4.4-9.8,9.8-9.8c5.4,0,9.8,4.4,9.8,9.8C88.4,60.9,84,65.3,78.6,65.3z M108.9,79.1h41.4c25.4,0,41.2,16.8,41.2,40.1c0,23.4-15.8,40.1-41.2,40.1h-41.4V79.1z M124.3,94.2v50.9h26c15.6,0,25.3-9.5,25.3-25.5c0-15.9-9.7-25.5-25.3-25.5H124.3z"/></svg>
-          </a>
-        </span>,
-        <span class="author-item">
-          <span class="author">Pranav Parekh</span><sup>1,*</sup>
-          <a href="https://orcid.org/0009-0004-8912-4411" target="_blank" rel="noopener noreferrer" class="orcid-link" title="Verified ORCID iD: 0009-0004-8912-4411">
-            <svg class="orcid-icon" width="13" height="13" viewBox="0 0 256 256"><path fill="#A6CE39" d="M256,128c0,70.7-57.3,128-128,128C57.3,256,0,198.7,0,128C0,57.3,57.3,0,128,0C198.7,0,256,57.3,256,128z"/><path fill="#FFFFFF" d="M86.3,186.2H70.9V79.1h15.4V186.2z M78.6,65.3c-5.4,0-9.8-4.4-9.8-9.8c0-5.4,4.4-9.8,9.8-9.8c5.4,0,9.8,4.4,9.8,9.8C88.4,60.9,84,65.3,78.6,65.3z M108.9,79.1h41.4c25.4,0,41.2,16.8,41.2,40.1c0,23.4-15.8,40.1-41.2,40.1h-41.4V79.1z M124.3,94.2v50.9h26c15.6,0,25.3-9.5,25.3-25.5c0-15.9-9.7-25.5-25.3-25.5H124.3z"/></svg>
-          </a>
-        </span>
+      <!-- Blinded Mask for Double-Blind Evaluation -->
+      <div class="blind-mask" id="blindMask">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#991b1b" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+          <strong style="font-family:var(--font-mono);font-size:9pt;color:#991b1b;letter-spacing:0.06em;text-transform:uppercase;">[Author Identifiers Redacted for Double-Blind Review]</strong>
+        </div>
+        <div style="font-family:var(--font-sans);font-size:8.2pt;color:var(--dim);line-height:1.45;">
+          Author names, institutional affiliations, and correspondence credentials have been redacted to ensure objective, unbiased peer assessment under MPPT Double-Blind Review Protocol (COPE Compliance Standard).
+        </div>
       </div>
 
-      <!-- Affiliations -->
-      <div class="affiliations">
-        <p><sup>1</sup> Department of Computational Pharmacology &amp; AI Therapeutics, Institute of Advanced Pharmaceutical Sciences, Pune 411019, Maharashtra, India</p>
-        <p><sup>2</sup> Center for Structural Biology and Molecular Modeling, BioX Innovation Hub, 60438 Frankfurt am Main, Germany</p>
-        <p><sup>3</sup> Department of Pharmaceutical Regulatory Science &amp; Quality Assurance, Pune 411019, Maharashtra, India</p>
-      </div>
+      <!-- Real Authors Section (Shown in Published and Galley Proof Modes) -->
+      <div class="real-author-content">
+        <!-- Authors with Verified ORCID iD Badges -->
+        <div class="author-list">
+          <span class="author-item">
+            <span class="author">Aarav Sharma</span><sup>1</sup>
+            <a href="https://orcid.org/0000-0002-1825-0097" target="_blank" rel="noopener noreferrer" class="orcid-link" title="Verified ORCID iD: 0000-0002-1825-0097">
+              <svg class="orcid-icon" width="13" height="13" viewBox="0 0 256 256"><path fill="#A6CE39" d="M256,128c0,70.7-57.3,128-128,128C57.3,256,0,198.7,0,128C0,57.3,57.3,0,128,0C198.7,0,256,57.3,256,128z"/><path fill="#FFFFFF" d="M86.3,186.2H70.9V79.1h15.4V186.2z M78.6,65.3c-5.4,0-9.8-4.4-9.8-9.8c0-5.4,4.4-9.8,9.8-9.8c5.4,0,9.8,4.4,9.8,9.8C88.4,60.9,84,65.3,78.6,65.3z M108.9,79.1h41.4c25.4,0,41.2,16.8,41.2,40.1c0,23.4-15.8,40.1-41.2,40.1h-41.4V79.1z M124.3,94.2v50.9h26c15.6,0,25.3-9.5,25.3-25.5c0-15.9-9.7-25.5-25.3-25.5H124.3z"/></svg>
+            </a>
+          </span>,
+          <span class="author-item">
+            <span class="author">Elena Rostova</span><sup>2</sup>
+            <a href="https://orcid.org/0000-0001-5234-8902" target="_blank" rel="noopener noreferrer" class="orcid-link" title="Verified ORCID iD: 0000-0001-5234-8902">
+              <svg class="orcid-icon" width="13" height="13" viewBox="0 0 256 256"><path fill="#A6CE39" d="M256,128c0,70.7-57.3,128-128,128C57.3,256,0,198.7,0,128C0,57.3,57.3,0,128,0C198.7,0,256,57.3,256,128z"/><path fill="#FFFFFF" d="M86.3,186.2H70.9V79.1h15.4V186.2z M78.6,65.3c-5.4,0-9.8-4.4-9.8-9.8c0-5.4,4.4-9.8,9.8-9.8c5.4,0,9.8,4.4,9.8,9.8C88.4,60.9,84,65.3,78.6,65.3z M108.9,79.1h41.4c25.4,0,41.2,16.8,41.2,40.1c0,23.4-15.8,40.1-41.2,40.1h-41.4V79.1z M124.3,94.2v50.9h26c15.6,0,25.3-9.5,25.3-25.5c0-15.9-9.7-25.5-25.3-25.5H124.3z"/></svg>
+            </a>
+          </span>,
+          <span class="author-item">
+            <span class="author">Vishnu Neharkar</span><sup>3</sup>
+            <a href="https://orcid.org/0009-0007-3129-8451" target="_blank" rel="noopener noreferrer" class="orcid-link" title="Verified ORCID iD: 0009-0007-3129-8451">
+              <svg class="orcid-icon" width="13" height="13" viewBox="0 0 256 256"><path fill="#A6CE39" d="M256,128c0,70.7-57.3,128-128,128C57.3,256,0,198.7,0,128C0,57.3,57.3,0,128,0C198.7,0,256,57.3,256,128z"/><path fill="#FFFFFF" d="M86.3,186.2H70.9V79.1h15.4V186.2z M78.6,65.3c-5.4,0-9.8-4.4-9.8-9.8c0-5.4,4.4-9.8,9.8-9.8c5.4,0,9.8,4.4,9.8,9.8C88.4,60.9,84,65.3,78.6,65.3z M108.9,79.1h41.4c25.4,0,41.2,16.8,41.2,40.1c0,23.4-15.8,40.1-41.2,40.1h-41.4V79.1z M124.3,94.2v50.9h26c15.6,0,25.3-9.5,25.3-25.5c0-15.9-9.7-25.5-25.3-25.5H124.3z"/></svg>
+            </a>
+          </span>,
+          <span class="author-item">
+            <span class="author">Pranav Parekh</span><sup>1,*</sup>
+            <a href="https://orcid.org/0009-0004-8912-4411" target="_blank" rel="noopener noreferrer" class="orcid-link" title="Verified ORCID iD: 0009-0004-8912-4411">
+              <svg class="orcid-icon" width="13" height="13" viewBox="0 0 256 256"><path fill="#A6CE39" d="M256,128c0,70.7-57.3,128-128,128C57.3,256,0,198.7,0,128C0,57.3,57.3,0,128,0C198.7,0,256,57.3,256,128z"/><path fill="#FFFFFF" d="M86.3,186.2H70.9V79.1h15.4V186.2z M78.6,65.3c-5.4,0-9.8-4.4-9.8-9.8c0-5.4,4.4-9.8,9.8-9.8c5.4,0,9.8,4.4,9.8,9.8C88.4,60.9,84,65.3,78.6,65.3z M108.9,79.1h41.4c25.4,0,41.2,16.8,41.2,40.1c0,23.4-15.8,40.1-41.2,40.1h-41.4V79.1z M124.3,94.2v50.9h26c15.6,0,25.3-9.5,25.3-25.5c0-15.9-9.7-25.5-25.3-25.5H124.3z"/></svg>
+            </a>
+          </span>
+        </div>
 
-      <!-- Correspondence Line -->
-      <div class="correspondence">
-        <b>* Corresponding Author:</b> Dr. Pranav Parekh, Email: <span style="color:var(--acc);font-family:var(--font-mono)">editor@mpptjournal.com</span>.
+        <!-- Affiliations -->
+        <div class="affiliations">
+          <p><sup>1</sup> Department of Computational Pharmacology &amp; AI Therapeutics, Institute of Advanced Pharmaceutical Sciences, Pune 411019, Maharashtra, India</p>
+          <p><sup>2</sup> Center for Structural Biology and Molecular Modeling, BioX Innovation Hub, 60438 Frankfurt am Main, Germany</p>
+          <p><sup>3</sup> Department of Pharmaceutical Regulatory Science &amp; Quality Assurance, Pune 411019, Maharashtra, India</p>
+        </div>
+
+        <!-- Correspondence Line -->
+        <div class="correspondence">
+          <b>* Corresponding Author:</b> Dr. Pranav Parekh, Email: <span style="color:var(--acc);font-family:var(--font-mono)">editor@mpptjournal.com</span>.
+        </div>
       </div>
     </div>
 
-    <!-- Proof of Originality & QR Verification Card (Aesthetically Placed in Authors Section) -->
-    <div class="originality-card">
+    <!-- Proof of Originality & QR Verification Card (Shown in Published and Galley Proof Modes) -->
+    <div class="originality-card real-orig-card">
       <div class="orig-top-row">
         <div class="qr-frame">
           <img src="qr_code.svg" alt="Scan for Authentic Original Paper" class="qr-img">
@@ -1329,6 +1590,26 @@
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
         Verify Authenticity
       </button>
+    </div>
+
+    <!-- Blinded Originality Card (Shown in Double-Blind Reviewer Mode) -->
+    <div class="originality-card blind-orig-card" style="display:none;border-top:3px solid #991b1b;">
+      <div class="orig-top-row">
+        <div class="qr-frame" style="background:#fef2f2;border-color:#fca5a5;display:flex;align-items:center;justify-content:center;text-align:center;">
+          <span style="font-family:var(--font-mono);font-size:6.2pt;font-weight:700;color:#991b1b;line-height:1.2;padding:2px;">BLINDED<br>REVIEW</span>
+        </div>
+        <div class="orig-info">
+          <div class="orig-tag" style="color:#991b1b;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#991b1b" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Review Copy
+          </div>
+          <div class="orig-pid">ID: <b>MPPT-2026-V1I1-0001</b></div>
+          <div class="orig-sub">Double-Blind Referee Copy</div>
+        </div>
+      </div>
+      <div style="font-family:var(--font-mono);font-size:6.8pt;color:#991b1b;background:#fef2f2;border:1px dashed #fca5a5;padding:5px 6px;border-radius:2px;text-align:center;font-weight:600;margin-top:4px;">
+        CONFIDENTIAL · DO NOT CIRCULATE
+      </div>
     </div>
   </div>
 
@@ -1653,7 +1934,8 @@
       
       <p><strong>Data &amp; Code Availability:</strong> Model weights, tokenizers, cryo-EM pocket coordinates, and molecular dynamics trajectories are deposited under the MIT License on Zenodo (DOI: 10.5281/zenodo.10849201) and mirrored at the MPPT Journal Open Science repository (<a href="https://mpptjournal.com" style="color:var(--acc)">mpptjournal.com</a>).</p>
 
-      <p><strong>Author Contributions (CRediT):</strong> Conceptualization: P.P., A.S.; Methodology &amp; Machine Learning: A.S., E.R.; Chemical Synthesis: V.N.; Investigation &amp; In Vitro Assays: A.S., E.R.; Supervision &amp; Project Administration: P.P., V.N.; Writing – original draft: A.S., P.P.; Writing – review &amp; editing: All authors.</p>
+      <p class="real-credit"><strong>Author Contributions (CRediT):</strong> Conceptualization: P.P., A.S.; Methodology &amp; Machine Learning: A.S., E.R.; Chemical Synthesis: V.N.; Investigation &amp; In Vitro Assays: A.S., E.R.; Supervision &amp; Project Administration: P.P., V.N.; Writing – original draft: A.S., P.P.; Writing – review &amp; editing: All authors.</p>
+      <p class="blind-credit" style="display:none;"><strong>Author Contributions (CRediT):</strong> <em>[Redacted to preserve double-blind peer review anonymity; full contributor matrix will be restored in the published version of record.]</em></p>
 
       <p><strong>Funding:</strong> This research was supported by the Open Access Pharmaceutical Research Initiative (Grant #OAR-2026-01) and the National Computational Drug Discovery Grant.</p>
 
@@ -2112,6 +2394,90 @@
       } catch(e) {}
     }
 
+    // Manuscript Lifecycle Version Controller (Published / Double-Blind Reviewer / Galley Proof)
+    var currentPaperMode = 'final';
+
+    function setPaperMode(mode) {
+      if (mode !== 'reviewer' && mode !== 'proof' && mode !== 'final') {
+        mode = 'final';
+      }
+      currentPaperMode = mode;
+
+      var paper = document.getElementById('paperContent');
+      var bannerReviewer = document.getElementById('modeBannerReviewer');
+      var bannerProof = document.getElementById('modeBannerProof');
+      var btnCert = document.getElementById('btnCert');
+      var btnShare = document.getElementById('btnShare');
+      var btnDownload = document.getElementById('btnDownloadPdf');
+
+      // Update switcher buttons
+      document.querySelectorAll('.mode-switch-btn').forEach(function(btn) {
+        if (btn.getAttribute('data-mode') === mode) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      // Update classes on main paper container
+      if (paper) {
+        paper.classList.remove('is-reviewer', 'is-proof');
+        if (mode === 'reviewer') {
+          paper.classList.add('is-reviewer');
+        } else if (mode === 'proof') {
+          paper.classList.add('is-proof');
+        }
+      }
+
+      // Update callout banners
+      if (bannerReviewer) bannerReviewer.style.display = (mode === 'reviewer') ? 'flex' : 'none';
+      if (bannerProof) bannerProof.style.display = (mode === 'proof') ? 'flex' : 'none';
+
+      // Update certificate and share buttons (anonymized for double-blind review)
+      if (btnCert) btnCert.style.display = (mode === 'reviewer') ? 'none' : 'inline-flex';
+      if (btnShare) btnShare.style.display = (mode === 'reviewer') ? 'none' : 'inline-flex';
+
+      // Update dynamic PDF download targeting
+      if (btnDownload) {
+        if (mode === 'reviewer') {
+          btnDownload.setAttribute('href', 'MPPT_Vol1_Issue1_Reviewer_Blinded.pdf');
+          btnDownload.setAttribute('download', 'MPPT_Vol1_Issue1_Reviewer_Blinded.pdf');
+          btnDownload.setAttribute('title', 'Download Anonymized Double-Blind Reviewer PDF');
+        } else if (mode === 'proof') {
+          btnDownload.setAttribute('href', 'MPPT_Vol1_Issue1_Author_Proof.pdf');
+          btnDownload.setAttribute('download', 'MPPT_Vol1_Issue1_Author_Proof.pdf');
+          btnDownload.setAttribute('title', 'Download Author Galley Proof PDF');
+        } else {
+          btnDownload.setAttribute('href', 'MPPT_Vol1_Issue1_Inaugural_Article.pdf');
+          btnDownload.setAttribute('download', 'MPPT_Vol1_Issue1_Inaugural_Article.pdf');
+          btnDownload.setAttribute('title', 'Download Official Published Article PDF');
+        }
+      }
+
+      // Update document title
+      if (mode === 'reviewer') {
+        document.title = '[Reviewer Copy · Under Review] De Novo Design of Selective Allosteric Kinase Inhibitors · MPPT Journal';
+      } else if (mode === 'proof') {
+        document.title = '[Galley Proof Copy · Uncorrected] De Novo Design of Selective Allosteric Kinase Inhibitors · MPPT Journal';
+      } else {
+        document.title = 'De Novo Design of Selective Allosteric Kinase Inhibitors via Multi-Task Transformer Ensembles · MPPT Journal';
+      }
+    }
+
+    function handleDownloadPdf(event) {
+      trackDownloadClick();
+      var btnDownload = document.getElementById('btnDownloadPdf');
+      if (btnDownload) {
+        if (currentPaperMode === 'reviewer') {
+          btnDownload.href = 'MPPT_Vol1_Issue1_Reviewer_Blinded.pdf';
+        } else if (currentPaperMode === 'proof') {
+          btnDownload.href = 'MPPT_Vol1_Issue1_Author_Proof.pdf';
+        } else {
+          btnDownload.href = 'MPPT_Vol1_Issue1_Inaugural_Article.pdf';
+        }
+      }
+    }
+
     // Keyboard ESC listener
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
@@ -2126,6 +2492,15 @@
     document.addEventListener('DOMContentLoaded', function() {
       initLiveMetrics();
       var params = new URLSearchParams(window.location.search);
+      var modeParam = (params.get('mode') || '').toLowerCase();
+      if (modeParam === 'reviewer' || modeParam === 'blinded' || modeParam === 'blind' || modeParam === 'review') {
+        setPaperMode('reviewer');
+      } else if (modeParam === 'proof' || modeParam === 'galley' || modeParam === 'galleyproof') {
+        setPaperMode('proof');
+      } else {
+        setPaperMode('final');
+      }
+
       if (params.get('verify') === 'authentic' || params.get('verify') === '1' || window.location.hash === '#verify') {
         openVerifyModal();
       }

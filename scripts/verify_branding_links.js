@@ -23,6 +23,27 @@ if (fs.existsSync(samplePdf)) {
   assert(stat.size > 1500000, `Sample PDF file size is valid (~${(stat.size / (1024 * 1024)).toFixed(2)} MB)`);
 }
 
+const reviewerPdf = path.join(root, 'paper sample', 'MPPT_Vol1_Issue1_Reviewer_Blinded.pdf');
+assert(fs.existsSync(reviewerPdf), 'Reviewer Blinded PDF exists at paper sample/MPPT_Vol1_Issue1_Reviewer_Blinded.pdf');
+if (fs.existsSync(reviewerPdf)) {
+  const stat = fs.statSync(reviewerPdf);
+  assert(stat.size > 1500000, `Reviewer PDF file size is valid (~${(stat.size / (1024 * 1024)).toFixed(2)} MB)`);
+}
+
+const proofPdf = path.join(root, 'paper sample', 'MPPT_Vol1_Issue1_Author_Proof.pdf');
+assert(fs.existsSync(proofPdf), 'Author Galley Proof PDF exists at paper sample/MPPT_Vol1_Issue1_Author_Proof.pdf');
+if (fs.existsSync(proofPdf)) {
+  const stat = fs.statSync(proofPdf);
+  assert(stat.size > 1500000, `Proof PDF file size is valid (~${(stat.size / (1024 * 1024)).toFixed(2)} MB)`);
+}
+
+const inauguralPdf = path.join(root, 'paper sample', 'MPPT_Vol1_Issue1_Inaugural_Article.pdf');
+assert(fs.existsSync(inauguralPdf), 'Inaugural Article PDF exists at paper sample/MPPT_Vol1_Issue1_Inaugural_Article.pdf');
+if (fs.existsSync(inauguralPdf)) {
+  const stat = fs.statSync(inauguralPdf);
+  assert(stat.size > 1500000, `Inaugural PDF file size is valid (~${(stat.size / (1024 * 1024)).toFixed(2)} MB)`);
+}
+
 const sampleHtml = path.join(root, 'paper sample', 'mppt_sample_paper.html');
 assert(fs.existsSync(sampleHtml), 'mppt_sample_paper.html exists');
 
@@ -59,6 +80,13 @@ assert(samplePaperContent.includes('jline2">PRAXIS <span class="amp">&amp;</span
 assert(samplePaperContent.includes('href="../index.html#issues"'), 'sample paper back button links to ../index.html#issues');
 assert(samplePaperContent.includes('href="../certificate.html?type=author&id=MPPT-2026-V1I1-0001"'), 'sample paper certificate button links to ../certificate.html');
 assert(samplePaperContent.includes('href="MPPT_Vol1_Issue1_Sample_Paper.pdf"'), 'sample paper PDF button links to MPPT_Vol1_Issue1_Sample_Paper.pdf');
+assert(samplePaperContent.includes('REVIEWER COPY · UNDER REVIEW'), 'sample paper has Reviewer watermark string');
+assert(samplePaperContent.includes('GALLEY PROOF COPY · UNCORRECTED PROOF'), 'sample paper has Galley Proof watermark string');
+assert(samplePaperContent.includes('[Author Identifiers Redacted for Double-Blind Review]'), 'sample paper has Double-Blind redaction notice');
+assert(samplePaperContent.includes('setPaperMode'), 'sample paper has setPaperMode lifecycle function');
+assert(samplePaperContent.includes('data-mode="reviewer"'), 'sample paper has Reviewer mode button');
+assert(samplePaperContent.includes('data-mode="proof"'), 'sample paper has Galley Proof mode button');
+assert(samplePaperContent.includes('data-mode="final"'), 'sample paper has Published mode button');
 
 console.log('\n--- 3. Main Website (index.html) Links Audit ---');
 const indexHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
