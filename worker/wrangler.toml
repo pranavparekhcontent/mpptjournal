@@ -28,7 +28,7 @@ CURRENT_ISSUE = "1"
 TELEGRAM_GROUP_ID = "-1004291559247"
 TELEGRAM_BOT_TOKEN = "8902857493:AAGtxErtlIblN2aeFgwnm65K7yw8tABEfqk"
 
-# ── Cron Triggers (Deadline Monitoring) ──
-# [triggers]
-# crons = ["0 */6 * * *"]  # Every 6 hours — check deadlines, send alerts
+# ── Cron Triggers (Deadline Monitoring + Zoho IMAP Sync) ──
+[triggers]
+crons = ["*/10 * * * *"]  # Every 10 minutes — check deadlines & sync Zoho emails
 
