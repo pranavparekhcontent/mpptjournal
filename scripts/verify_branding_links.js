@@ -60,6 +60,8 @@ assert(trackHtml.includes('Live Manuscript Progress &amp; Editorial Tracker'), '
 assert(trackHtml.includes('logo/logo.png'), 'track.html links to official seal logo');
 assert(trackHtml.includes('receipt-watermark'), 'track.html receipt includes logo watermark');
 assert(trackHtml.includes('lockup-sub">Official Submission &amp; Peer-Review Status Certificate<'), 'track.html receipt includes official status certificate subtitle');
+assert(trackHtml.includes('lockup-kicker" style="color:#8c3b3b !important;font-style:italic'), 'track.html receipt has crimson #8c3b3b italic Journal of');
+assert(trackHtml.includes('class="amp" style="color:#8c3b3b !important;font-style:italic'), 'track.html receipt has crimson #8c3b3b italic amp');
 
 // certificate.html
 const certHtml = fs.readFileSync(path.join(root, 'certificate.html'), 'utf8');
@@ -97,6 +99,8 @@ assert(!indexHtml.includes('Read Inaugural Issue Paper (Web)'), 'index.html arch
 assert(indexHtml.includes('href="paper sample/mppt_sample_paper.html"'), 'index.html retains sample paper links in submit resources and footer');
 assert(indexHtml.includes('receipt-watermark'), 'index.html submission receipt includes logo watermark');
 assert(indexHtml.includes('lockup-sub">Official Manuscript Intake &amp; Peer-Review Receipt<'), 'index.html submission receipt includes official lockup');
+assert(indexHtml.includes('lockup-kicker" style="color:#8c3b3b !important;font-style:italic'), 'index.html receipt has crimson #8c3b3b italic Journal of');
+assert(indexHtml.includes('class="amp" style="color:#8c3b3b !important;font-style:italic'), 'index.html receipt has crimson #8c3b3b italic amp');
 
 console.log('\n--- 4. Batch Email Templates (All 16) ---');
 const emailFiles = [
