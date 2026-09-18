@@ -1094,36 +1094,79 @@ const API_BASE = 'https://mppt-api.pranavparekhcontent.workers.dev';
   document.getElementById('btnDownloadReceipt')?.addEventListener('click', () => {
     const pid = activePaper.paperId;
     const qrSvg = generateQRSvg(window.location.href);
-    const receiptHtml = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>MPPT Journal Receipt — ' + pid + '</title>' +
-      '<style>body{font-family:Georgia,serif;max-width:680px;margin:30px auto;padding:32px;color:#1c1812;background:#fff;line-height:1.5}' +
-      '.hdr{border-bottom:3px double #8c3b3b;padding-bottom:18px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center}' +
-      '.title{font-size:22px;color:#8c3b3b;font-weight:bold;margin:0}' +
-      '.pid-badge{background:#8c3b3b;color:#fff;font-family:monospace;font-size:13px;padding:6px 12px;border-radius:2px;font-weight:bold}' +
-      'table{width:100%;border-collapse:collapse;margin:20px 0}' +
-      'td{padding:10px 14px;border-bottom:1px solid #e8e2d5;font-size:13.5px}' +
-      'td.lbl{font-weight:bold;width:34%;color:#5c5344;font-family:Arial,sans-serif;font-size:12px;text-transform:uppercase}' +
-      '.waiver{color:#2e7d32;font-weight:bold}' +
-      '.qr-box{text-align:center;margin:24px 0;padding:16px;background:#fcfbfa;border:1px dashed #d8cfbc}' +
-      '.footer{margin-top:34px;border-top:1px solid #d8cfbc;padding-top:16px;font-size:11px;color:#8a7f6c;text-align:center}' +
-      '@media print{button{display:none}}</style></head><body>' +
-      '<div class="hdr"><div><h1 class="title">Journal of Modern Pharmacy Praxis &amp; Therapeutics</h1>' +
-      '<p style="margin:4px 0 0;font-size:12px;color:#5c5344">Official Submission &amp; Peer-Review Status Certificate</p></div>' +
-      '<div class="pid-badge">' + pid + '</div></div>' +
+    const receiptHtml = '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">' +
+      '<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+      '<title>MPPT Journal Official Status Certificate — ' + pid + '</title>' +
+      '<link rel="preconnect" href="https://fonts.googleapis.com">' +
+      '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' +
+      '<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">' +
+      '<style>' +
+      '* { box-sizing: border-box; margin: 0; padding: 0; }' +
+      'body { font-family: "Newsreader", Georgia, serif; background: #fdfbf7; color: #1c1812; line-height: 1.5; padding: 36px 16px; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }' +
+      '.receipt-container { position: relative; background: #ffffff; max-width: 720px; width: 100%; padding: 40px 44px; border: 1px solid #e2d9c8; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border-radius: 4px; overflow: hidden; }' +
+      '.receipt-watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 380px; height: 380px; opacity: 0.052; pointer-events: none; z-index: 0; user-select: none; object-fit: contain; -webkit-print-color-adjust: exact; print-color-adjust: exact; }' +
+      '.receipt-content { position: relative; z-index: 1; }' +
+      '.hdr { display: flex; justify-content: space-between; align-items: center; border-bottom: 2.5px solid #8c3b3b; padding-bottom: 20px; margin-bottom: 24px; gap: 16px; flex-wrap: wrap; }' +
+      '.brand-group { display: flex; align-items: center; gap: 16px; }' +
+      '.brand-seal { width: 62px; height: 62px; border-radius: 50%; border: 1.5px solid #a8874f; box-shadow: 0 2px 10px rgba(140,59,59,0.15); object-fit: cover; flex-shrink: 0; }' +
+      '.lockup { display: flex; flex-direction: column; line-height: 1.15; }' +
+      '.lockup-kicker { font-family: "Cinzel", Georgia, serif; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #857a68; margin-bottom: 2px; }' +
+      '.lockup-line1 { font-family: "Cinzel", Georgia, serif; font-size: 18.5px; font-weight: 800; letter-spacing: 0.06em; color: #1c1812; text-transform: uppercase; }' +
+      '.lockup-line2 { font-family: "Cinzel", Georgia, serif; font-size: 14px; font-weight: 700; letter-spacing: 0.08em; color: #574e40; text-transform: uppercase; }' +
+      '.lockup-line2 .amp { color: #8c3b3b; font-style: italic; font-family: "Newsreader", Georgia, serif; font-weight: 400; }' +
+      '.lockup-sub { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; font-size: 11px; font-weight: 500; color: #857a68; margin-top: 4px; letter-spacing: 0.03em; }' +
+      '.pid-badge { background: #8c3b3b; color: #ffffff; font-family: "JetBrains Mono", monospace; font-size: 13px; font-weight: 700; padding: 8px 14px; border-radius: 4px; border: 1px solid #702f2f; letter-spacing: 0.04em; box-shadow: 0 2px 6px rgba(140,59,59,0.25); white-space: nowrap; }' +
+      'table { width: 100%; border-collapse: collapse; margin: 22px 0; }' +
+      'td { padding: 11px 14px; border-bottom: 1px solid #ebe5d8; font-size: 13.5px; vertical-align: middle; }' +
+      'td.lbl { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; font-weight: 600; font-size: 11.5px; color: #5c5344; text-transform: uppercase; letter-spacing: 0.06em; width: 32%; }' +
+      '.stage-badge { display: inline-block; background: #fdf2f2; color: #8c3b3b; font-family: "JetBrains Mono", monospace; font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 3px; border: 1px solid #fecaca; }' +
+      '.waiver { color: #166534; font-weight: 600; }' +
+      '.qr-box { text-align: center; margin: 26px 0 16px; padding: 18px; background: #faf8f5; border: 1px dashed #d8cfbc; border-radius: 4px; }' +
+      '.qr-box p { font-family: "JetBrains Mono", monospace; font-size: 10.5px; color: #5c5344; margin-top: 10px; word-break: break-all; }' +
+      '.footer { margin-top: 28px; border-top: 1px solid #e2d9c8; padding-top: 16px; font-size: 11.5px; color: #857a68; text-align: center; line-height: 1.6; }' +
+      '.btn-wrap { text-align: center; margin-top: 24px; }' +
+      '.btn-print { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; background: #8c3b3b; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12.5px; font-weight: 600; letter-spacing: 0.04em; border: none; border-radius: 3px; cursor: pointer; box-shadow: 0 2px 8px rgba(140,59,59,0.3); transition: background 0.2s; }' +
+      '.btn-print:hover { background: #732a2a; }' +
+      '@media print {' +
+      'body { background: #fff !important; padding: 0 !important; }' +
+      '.receipt-container { box-shadow: none !important; border: 1px solid #e2d9c8 !important; padding: 24px !important; max-width: 100% !important; }' +
+      '.receipt-watermark { opacity: 0.06 !important; display: block !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }' +
+      '.btn-wrap { display: none !important; }' +
+      '}' +
+      '</style></head><body>' +
+      '<div class="receipt-container">' +
+      '<img src="https://mpptjournal.com/logo/logo.png" alt="" class="receipt-watermark">' +
+      '<div class="receipt-content">' +
+      '<div class="hdr">' +
+      '<div class="brand-group">' +
+      '<img src="https://mpptjournal.com/logo/logo.png" alt="MPPT Journal Seal" class="brand-seal">' +
+      '<div class="lockup">' +
+      '<span class="lockup-kicker">Journal of</span>' +
+      '<span class="lockup-line1">MODERN PHARMACY</span>' +
+      '<span class="lockup-line2">PRAXIS <span class="amp">&amp;</span> THERAPEUTICS</span>' +
+      '<span class="lockup-sub">Official Submission &amp; Peer-Review Status Certificate</span>' +
+      '</div>' +
+      '</div>' +
+      '<div class="pid-badge">' + pid + '</div>' +
+      '</div>' +
       '<table>' +
-      '<tr><td class="lbl">Paper ID</td><td><strong>' + pid + '</strong></td></tr>' +
-      '<tr><td class="lbl">Manuscript Title</td><td>' + escapeHtml(activePaper.title) + '</td></tr>' +
-      '<tr><td class="lbl">Corresponding Author</td><td>' + escapeHtml(activePaper.name) + ' (' + escapeHtml(activePaper.email) + ')</td></tr>' +
+      '<tr><td class="lbl">Paper ID</td><td><strong style="font-family:\'JetBrains Mono\',monospace;color:#8c3b3b">' + pid + '</strong></td></tr>' +
+      '<tr><td class="lbl">Manuscript Title</td><td><strong>' + escapeHtml(activePaper.title) + '</strong></td></tr>' +
+      '<tr><td class="lbl">Corresponding Author</td><td>' + escapeHtml(activePaper.name) + ' &lt;' + escapeHtml(activePaper.email) + '&gt;</td></tr>' +
       '<tr><td class="lbl">Discipline Track</td><td>' + escapeHtml(activePaper.category) + '</td></tr>' +
       '<tr><td class="lbl">Submission Date</td><td>' + formattedDate + '</td></tr>' +
       '<tr><td class="lbl">Article Processing Charge</td><td class="waiver">₹0.00 (Zero Submission Fee · APC Payable Post-Acceptance)</td></tr>' +
-      '<tr><td class="lbl">Current Review Stage</td><td><strong>' + escapeHtml(activePaper.stageLabel || activePaper.stage) + '</strong></td></tr>' +
+      '<tr><td class="lbl">Current Review Stage</td><td><span class="stage-badge">' + escapeHtml(activePaper.stageLabel || activePaper.stage) + '</span></td></tr>' +
       '</table>' +
-      '<div class="qr-box"><div style="max-width:140px;margin:0 auto">' + qrSvg + '</div>' +
-      '<p style="font-family:monospace;font-size:10.5px;color:#5c5344;margin:8px 0 0">Scan to View Live Timeline: ' + window.location.href + '</p></div>' +
-      '<p class="footer">Journal of Modern Pharmacy Praxis &amp; Therapeutics (MPPT Journal) · ISSN (Pending) · mpptjournal.com<br>' +
-      'Published by Dr. Vishnu Neharkar, Pune, India · Licensed under CC BY 4.0 Open Access</p>' +
-      '<div style="text-align:center;margin-top:20px"><button onclick="window.print()" style="padding:8px 20px;background:#8c3b3b;color:#fff;border:none;border-radius:2px;cursor:pointer">Print / Save as PDF</button></div>' +
-      '</body></html>';
+      '<div class="qr-box">' +
+      '<div style="max-width:140px;margin:0 auto">' + qrSvg + '</div>' +
+      '<p>Scan to Verify Authenticity &amp; Live Manuscript Lifecycle Timeline<br>' + window.location.href + '</p>' +
+      '</div>' +
+      '<p class="footer">Journal of Modern Pharmacy Praxis &amp; Therapeutics (MPPT Journal) · ISSN (Pending)<br>' +
+      'Published by Dr. Vishnu Neharkar, Pune, Maharashtra, India · Licensed under Creative Commons Attribution 4.0 (CC BY 4.0)<br>' +
+      'Official Portal: <a href="https://mpptjournal.com" style="color:#8c3b3b;text-decoration:none">https://mpptjournal.com</a> · Support: <a href="mailto:submissions@mpptjournal.com" style="color:#8c3b3b;text-decoration:none">submissions@mpptjournal.com</a></p>' +
+      '<div class="btn-wrap"><button class="btn-print" onclick="window.print()">Print / Save Official Certificate (PDF)</button></div>' +
+      '</div></div></body></html>';
 
     const blob = new Blob([receiptHtml], { type: 'text/html;charset=utf-8' });
     const url = URL.createObjectURL(blob);
