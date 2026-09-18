@@ -919,14 +919,19 @@ export default {
 /**
  * Cloudflare Email Routing Stream Handler
  * Ingests incoming emails to editor@, review@, publisher@ via Email Routing,
- * runs AI summary, persists to D1, alerts Telegram, and forwards to owner Gmail.
+ * runs AI summary, persists to D1, alerts Telegram, and forwards directly into Zoho Mail inboxes.
  */
 async function handleInboundEmailStream(message, env, ctx) {
   try {
     const from = message.from || 'unknown@domain.com';
-    const to = message.to || 'review@mpptjournal.com';
+    const to = message.to || 'editor@mpptjournal.com';
     const subject = message.headers.get('subject') || 'Manuscript Inquiry';
     
+    // Loop guard
+    if (subject.includes('[Forwarded from Cloudflare Worker]')) {
+      return;
+    }
+
     // Read raw email body
     const raw = await new Response(message.raw).text().catch(() => '');
     let bodyText = '';
@@ -938,8 +943,9 @@ async function handleInboundEmailStream(message, env, ctx) {
       bodyText = raw;
     }
 
-    bodyText = bodyText.substring(0, 3000).replace(/--[a-zA-Z0-9_-]+/g, '').trim();
+    bodyText = bodyText.substring(0, 4000).replace(/--[a-zA-Z0-9_-]+/g, '').trim();
 
+    // 1. Ingest into MPPT AI engine (D1 persistence + Workers AI summary + Telegram card + author ack)
     await processInboundEmail(env, {
       fromAddress: from,
       toAddress: to,
@@ -948,10 +954,41 @@ async function handleInboundEmailStream(message, env, ctx) {
       bodyText: bodyText || `Incoming email to ${to} from ${from}`,
     });
 
-    // Forward copy to verified owner email (pranavparekhcontent@gmail.com)
-    const forwardTo = env.FORWARD_TO_EMAIL || 'pranavparekhcontent@gmail.com';
-    if (forwardTo && message.forward) {
-      ctx.waitUntil(message.forward(forwardTo).catch(e => console.error('Email forward error:', e)));
+    // 2. Forward original email directly to Zoho Mail inboxes (editor@mpptjournal.com & respective desk)
+    if (env.ZOHO_SMTP_PASS || env.ZOHO_APP_PASSWORD) {
+      const forwardHtml = `
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 680px; margin: 0 auto; padding: 20px; color: #1e293b; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px;">
+          <div style="background: #f8fafc; border-left: 4px solid #0284c7; padding: 14px 18px; margin-bottom: 20px; border-radius: 0 6px 6px 0;">
+            <h3 style="margin: 0 0 6px 0; color: #0f172a; font-size: 15px;">📨 Forwarded from Cloudflare Worker</h3>
+            <table style="width: 100%; font-size: 13px; color: #475569; border-collapse: collapse;">
+              <tr><td style="width: 110px; padding: 2px 0; font-weight: 600;">Original Sender:</td><td style="padding: 2px 0; color: #0f172a;">${from.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</td></tr>
+              <tr><td style="padding: 2px 0; font-weight: 600;">Recipient Desk:</td><td style="padding: 2px 0; color: #0f172a;">${to}</td></tr>
+              <tr><td style="padding: 2px 0; font-weight: 600;">Subject:</td><td style="padding: 2px 0; color: #0f172a;"><strong>${subject.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</strong></td></tr>
+              <tr><td style="padding: 2px 0; font-weight: 600;">Received Time:</td><td style="padding: 2px 0;">${new Date().toUTCString()}</td></tr>
+            </table>
+          </div>
+          <div style="padding: 6px 4px; font-size: 14px; line-height: 1.6; color: #1e293b; white-space: pre-wrap;">${(bodyText || 'No plain text content.').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
+          <div style="margin-top: 24px; border-top: 1px solid #f1f5f9; padding-top: 12px; font-size: 11px; color: #94a3b8;">
+            Delivered by Cloudflare Worker <code>mppt-api</code> via Zoho SMTP relay • Replying to this message replies directly to <code>${from}</code>
+          </div>
+        </div>
+      `;
+
+      const targetInboxes = new Set(['editor@mpptjournal.com']);
+      if (to && to.endsWith('@mpptjournal.com')) {
+        targetInboxes.add(to.toLowerCase().trim());
+      }
+
+      for (const dest of targetInboxes) {
+        ctx.waitUntil(
+          sendViaZohoSmtp(env, {
+            from: dest,
+            to: dest,
+            subject: `[Forwarded from Cloudflare Worker] ${subject}`,
+            html: forwardHtml,
+          }).catch(e => console.error('Zoho forward delivery error:', e))
+        );
+      }
     }
   } catch (err) {
     console.error('handleInboundEmailStream failed:', err);
@@ -2062,7 +2099,6 @@ async function processInboundEmail(env, emailData) {
 
   // 4. Autonomous Instant Acknowledgment to Sender via Zoho SMTP
   const isNoReply = /^(?:no-?reply|mailer-daemon|postmaster|bounce|notifications?|alert|admin|google|cloudflare|zoho)@/i.test(fromAddress) ||
-                    fromAddress.includes('pranavparekhcontent@gmail.com') ||
                     fromAddress.endsWith('@mpptjournal.com');
   if (!isNoReply && (env.ZOHO_SMTP_PASS || env.ZOHO_APP_PASSWORD)) {
     try {
