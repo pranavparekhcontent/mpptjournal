@@ -163,34 +163,32 @@ function safeJsonParse(str, fallback = []) {
 }
 
 // ════════════════════════════════════════════════════════════
-// AI INFERENCE ENGINE (Meta Llama 3.3 70B with 8B-Fast Fallback)
+// DYNAMIC AI INFERENCE ENGINE (Cascading Multi-Tier Failover)
 // ════════════════════════════════════════════════════════════
+
+const CANDIDATE_AI_MODELS = [
+  '@cf/meta/llama-3.3-70b-instruct-fp8-fast', // Tier 1: 70B Frontier Reasoning (ChatGPT / GPT-4 class)
+  '@cf/meta/llama-3.1-8b-instruct-fp8',       // Tier 2: 8B High-Precision Quantization
+  '@cf/meta/llama-3.1-8b-instruct-fast',      // Tier 3: 8B Ultra-Fast Low Latency
+  '@cf/meta/llama-3.2-3b-instruct',           // Tier 4: 3B Compact Edge Inference
+];
 
 async function runAiChat(env, messages, maxTokens = 800) {
   if (!env.AI) return null;
 
-  // 1. Primary: Meta Llama 3.3 70B (State-of-the-art reasoning, speaks like ChatGPT)
-  try {
-    const res = await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast', {
-      messages,
-      max_tokens: maxTokens,
-    });
-    const text = res?.response || res?.choices?.[0]?.message?.content || '';
-    if (text && text.trim()) return text.trim();
-  } catch (err70) {
-    console.warn('Llama 3.3 70B inference notice, falling back to 8B-fast:', err70?.message || err70);
-  }
-
-  // 2. Fallback: Meta Llama 3.1 8B-Fast
-  try {
-    const res = await env.AI.run('@cf/meta/llama-3.1-8b-instruct-fast', {
-      messages,
-      max_tokens: maxTokens,
-    });
-    const text = res?.response || res?.choices?.[0]?.message?.content || '';
-    if (text && text.trim()) return text.trim();
-  } catch (err8) {
-    console.error('Llama 3.1 8B-fast inference error:', err8?.message || err8);
+  for (const model of CANDIDATE_AI_MODELS) {
+    try {
+      const res = await env.AI.run(model, {
+        messages,
+        max_tokens: maxTokens,
+      });
+      const text = res?.response || res?.choices?.[0]?.message?.content || '';
+      if (text && text.trim()) {
+        return text.trim();
+      }
+    } catch (err) {
+      console.warn(`Model ${model} unavailable or deprecated, dynamically cascading to next smartest:`, err?.message || err);
+    }
   }
 
   return null;
