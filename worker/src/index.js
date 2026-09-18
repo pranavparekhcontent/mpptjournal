@@ -257,22 +257,56 @@ async function advanceStage(db, paperId, newStage, actor = 'system') {
 
 async function sendTelegram(env, text, options = {}) {
   const token = env.TELEGRAM_BOT_TOKEN;
-  const chatId = env.TELEGRAM_GROUP_ID || '-1004291559247';
-  
+  if (!token) {
+    console.warn('sendTelegram: No TELEGRAM_BOT_TOKEN configured');
+    return { ok: false, error: 'No bot token' };
+  }
+
+  const chatId = options.chat_id || env.TELEGRAM_GROUP_ID || '-1004291559247';
+  const cleanOptions = { ...options };
+  delete cleanOptions.chat_id;
+
   const body = {
     chat_id: chatId,
-    text,
+    text: String(text || ''),
     parse_mode: 'Markdown',
-    ...options,
+    ...cleanOptions,
   };
-  
-  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  });
-  
-  return res.json();
+
+  try {
+    let res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    let result = await res.json();
+
+    // If Telegram rejects due to markdown entity parse error (e.g. underscores in filenames, URLs, emails), retry as plain text!
+    if (!result.ok && result.description && (
+      result.description.includes("can't parse entities") ||
+      result.description.includes("entity") ||
+      result.description.includes("parse")
+    )) {
+      console.warn('Telegram Markdown parse error, retrying with plain text:', result.description);
+      const fallbackBody = { ...body };
+      delete fallbackBody.parse_mode;
+
+      res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(fallbackBody),
+      });
+      result = await res.json();
+    }
+
+    if (!result.ok) {
+      console.error('Telegram delivery failed:', result);
+    }
+    return result;
+  } catch (err) {
+    console.error('sendTelegram exception:', err);
+    return { ok: false, error: err.message };
+  }
 }
 
 async function sendTelegramWithKeyboard(env, text, buttons) {
@@ -599,12 +633,15 @@ async function handleSubmission(request, env, url) {
 
   // Notify Telegram group
   if (env.TELEGRAM_BOT_TOKEN) {
+    const cleanTitle = (title || 'Untitled').replace(/[_*[\]()~`>#+=|{}.!-]/g, ' ').replace(/\s+/g, ' ').trim();
+    const cleanAuthor = (authorName || 'Author').replace(/[_*[\]()~`>#+=|{}.!-]/g, ' ').replace(/\s+/g, ' ').trim();
+
     const msg = `📥 *NEW SUBMISSION RECEIVED*\n\n` +
       `🆔 *Paper ID:* \`${paperId}\`\n` +
-      `📄 *Title:* _${title || 'Untitled'}_\n` +
-      `👤 *Author:* ${authorName}\n` +
-      `📧 *Email:* ${authorEmail}\n` +
-      `📁 *File:* ${safeBaseName} (${(file.size / 1024).toFixed(1)} KB)\n` +
+      `📄 *Title:* _${cleanTitle}_\n` +
+      `👤 *Author:* ${cleanAuthor}\n` +
+      `📧 *Email:* \`${authorEmail}\`\n` +
+      `📁 *File:* \`${safeBaseName}\` (${(file.size / 1024).toFixed(1)} KB)\n` +
       `🏷️ *Scope:* ${scope || 'Not specified'}\n\n` +
       `➡️ Stage: *${STAGE_LABELS.SUBMITTED}*\n` +
       `⏭️ Next: Plagiarism & AI content check`;
@@ -1493,19 +1530,47 @@ async function handleTelegramWebhook(request, env) {
   }
 
   const text = msg.text || '';
-  const botMentioned = /@mpptai(_bot)?\b/i.test(text) || 
-    (msg.entities || []).some(e => e.type === 'mention' && /@mpptai/i.test(text.substring(e.offset, e.offset + e.length)));
-  const isReply = msg.reply_to_message?.from?.is_bot;
+  const BOT_ID = 8902857493;
+  const BOT_NAME_REGEX = /@(mpptai_bot|mpptai|mppt)\b/i;
 
-  // Only respond when bot is @mentioned or replied to
-  if (!botMentioned && !isReply) {
+  // 1. Text contains @mppt, @mpptai, or @mpptai_bot
+  const hasTextMention = BOT_NAME_REGEX.test(text);
+
+  // 2. Telegram message entities (mention, text_mention, bot_command)
+  const hasEntityMention = (msg.entities || []).some(e => {
+    if (e.type === 'mention') {
+      const mentionText = text.substring(e.offset, e.offset + e.length);
+      return /@mppt/i.test(mentionText);
+    }
+    if (e.type === 'text_mention') {
+      return e.user?.id === BOT_ID || /mppt/i.test(e.user?.username || '') || /mppt/i.test(e.user?.first_name || '');
+    }
+    if (e.type === 'bot_command') {
+      return true; // Any /command in group should be handled
+    }
+    return false;
+  });
+
+  // 3. User replied directly to a message sent by the bot
+  const isReplyToBot = msg.reply_to_message?.from?.is_bot || msg.reply_to_message?.from?.id === BOT_ID;
+
+  // 4. Command prefix (e.g. /status, /ask, /papers, /help)
+  const isCommand = text.startsWith('/');
+
+  // Only respond when bot is targeted or replied to
+  if (!hasTextMention && !hasEntityMention && !isReplyToBot && !isCommand) {
     return json({ ok: true });
   }
 
-  // Strip bot mention from text
-  const userQuery = text.replace(/@mpptai(_bot)?\b/gi, '').trim();
-  if (!userQuery) {
-    await sendTelegram(env, `👋 Hello ${msg.from?.first_name || 'there'}! I am listening.\n\nTag me with any question or command:\n• \`@mpptai_bot add reviewer Dr. Name, email, speciality\`\n• \`@mpptai_bot list reviewers\`\n• \`@mpptai_bot test email\`\n• \`@mpptai_bot status MPPT-2026-V1I1-0001\``, { reply_to_message_id: msg.message_id });
+  // Strip bot handles and command prefixes from user text
+  let userQuery = text
+    .replace(/@(mpptai_bot|mpptai|mppt)\b/gi, '')
+    .replace(/^\/(?:ask|ai|query|question|check)\s*/i, '')
+    .trim();
+
+  // If message is just "/help" or "/start" or empty mention
+  if (!userQuery || userQuery === '/start' || userQuery === '/help') {
+    await sendTelegram(env, `👋 Hello ${msg.from?.first_name || 'there'}! I am MPPT AI, your autonomous editorial partner.\n\nAsk me anything or use these commands:\n• \`status MPPT-2026-V1I1-0003\` (or paper ID)\n• \`list papers\`\n• \`list reviewers\`\n• \`add reviewer Dr. Name, email, speciality, affiliation\`\n• Ask any scientific or editorial question directly!`, { reply_to_message_id: msg.message_id });
     return json({ ok: true });
   }
 
@@ -1596,6 +1661,53 @@ async function handleTelegramWebhook(request, env) {
     }
     await sendTelegram(env, revListMsg, { reply_to_message_id: msg.message_id });
     return json({ ok: true });
+  }
+
+  // ── COMMAND: LIST PAPERS / CHECK PAPER STATUS ──
+  const isPaperQuery = userQuery.match(/^(?:(?:\/)?(?:papers|manuscripts|status)|(?:list|show|check)\s+(?:papers|manuscripts)|status\b)/i);
+  if (isPaperQuery) {
+    if (env.DB) {
+      const idMatch = userQuery.match(/MPPT-[\w-]+|\b000\d\b|\b\d{4}\b/i);
+      if (idMatch) {
+        let lookupId = idMatch[0].toUpperCase();
+        if (/^\d+$/.test(lookupId)) {
+          lookupId = `MPPT-2026-V1I1-${lookupId.padStart(4, '0')}`;
+        }
+        const p = await env.DB.prepare(`SELECT * FROM manuscripts WHERE paper_id = ?`).bind(lookupId).first();
+        if (p) {
+          const statusMsg = `📄 *Manuscript Record: ${p.paper_id}*\n\n` +
+            `📑 *Title:* _${(p.title || 'Untitled').replace(/_/g, ' ')}_\n` +
+            `👤 *Author:* ${(p.author_name || 'Author').replace(/_/g, ' ')} (\`${p.author_email}\`)\n` +
+            `🏛️ *Affiliation:* ${p.author_affiliation || 'N/A'}\n` +
+            `🔬 *Scope:* ${p.subject_scope || 'General'}\n` +
+            `📁 *File:* \`${p.original_filename || 'manuscript.pdf'}\`\n\n` +
+            `➡️ *Stage:* ${STAGE_LABELS[p.stage] || p.stage}\n` +
+            `🔍 *Plagiarism:* ${p.plagiarism_score !== null ? `${p.plagiarism_score}%` : 'Pending'}\n` +
+            `🤖 *AI Content:* ${p.ai_content_score !== null ? `${p.ai_content_score}%` : 'Pending'}\n` +
+            `⏰ *Deadline:* ${p.current_deadline ? p.current_deadline.split('T')[0] : 'None set'}\n` +
+            `📅 *Submitted:* ${p.submitted_at}\n\n` +
+            `🔗 *Track URL:* https://mpptjournal.com/track.html?id=${encodeURIComponent(p.paper_id)}`;
+          await sendTelegram(env, statusMsg, { reply_to_message_id: msg.message_id });
+          return json({ ok: true });
+        } else {
+          await sendTelegram(env, `⚠️ No manuscript found with ID \`${lookupId}\`.`, { reply_to_message_id: msg.message_id });
+          return json({ ok: true });
+        }
+      }
+
+      // If no specific ID, list active papers in pipeline
+      const papers = await env.DB.prepare(`SELECT paper_id, title, author_name, author_email, stage, submitted_at FROM manuscripts WHERE is_active = 1 ORDER BY id DESC LIMIT 10`).all();
+      const list = papers.results || [];
+      if (list.length === 0) {
+        await sendTelegram(env, `📄 *MPPT Pipeline:* No active manuscripts in the database.`, { reply_to_message_id: msg.message_id });
+      } else {
+        const papersMsg = `📚 *MPPT Manuscripts in Pipeline (${list.length}):*\n\n` +
+          list.map((p, i) => `${i + 1}. \`${p.paper_id}\`: *${(p.title || 'Untitled').replace(/_/g, ' ')}*\n   👤 ${(p.author_name || 'Author').replace(/_/g, ' ')} (\`${p.author_email}\`)\n   ➡️ Stage: *${STAGE_LABELS[p.stage] || p.stage}*\n   📅 ${p.submitted_at?.split(' ')[0] || ''}`).join('\n\n') +
+          `\n\n💡 _To view full details: "@mpptai_bot status ${list[0].paper_id}"_`;
+        await sendTelegram(env, papersMsg, { reply_to_message_id: msg.message_id });
+      }
+      return json({ ok: true });
+    }
   }
 
   // ── COMMAND 3: TEST / SIMULATE INBOUND EMAIL ──
