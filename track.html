@@ -592,29 +592,35 @@ footer a:hover { text-decoration: underline; }
     </div>
   </div>
 
+  <!-- Not Found Alert -->
+  <div class="paper-banner" id="notFoundAlert" style="display:none; text-align:center; padding:36px 24px; margin-bottom:24px; border:1px solid rgba(220, 38, 38, 0.25); background: rgba(254, 242, 242, 0.6);">
+    <div style="font-family:var(--mono);font-size:14px;color:#dc2626;font-weight:700;margin-bottom:8px">⚠ NO MANUSCRIPT FOUND</div>
+    <p id="notFoundMsg" style="font-size:14px;color:var(--dim);max-width:500px;margin:0 auto">The requested Paper ID was not found in the MPPT Journal D1 Ledger.</p>
+  </div>
+
   <!-- Paper Details Banner -->
   <div class="paper-banner" id="paperBanner" style="display:none">
     <div class="banner-top">
       <div class="paper-id-tag" id="trackPaperId"></div>
-      <div class="status-pill review" id="trackStatusPill">Under Double-Blind Peer Review</div>
+      <div class="status-pill review" id="trackStatusPill">—</div>
     </div>
     <h2 class="manuscript-title" id="trackTitle"></h2>
     <div class="meta-grid">
       <div class="meta-item">
         <strong>Corresponding Author</strong>
-        <span id="trackAuthor">Dr. Jane Doe</span>
+        <span id="trackAuthor">—</span>
       </div>
       <div class="meta-item">
         <strong>Affiliation</strong>
-        <span id="trackAffiliation">Dept. of Pharmaceutical Chemistry, Pune</span>
+        <span id="trackAffiliation">—</span>
       </div>
       <div class="meta-item">
         <strong>Discipline Track</strong>
-        <span id="trackCategory">AI, Cheminformatics &amp; Drug Design</span>
+        <span id="trackCategory">—</span>
       </div>
       <div class="meta-item">
         <strong>Submission Date</strong>
-        <span id="trackDate">September 12, 2026</span>
+        <span id="trackDate">—</span>
       </div>
       <div class="meta-item">
         <strong>APC Fee Status</strong>
@@ -848,6 +854,19 @@ const API_BASE = 'https://mppt-api.pranavparekhcontent.workers.dev';
       const data = await res.json();
       if (data.success && data.paper) {
         const p = data.paper;
+
+        // Fetch R2 file download URL if available
+        let r2DlUrl = null;
+        try {
+          const filesRes = await fetch(`${API_BASE}/manuscripts/${encodeURIComponent(p.paper_id)}`);
+          if (filesRes.ok) {
+            const filesData = await filesRes.json();
+            if (filesData.files && filesData.files.length > 0) {
+              r2DlUrl = filesData.files[0].downloadUrl;
+            }
+          }
+        } catch(e) {}
+
         activePaper = {
           paperId: p.paper_id,
           title: p.title || 'Untitled Manuscript',
@@ -864,6 +883,7 @@ const API_BASE = 'https://mppt-api.pranavparekhcontent.workers.dev';
           daysUntilDeadline: p.daysUntilDeadline,
           r2Folder: p.r2_folder,
           originalFilename: p.original_filename,
+          r2DownloadUrl: r2DlUrl,
           publishedUrl: p.published_url,
           zenodoDoi: p.zenodo_doi,
           certificateUrl: p.certificate_url,
@@ -900,21 +920,24 @@ const API_BASE = 'https://mppt-api.pranavparekhcontent.workers.dev';
         fileName: localMatch.fileName
       };
     } else {
-      // No paper found — show error
-      const banner = document.getElementById('paperBanner');
-      if (banner) {
-        banner.style.display = '';
-        banner.innerHTML = '<div style="padding:32px 24px;text-align:center">' +
-          '<div style="font-family:var(--mono);font-size:13px;color:var(--acc);font-weight:700;margin-bottom:8px">⚠ NO MANUSCRIPT FOUND</div>' +
-          '<p style="font-size:14px;color:var(--dim);max-width:440px;margin:0 auto">Paper ID <strong style="color:var(--ink);font-family:var(--mono)">' + escapeHtml(reqId) + '</strong> does not exist in the MPPT Journal D1 Ledger. Please verify your tracking ID and try again.</p>' +
-          '</div>';
+      // No paper found — show error and hide all results sections
+      const alertEl = document.getElementById('notFoundAlert');
+      const msgEl = document.getElementById('notFoundMsg');
+      if (alertEl && msgEl) {
+        msgEl.innerHTML = 'Paper ID <strong style="color:var(--ink);font-family:var(--mono)">' + escapeHtml(reqId) + '</strong> does not exist in the MPPT Journal D1 Ledger. Please verify your tracking ID and try again.';
+        alertEl.style.display = 'block';
       }
+      document.getElementById('paperBanner').style.display = 'none';
+      document.getElementById('actionGrid').style.display = 'none';
+      document.getElementById('timelineSection').style.display = 'none';
       if (pillEl) pillEl.textContent = '';
       return;
     }
   }
 
   // ── RENDER DATA TO UI ──
+  const alertEl = document.getElementById('notFoundAlert');
+  if (alertEl) alertEl.style.display = 'none';
   document.getElementById('paperBanner').style.display = '';
   document.getElementById('actionGrid').style.display = '';
   document.getElementById('timelineSection').style.display = '';
