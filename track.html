@@ -593,12 +593,12 @@ footer a:hover { text-decoration: underline; }
   </div>
 
   <!-- Paper Details Banner -->
-  <div class="paper-banner" id="paperBanner">
+  <div class="paper-banner" id="paperBanner" style="display:none">
     <div class="banner-top">
-      <div class="paper-id-tag" id="trackPaperId">MPPT-2026-V1I1-0001</div>
+      <div class="paper-id-tag" id="trackPaperId"></div>
       <div class="status-pill review" id="trackStatusPill">Under Double-Blind Peer Review</div>
     </div>
-    <h2 class="manuscript-title" id="trackTitle">Synthesis and Pharmacological Evaluation of Novel Pyrazole Derivatives as Selective COX-2 Inhibitors</h2>
+    <h2 class="manuscript-title" id="trackTitle"></h2>
     <div class="meta-grid">
       <div class="meta-item">
         <strong>Corresponding Author</strong>
@@ -632,7 +632,7 @@ footer a:hover { text-decoration: underline; }
   </div>
 
   <!-- Author Action Suite: Revision Submission & Official Documents -->
-  <div class="action-grid">
+  <div class="action-grid" id="actionGrid" style="display:none">
     <!-- Submit Revision Card -->
     <div class="action-card">
       <div class="action-card-header">
@@ -674,7 +674,7 @@ footer a:hover { text-decoration: underline; }
   </div>
 
   <!-- 5-Step Timeline -->
-  <section class="timeline-section">
+  <section class="timeline-section" id="timelineSection" style="display:none">
     <h3 class="section-title">Editorial Review Lifecycle</h3>
     <p class="section-sub">Autonomous AI compliance screening, double-blind peer review, and editorial decision stages.</p>
 
@@ -804,10 +804,10 @@ const API_BASE = 'https://mppt-api.pranavparekhcontent.workers.dev';
 // ── LOAD PAPER DETAILS WITH LIVE D1 LEDGER SYNC ──
 (async function initTracker() {
   const urlParams = new URLSearchParams(window.location.search);
-  const reqId = urlParams.get('id') || 'MPPT-2026-V1I1-0001';
+  const reqId = urlParams.get('id') || '';
 
   const lookupInput = document.getElementById('lookupId');
-  if (lookupInput) lookupInput.value = reqId;
+  if (lookupInput && reqId) lookupInput.value = reqId;
 
   // Set lookup form submit handler
   document.getElementById('lookupForm')?.addEventListener('submit', e => {
@@ -817,6 +817,9 @@ const API_BASE = 'https://mppt-api.pranavparekhcontent.workers.dev';
       window.location.search = '?id=' + encodeURIComponent(val);
     }
   });
+
+  // If no paper ID provided, stay on blank state
+  if (!reqId) return;
 
   // UI elements
   const badgeEl = document.querySelector('.portal-badge');
@@ -897,26 +900,25 @@ const API_BASE = 'https://mppt-api.pranavparekhcontent.workers.dev';
         fileName: localMatch.fileName
       };
     } else {
-      // Demo benchmark paper fallback
-      activePaper = {
-        paperId: reqId,
-        title: 'Synthesis and Pharmacological Evaluation of Novel Pyrazole Derivatives as Selective COX-2 Inhibitors',
-        name: 'Dr. Vishnu Neharkar',
-        email: 'editor@mpptjournal.com',
-        affiliation: 'Department of Pharmaceutical Chemistry, Pune, Maharashtra, India',
-        category: 'AI, Cheminformatics & Drug Design',
-        submittedAt: '2026-09-12T10:00:00Z',
-        stage: 'UNDER_REVIEW',
-        stageLabel: '📝 Under Review',
-        plagiarismScore: 6.2,
-        aiScore: 4.8,
-        deadline: '2026-09-28T23:59:59Z',
-        daysUntilDeadline: 12
-      };
+      // No paper found — show error
+      const banner = document.getElementById('paperBanner');
+      if (banner) {
+        banner.style.display = '';
+        banner.innerHTML = '<div style="padding:32px 24px;text-align:center">' +
+          '<div style="font-family:var(--mono);font-size:13px;color:var(--acc);font-weight:700;margin-bottom:8px">⚠ NO MANUSCRIPT FOUND</div>' +
+          '<p style="font-size:14px;color:var(--dim);max-width:440px;margin:0 auto">Paper ID <strong style="color:var(--ink);font-family:var(--mono)">' + escapeHtml(reqId) + '</strong> does not exist in the MPPT Journal D1 Ledger. Please verify your tracking ID and try again.</p>' +
+          '</div>';
+      }
+      if (pillEl) pillEl.textContent = '';
+      return;
     }
   }
 
   // ── RENDER DATA TO UI ──
+  document.getElementById('paperBanner').style.display = '';
+  document.getElementById('actionGrid').style.display = '';
+  document.getElementById('timelineSection').style.display = '';
+
   if (badgeEl) {
     if (isLive) {
       badgeEl.innerHTML = '● Live Edge D1 Synced';
