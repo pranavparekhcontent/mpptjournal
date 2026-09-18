@@ -248,47 +248,70 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
+    gap: 20px;
     border-bottom: 1.5px solid var(--gold-light);
     padding-bottom: 12px;
   }
   .cert-logo {
-    width: 62px;
-    height: 62px;
+    width: 68px;
+    height: 68px;
     border-radius: 50%;
     border: 2px solid var(--gold);
-    box-shadow: 0 0 0 2px var(--parchment), 0 2px 8px rgba(140,59,59,0.2);
+    box-shadow: 0 0 0 2px var(--parchment), 0 3px 10px rgba(140,59,59,0.2);
     object-fit: cover;
+    flex-shrink: 0;
   }
   .cert-org-text {
-    text-align: center;
+    text-align: left;
   }
-  .cert-org-name {
-    font-family: var(--font-display);
-    font-size: 15pt;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    color: var(--ink);
-    text-transform: uppercase;
+  .cert-journal-lockup {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
   }
   .cert-org-kicker {
-    display: block;
     font-family: var(--font-serif);
-    font-size: 12.5pt;
+    font-size: 13pt;
     font-style: italic;
     font-weight: 400;
     text-transform: none;
-    letter-spacing: 0.04em;
-    color: var(--crimson);
-    margin-bottom: 3px;
+    letter-spacing: 0.03em;
+    color: var(--acc);
+    margin-bottom: 2px;
+    display: block;
+  }
+  .cert-org-line1 {
+    font-family: var(--font-display);
+    font-size: 15.5pt;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    text-transform: uppercase;
+    display: block;
+  }
+  .cert-org-line2 {
+    font-family: var(--font-display);
+    font-size: 13.5pt;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    text-transform: uppercase;
+    display: block;
+  }
+  .cert-org-line2 .amp {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--acc);
+    margin: 0 0.1em;
+    text-transform: none;
   }
   .cert-org-sub {
     font-family: var(--font-mono);
     font-size: 6.8pt;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.14em;
     color: var(--mut);
-    text-transform: none;
-    margin-top: 3px;
+    text-transform: uppercase;
+    margin-top: 4px;
   }
 
   /* Title Block */
@@ -535,7 +558,7 @@
   <!-- Top Web Action Toolbar (Hidden during print) -->
   <div class="cert-toolbar">
     <div class="toolbar-left">
-      <a href="/" class="back-btn">
+      <a href="index.html" class="back-btn">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
         Back to Journal Portal
       </a>
@@ -581,7 +604,11 @@
         <div class="cert-masthead">
           <img src="logo/logo.png" alt="MPPT Journal Official Seal" class="cert-logo">
           <div class="cert-org-text">
-            <h1 class="cert-org-name"><span class="cert-org-kicker">Journal of</span> Modern Pharmacy Praxis &amp; Therapeutics</h1>
+            <div class="cert-journal-lockup">
+              <span class="cert-org-kicker">Journal of</span>
+              <span class="cert-org-line1">MODERN PHARMACY</span>
+              <span class="cert-org-line2">PRAXIS <span class="amp">&amp;</span> THERAPEUTICS</span>
+            </div>
             <div class="cert-org-sub">Published by Dr. Vishnu Neharkar · Pune, India · UGC-CARE Benchmarked Open Access Journal</div>
           </div>
         </div>
