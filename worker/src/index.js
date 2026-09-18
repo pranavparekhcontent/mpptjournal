@@ -100,18 +100,31 @@ const EDITOR_EMAIL_STAGES = new Set([
 ]);
 
 // Master context for AI (injected as system prompt)
-const AI_SYSTEM_PROMPT = `You are MPPT AI, the Editorial Intelligence Assistant for Journal of Modern Pharmacy Praxis & Therapeutics (MPPT Journal).
-You assist editors in the Telegram group with paper status queries, workflow decisions, reviewer management, and deadline tracking.
+const AI_SYSTEM_PROMPT = `You are MPPT AI, an intelligent, autonomous editorial partner and AI assistant for the Journal of Modern Pharmacy Praxis & Therapeutics (MPPT Journal).
+You converse naturally, warmly, intelligently, and freely—just like ChatGPT or an expert colleague.
+You have real-time live access to the MPPT editorial database provided in the context below, including all incoming emails, manuscripts, reviewer pools, communications, and pipeline statistics.
 
-RULES:
-- NEVER reveal API keys, tokens, passwords, or internal credentials
-- NEVER modify or rewrite any author's scientific text
-- NEVER fabricate DOIs, citations, or indexing claims
-- For destructive actions (reject, reassign), always ask for confirmation
-- Be concise, professional, and helpful
-- Reference papers by their tracking ID (e.g., MPPT-2026-V1I1-0001)
-- Include relevant stage info and deadlines in responses
-- Use markdown formatting for Telegram (bold, italic)`;
+YOUR CORE BEHAVIORS:
+1. FREE THINKING & NATURAL CONVERSATION:
+   - Talk like an expert colleague and companion: warm, witty, articulate, clear, and proactive.
+   - Do NOT give robotic, canned, or canned-status replies. Never dump dry pipeline statistics unless specifically asked for stats.
+   - You can discuss any topic freely: science, editorial strategy, pharmacology, writing, workflows, troubleshooting, philosophy, or casual conversation.
+2. ANSWER DIRECTLY USING LIVE DATA:
+   - When the user asks about emails (e.g. "is there any new email?", "list emails", "who emailed us?"):
+     Check the [INBOUND EMAILS & INBOX] section in the context below!
+     List the exact emails: who sent them, sender name, email address, subject, date, summary, and whether a reply is pending or sent.
+   - When the user asks about manuscripts, status, or authors:
+     Check the [MANUSCRIPTS IN PIPELINE] section. Give rich details about the paper, author, stage, plagiarism, deadlines, etc.
+   - When the user asks about reviewers:
+     Check the [REVIEWER POOL] section. Mention them by name, email, speciality, and affiliation.
+3. PROACTIVE EDITORIAL ASSISTANCE:
+   - If an author or referee has requested an extension, revisions, or clarification, explain what they need and offer to draft a scholarly response.
+   - If instructed to draft or reply, compose a polished, elegant academic email ready for review.
+4. TELEGRAM FORMATTING:
+   - Use clean Markdown formatting (*bold*, _italic_, \`code\`, bullet points).
+   - Keep answers well-structured and easy to read on mobile.
+5. INTEGRITY & CONFIDENTIALITY:
+   - Be truthful, accurate, and helpful. Never fabricate citations or DOIs. Never reveal private backend tokens or API keys.`;
 
 // ════════════════════════════════════════════════════════════
 // HELPERS
@@ -147,6 +160,40 @@ function safeJsonParse(str, fallback = []) {
   } catch (e) {
     return fallback;
   }
+}
+
+// ════════════════════════════════════════════════════════════
+// AI INFERENCE ENGINE (Meta Llama 3.3 70B with 8B-Fast Fallback)
+// ════════════════════════════════════════════════════════════
+
+async function runAiChat(env, messages, maxTokens = 800) {
+  if (!env.AI) return null;
+
+  // 1. Primary: Meta Llama 3.3 70B (State-of-the-art reasoning, speaks like ChatGPT)
+  try {
+    const res = await env.AI.run('@cf/meta/llama-3.3-70b-instruct-fp8-fast', {
+      messages,
+      max_tokens: maxTokens,
+    });
+    const text = res?.response || res?.choices?.[0]?.message?.content || '';
+    if (text && text.trim()) return text.trim();
+  } catch (err70) {
+    console.warn('Llama 3.3 70B inference notice, falling back to 8B-fast:', err70?.message || err70);
+  }
+
+  // 2. Fallback: Meta Llama 3.1 8B-Fast
+  try {
+    const res = await env.AI.run('@cf/meta/llama-3.1-8b-instruct-fast', {
+      messages,
+      max_tokens: maxTokens,
+    });
+    const text = res?.response || res?.choices?.[0]?.message?.content || '';
+    if (text && text.trim()) return text.trim();
+  } catch (err8) {
+    console.error('Llama 3.1 8B-fast inference error:', err8?.message || err8);
+  }
+
+  return null;
 }
 
 // ════════════════════════════════════════════════════════════
@@ -308,6 +355,12 @@ export default {
           },
           timestamp: now(),
         });
+      }
+
+      if (path === '/api/test-ai') {
+        const q = url.searchParams.get('q') || 'Say hello in 5 words';
+        const answer = await runAiChat(env, [{ role: 'user', content: q }], 300);
+        return json({ ok: !!answer, prompt: q, answer: answer || 'AI unavailable' });
       }
 
       // ── POST /api/submit — Full submission intake ──
@@ -1255,25 +1308,20 @@ async function processInboundEmail(env, emailData) {
 
   const inboundId = `INB-${Date.now().toString(36).toUpperCase()}`;
 
-  // 1. Generate 1-2 sentence AI summary using Workers AI (Llama 3.1 8B)
+  // 1. Generate 1-2 sentence AI summary using Workers AI (Llama 3.3 70B / 8B fast)
   let summary = '';
   if (env.AI) {
-    try {
-      const messages = [
-        {
-          role: 'system',
-          content: 'You are an editorial assistant for MPPT Journal. Summarize the following incoming academic email in 1 to 2 clear, concise sentences for the editors. Highlight any core requests, manuscript IDs, or urgent decisions needed.'
-        },
-        {
-          role: 'user',
-          content: `Recipient Inbox: ${inbox}\nFrom: ${fromName ? `${fromName} <${fromAddress}>` : fromAddress}\nSubject: ${subject}\n\nEmail Body:\n${bodyText.substring(0, 2000)}`
-        }
-      ];
-      const aiRes = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', { messages, max_tokens: 160 });
-      summary = (aiRes.response || '').trim();
-    } catch (aiErr) {
-      console.error('AI summary error:', aiErr);
-    }
+    const messages = [
+      {
+        role: 'system',
+        content: 'You are an editorial assistant for MPPT Journal. Summarize the following incoming academic email in 1 to 2 clear, concise sentences for the editors. Highlight any core requests, manuscript IDs, or urgent decisions needed.'
+      },
+      {
+        role: 'user',
+        content: `Recipient Inbox: ${inbox}\nFrom: ${fromName ? `${fromName} <${fromAddress}>` : fromAddress}\nSubject: ${subject}\n\nEmail Body:\n${bodyText.substring(0, 2000)}`
+      }
+    ];
+    summary = await runAiChat(env, messages, 200);
   }
 
   if (!summary) {
@@ -1673,8 +1721,7 @@ Please draft the official academic email response.`
           }
         ];
 
-        const aiRes = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', { messages: draftMessages, max_tokens: 600 });
-        draftedText = aiRes.response || '';
+        draftedText = await runAiChat(env, draftMessages, 700);
       } catch (err) {
         console.error('AI draft generation error:', err);
       }
@@ -1716,52 +1763,107 @@ Please draft the official academic email response.`
     return json({ ok: true });
   }
 
-  // ── BUILD GENERAL CONTEXT FOR AI ──
-  let dbContext = '';
-  let paperMatchObj = null;
-  
+  // ── BUILD COMPREHENSIVE LIVE DATABASE CONTEXT FOR AI ──
+  let dbContext = '\n\n=== LIVE MPPT EDITORIAL DATABASE SNAPSHOT ===\n';
+  let emailListCache = [];
+  let paperListCache = [];
+  let reviewerListCache = [];
+
   if (env.DB) {
-    // Extract paper ID if mentioned
-    const paperMatch = userQuery.match(/MPPT-\d{4}-V\d+I\d+-\d{4}/i);
-    
-    if (paperMatch) {
-      const pid = paperMatch[0].toUpperCase();
-      const paper = await env.DB.prepare('SELECT * FROM manuscripts WHERE paper_id = ?').bind(pid).first();
-      if (paper) {
-        paperMatchObj = paper;
-        const history = safeJsonParse(paper.stage_history, []);
-        dbContext += `\n\nPAPER DATA for ${pid}:\n`;
-        dbContext += `Title: ${paper.title}\nAuthor: ${paper.author_name} (${paper.author_email})\n`;
-        dbContext += `Current Stage: ${paper.stage} (${STAGE_LABELS[paper.stage] || paper.stage})\n`;
-        dbContext += `Submitted: ${paper.submitted_at}\nLast Updated: ${paper.updated_at}\n`;
-        dbContext += `Plagiarism Score: ${paper.plagiarism_score !== null ? paper.plagiarism_score + '%' : 'Not checked'}\n`;
-        dbContext += `Deadline: ${paper.current_deadline || 'None'}\n`;
-        dbContext += `Stage History: ${history.map(h => `${h.stage} at ${h.timestamp}`).join(' → ')}\n`;
-
-        const reviews = await env.DB.prepare(
-          `SELECT ra.*, r.name FROM review_assignments ra JOIN reviewers r ON ra.reviewer_id = r.id WHERE ra.paper_id = ?`
-        ).bind(pid).all();
-        if (reviews.results?.length) {
-          dbContext += `Reviewers: ${reviews.results.map(r => `${r.name}: ${r.status} (${r.decision || 'pending'})`).join(', ')}\n`;
-        }
+    try {
+      // 1. INBOUND EMAILS & INBOX CORRESPONDENCE
+      const emailRows = await env.DB.prepare(`
+        SELECT id, inbound_id, inbox, from_address, from_name, subject, body_text, summary, paper_id, reply_status, created_at, replied_at 
+        FROM inbound_emails 
+        ORDER BY id DESC LIMIT 10
+      `).all().catch(() => ({ results: [] }));
+      
+      emailListCache = emailRows.results || [];
+      dbContext += `\n[INBOUND EMAILS & INBOX] (${emailListCache.length} recent):\n`;
+      if (emailListCache.length === 0) {
+        dbContext += `No incoming emails currently logged in inbox.\n`;
       } else {
-        dbContext += `\nPaper ${pid} not found in database.\n`;
+        emailListCache.forEach((em, idx) => {
+          dbContext += `${idx + 1}. From: ${em.from_name ? `${em.from_name} <${em.from_address}>` : em.from_address}\n` +
+            `   Inbox: ${em.inbox} | Received: ${em.created_at}\n` +
+            `   Subject: ${em.subject}\n` +
+            `   Summary: ${em.summary || (em.body_text ? em.body_text.substring(0, 150) + '...' : 'N/A')}\n` +
+            (em.paper_id ? `   Associated Paper: ${em.paper_id}\n` : '') +
+            `   Status: ${em.reply_status} (Replied: ${em.replied_at || 'Pending'})\n`;
+        });
       }
-    }
 
-    // General stats
-    const stats = await env.DB.prepare(`
-      SELECT stage, COUNT(*) as cnt FROM manuscripts WHERE is_active = 1 GROUP BY stage
-    `).all();
-    if (stats.results?.length) {
-      dbContext += `\n\nOVERALL PIPELINE STATS:\n`;
-      stats.results.forEach(s => {
-        dbContext += `${STAGE_LABELS[s.stage] || s.stage}: ${s.cnt} papers\n`;
-      });
+      // 2. ACTIVE MANUSCRIPTS IN PIPELINE
+      const paperRows = await env.DB.prepare(`
+        SELECT paper_id, title, author_name, author_email, author_affiliation, subject_scope, stage, plagiarism_score, current_deadline, submitted_at, updated_at
+        FROM manuscripts 
+        WHERE is_active = 1 
+        ORDER BY id DESC LIMIT 15
+      `).all().catch(() => ({ results: [] }));
+
+      paperListCache = paperRows.results || [];
+      dbContext += `\n[MANUSCRIPTS IN PIPELINE] (${paperListCache.length} total active):\n`;
+      if (paperListCache.length === 0) {
+        dbContext += `No manuscripts currently submitted.\n`;
+      } else {
+        paperListCache.forEach(p => {
+          dbContext += `• ${p.paper_id}: "${p.title}" by ${p.author_name} (${p.author_email})\n` +
+            `  Affiliation: ${p.author_affiliation || 'N/A'} | Scope: ${p.subject_scope || 'General'}\n` +
+            `  Stage: ${p.stage} (${STAGE_LABELS[p.stage] || p.stage})\n` +
+            `  Plagiarism: ${p.plagiarism_score !== null ? `${p.plagiarism_score}%` : 'Pending Check'}\n` +
+            `  Deadline: ${p.current_deadline || 'None'} | Submitted: ${p.submitted_at}\n`;
+        });
+      }
+
+      // 3. REVIEWER ROSTER POOL
+      const revRows = await env.DB.prepare(`
+        SELECT id, name, email, speciality, affiliation, total_assigned, total_completed 
+        FROM reviewers 
+        WHERE is_active = 1 
+        ORDER BY name ASC LIMIT 20
+      `).all().catch(() => ({ results: [] }));
+
+      reviewerListCache = revRows.results || [];
+      dbContext += `\n[REVIEWER POOL] (${reviewerListCache.length} active referees):\n`;
+      if (reviewerListCache.length === 0) {
+        dbContext += `No reviewers currently onboarded in the roster.\n`;
+      } else {
+        reviewerListCache.forEach(r => {
+          dbContext += `• Dr. ${r.name} (${r.email}) — ${r.speciality || 'General Pharmacy'} [${r.affiliation || 'Roster'}] (Assigned: ${r.total_assigned}, Completed: ${r.total_completed})\n`;
+        });
+      }
+
+      // 4. PIPELINE COUNTS SUMMARY
+      const stats = await env.DB.prepare(`
+        SELECT stage, COUNT(*) as cnt FROM manuscripts WHERE is_active = 1 GROUP BY stage
+      `).all().catch(() => ({ results: [] }));
+      
+      if (stats.results?.length) {
+        dbContext += `\n[PIPELINE STATS SUMMARY]: ` + stats.results.map(s => `${STAGE_LABELS[s.stage] || s.stage}: ${s.cnt}`).join(' | ') + `\n`;
+      }
+
+      // 5. RECENT COMMUNICATIONS AUDIT
+      const commRows = await env.DB.prepare(`
+        SELECT channel, direction, from_address, to_address, subject, body_preview, sent_at 
+        FROM communications 
+        ORDER BY id DESC LIMIT 6
+      `).all().catch(() => ({ results: [] }));
+      
+      if (commRows.results?.length) {
+        dbContext += `\n[RECENT SYSTEM COMMS AUDIT]:\n`;
+        commRows.results.forEach(c => {
+          dbContext += `• [${c.sent_at}] ${c.channel.toUpperCase()} (${c.direction}) From: ${c.from_address} -> To: ${c.to_address} | Subj: ${c.subject}\n`;
+        });
+      }
+
+    } catch (dbErr) {
+      console.warn('DB context compilation notice:', dbErr);
     }
   }
 
-  // ── Call Workers AI or Smart Deterministic Fallback ──
+  dbContext += `=== END DATABASE SNAPSHOT ===\n`;
+
+  // ── CALL CHATGPT-GRADE WORKERS AI INFERENCE ──
   let aiReply = '';
 
   if (env.AI) {
@@ -1771,47 +1873,54 @@ Please draft the official academic email response.`
         { role: 'user', content: `Group member ${msg.from?.first_name || 'Editor'} says: "${userQuery}"` },
       ];
 
-      const aiResult = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', { messages, max_tokens: 500 });
-      aiReply = aiResult.response || '';
+      aiReply = await runAiChat(env, messages, 800);
     } catch (aiErr) {
-      console.error('AI error:', aiErr);
+      console.error('AI chat error:', aiErr);
     }
   }
 
-  // If AI was not enabled or produced empty output, use intelligent deterministic fallback
+  // ── SMART CONTEXTUAL FALLBACK (Only used if Cloudflare AI network is unreachable) ──
   if (!aiReply) {
     const qLower = userQuery.toLowerCase();
     
-    if (paperMatchObj) {
-      const p = paperMatchObj;
-      const daysLeft = daysUntil(p.current_deadline);
-      const deadlineStr = p.current_deadline ? `${p.current_deadline.split('T')[0]} (${daysLeft > 0 ? `${daysLeft} days remaining` : 'OVERDUE'})` : 'None';
-      
-      aiReply = `📋 *Paper Status: ${p.paper_id}*\n\n` +
-        `📄 *Title:* _${p.title || 'Untitled'}_\n` +
-        `👤 *Author:* ${p.author_name}\n` +
-        `➡️ *Stage:* ${STAGE_LABELS[p.stage] || p.stage}\n` +
-        `📊 *Plagiarism:* ${p.plagiarism_score !== null ? `${p.plagiarism_score}%` : 'Not checked'}\n` +
-        `⏰ *Active Deadline:* ${deadlineStr}\n` +
-        `🌐 *Track:* https://mpptjournal.com/track?id=${p.paper_id}`;
-    } else if (qLower.includes('how many') || qLower.includes('stat') || qLower.includes('pending') || qLower.includes('pipeline')) {
-      if (dbContext.includes('OVERALL PIPELINE STATS:')) {
-        aiReply = `📊 *MPPT Editorial Pipeline Stats:*\n\n` + dbContext.split('OVERALL PIPELINE STATS:\n')[1];
+    if (qLower.includes('email') || qLower.includes('inbox') || qLower.includes('mail')) {
+      if (emailListCache.length === 0) {
+        aiReply = `📬 *MPPT Inbound Inboxes:* No incoming emails recorded yet.\n\nAll incoming emails to \`review@mpptjournal.com\` and \`editor@mpptjournal.com\` are automatically routed here.`;
       } else {
-        aiReply = `📊 Pipeline is currently active. Use \`@mpptai_bot status <PAPER_ID>\` to inspect a manuscript.`;
+        aiReply = `📬 *Recent Inbound Emails (${emailListCache.length}):*\n\n` +
+          emailListCache.map((e, idx) => 
+            `${idx + 1}. *${e.from_name || e.from_address}*\n` +
+            `   📧 \`${e.from_address}\` ➔ \`${e.inbox}\`\n` +
+            `   📋 *${e.subject}*\n` +
+            `   📝 _${e.summary || e.body_text?.substring(0, 120) || 'N/A'}_\n` +
+            `   📊 Status: *${e.reply_status?.toUpperCase() || 'PENDING'}* · ${e.created_at?.split(' ')[0] || ''}`
+          ).join('\n\n') +
+          `\n\n💡 _To draft a response, reply directly: "Draft reply: Grant extension..."_`;
       }
-    } else if (qLower.includes('help') || qLower.includes('command')) {
-      aiReply = `🤖 *MPPT Editorial Assistant Commands:*\n\n` +
-        `• \`@mpptai_bot add reviewer Dr. Name, email, speciality, affiliation\` — Onboard reviewer\n` +
-        `• \`@mpptai_bot list reviewers\` — View active reviewer pool\n` +
-        `• \`@mpptai_bot test email\` — Simulate inbound email & auto-draft test\n` +
-        `• \`@mpptai_bot status <PAPER_ID>\` — Full audit trail\n` +
-        `• \`@mpptai_bot how many papers pending?\` — Pipeline counts\n` +
-        `• \`@mpptai_bot extend <PAPER_ID> 3 days\` — Extend active deadline\n` +
-        `• \`@mpptai_bot remind reviewer for <PAPER_ID>\` — Send reviewer reminder`;
+    } else if (qLower.includes('reviewer') || qLower.includes('referee')) {
+      if (reviewerListCache.length === 0) {
+        aiReply = `📋 *Reviewer Roster:* No referees onboarded yet.\n\nTo onboard one, say:\n\`@mpptai_bot add reviewer Dr. Name, email, speciality, affiliation\``;
+      } else {
+        aiReply = `👥 *Active Reviewer Pool (${reviewerListCache.length}):*\n\n` +
+          reviewerListCache.map((r, i) => `${i + 1}. *Dr. ${r.name}*\n   📧 \`${r.email}\`\n   🔬 ${r.speciality || 'General Pharmacy'}\n   🏛️ ${r.affiliation || 'Roster'}`).join('\n\n');
+      }
+    } else if (qLower.includes('paper') || qLower.includes('manuscript') || qLower.includes('status') || qLower.includes('pipeline')) {
+      if (paperListCache.length === 0) {
+        aiReply = `📄 No active manuscripts in the pipeline yet.`;
+      } else {
+        aiReply = `📚 *Active Manuscripts in Pipeline (${paperListCache.length}):*\n\n` +
+          paperListCache.map((p, i) => 
+            `${i + 1}. \`${p.paper_id}\`: *${p.title}*\n` +
+            `   👤 ${p.author_name} (${p.author_email})\n` +
+            `   ➡️ Stage: *${STAGE_LABELS[p.stage] || p.stage}*\n` +
+            `   📊 Plagiarism: ${p.plagiarism_score !== null ? `${p.plagiarism_score}%` : 'Pending'}\n` +
+            `   ⏰ Deadline: ${p.current_deadline ? p.current_deadline.split('T')[0] : 'None'}`
+          ).join('\n\n');
+      }
     } else {
-      aiReply = `👋 Understood, ${msg.from?.first_name || 'Editor'}! You asked: "${userQuery}".\n\n` +
-        (dbContext ? `Here is the current system data:\n${dbContext}` : `Provide a Paper ID (e.g., MPPT-2026-V1I1-0001) for detailed tracking.`);
+      aiReply = `👋 Hello ${msg.from?.first_name || 'Editor'}! I am MPPT AI, your editorial assistant.\n\n` +
+        `I have full access to our journal pipeline, including manuscripts, emails, and reviewer pools.\n` +
+        `Ask me anything—e.g., *"any new emails?"*, *"list our reviewers"*, or *"status of paper 0001"*!`;
     }
   }
 
