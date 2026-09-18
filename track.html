@@ -689,7 +689,7 @@ footer a:hover { text-decoration: underline; }
           </div>
           <p class="step-desc">Master manuscript received. Zero submission fee confirmed (APC payable post-acceptance). Paper ID and vector QR tracking token generated.</p>
           <div class="step-tags">
-            <span class="step-tag">Paper ID Minted</span>
+            <span class="step-tag">Paper ID Generated</span>
             <span class="step-tag">APC: ₹0.00</span>
             <span class="step-tag">Confirmation Emailed</span>
           </div>
@@ -938,7 +938,7 @@ const API_BASE = 'https://mppt-api.pranavparekhcontent.workers.dev';
 
   const subDate = new Date(activePaper.submittedAt);
   const formattedDate = isNaN(subDate.getTime()) 
-    ? 'September 12, 2026' 
+    ? 'Date Pending' 
     : subDate.toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' });
   
   if (dateEl) dateEl.textContent = formattedDate;
@@ -999,8 +999,8 @@ const API_BASE = 'https://mppt-api.pranavparekhcontent.workers.dev';
   // Step 2: AI Audit & Plagiarism
   if (step2) {
     const s2t = document.getElementById('step2Time');
-    const plagScore = activePaper.plagiarismScore !== undefined && activePaper.plagiarismScore !== null ? activePaper.plagiarismScore : 6.2;
-    const aiScore = activePaper.aiScore !== undefined && activePaper.aiScore !== null ? activePaper.aiScore : 4.8;
+    const plagScore = activePaper.plagiarismScore !== undefined && activePaper.plagiarismScore !== null ? activePaper.plagiarismScore : null;
+    const aiScore = activePaper.aiScore !== undefined && activePaper.aiScore !== null ? activePaper.aiScore : null;
     
     if (s === 'SUBMITTED' || s === 'PLAGIARISM_CHECK') {
       step2.className = 'step in-progress';
@@ -1010,12 +1010,12 @@ const API_BASE = 'https://mppt-api.pranavparekhcontent.workers.dev';
       if (s2t) s2t.textContent = `${formattedDate} · Passed`;
       const s2tags = step2.querySelector('.step-tags');
       if (s2tags) {
-        s2tags.innerHTML = `
-          <span class="step-tag" style="color:var(--green);font-weight:600">✓ Plagiarism: ${plagScore}% (Pass &lt;10%)</span>
-          <span class="step-tag">AI Content: ${aiScore}%</span>
-          <span class="step-tag">Structured Abstract Verified</span>
-          <span class="step-tag">Vancouver Citations Formatted</span>
-        `;
+        let tagsHtml = '';
+        if (plagScore !== null) tagsHtml += `<span class="step-tag" style="color:var(--green);font-weight:600">✓ Plagiarism: ${plagScore}% (Pass &lt;10%)</span>`;
+        if (aiScore !== null) tagsHtml += `<span class="step-tag">AI Content: ${aiScore}%</span>`;
+        tagsHtml += '<span class="step-tag">Structured Abstract Verified</span>';
+        tagsHtml += '<span class="step-tag">Vancouver Citations Formatted</span>';
+        s2tags.innerHTML = tagsHtml;
       }
     }
   }
@@ -1033,7 +1033,7 @@ const API_BASE = 'https://mppt-api.pranavparekhcontent.workers.dev';
         ? `${daysLeft > 0 ? `${daysLeft} days remaining` : 'Review Reports In Synthesis'}`
         : 'In Progress (Days 1–14)';
       
-      const revCount = activePaper.reviews?.length || 2;
+      const revCount = activePaper.reviews?.length || 0;
       if (s3tags) {
         s3tags.innerHTML = `
           <span class="step-tag" style="color:#1e40af;font-weight:600">● ${revCount} Referees Assigned</span>
