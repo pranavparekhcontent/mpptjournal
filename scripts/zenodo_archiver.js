@@ -24,7 +24,7 @@ const PAPER_DATABASE = {
     volume: '1',
     issue: '1',
     pages: '1-4',
-    pdfFile: path.join(__dirname, '../paper sample/MPPT_Vol1_Issue1_Sample_Paper.pdf'),
+    pdfFile: path.join(__dirname, '../paper sample/MPPT_Vol1_Issue1_Inaugural_Article.pdf'),
     creators: [
       { name: 'Sharma, Aarav', affiliation: 'Institute of Advanced Pharmaceutical Sciences, Pune, India', orcid: '0000-0002-1825-0097' },
       { name: 'Rostova, Elena', affiliation: 'BioX Innovation Hub, Frankfurt am Main, Germany', orcid: '0000-0001-5234-8902' },

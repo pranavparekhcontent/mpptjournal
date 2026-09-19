@@ -16,11 +16,11 @@ function assert(condition, message) {
 }
 
 console.log('--- 1. Verification of Key Artifacts & PDFs ---');
-const samplePdf = path.join(root, 'paper sample', 'MPPT_Vol1_Issue1_Sample_Paper.pdf');
-assert(fs.existsSync(samplePdf), 'Sample paper PDF exists at paper sample/MPPT_Vol1_Issue1_Sample_Paper.pdf');
-if (fs.existsSync(samplePdf)) {
-  const stat = fs.statSync(samplePdf);
-  assert(stat.size > 1500000, `Sample PDF file size is valid (~${(stat.size / (1024 * 1024)).toFixed(2)} MB)`);
+const inauguralPdf = path.join(root, 'paper sample', 'MPPT_Vol1_Issue1_Inaugural_Article.pdf');
+assert(fs.existsSync(inauguralPdf), 'Inaugural Article PDF exists at paper sample/MPPT_Vol1_Issue1_Inaugural_Article.pdf');
+if (fs.existsSync(inauguralPdf)) {
+  const stat = fs.statSync(inauguralPdf);
+  assert(stat.size > 1500000, `Inaugural PDF file size is valid (~${(stat.size / (1024 * 1024)).toFixed(2)} MB)`);
 }
 
 const reviewerPdf = path.join(root, 'paper sample', 'MPPT_Vol1_Issue1_Reviewer_Blinded.pdf');
@@ -35,13 +35,6 @@ assert(fs.existsSync(proofPdf), 'Author Galley Proof PDF exists at paper sample/
 if (fs.existsSync(proofPdf)) {
   const stat = fs.statSync(proofPdf);
   assert(stat.size > 1500000, `Proof PDF file size is valid (~${(stat.size / (1024 * 1024)).toFixed(2)} MB)`);
-}
-
-const inauguralPdf = path.join(root, 'paper sample', 'MPPT_Vol1_Issue1_Inaugural_Article.pdf');
-assert(fs.existsSync(inauguralPdf), 'Inaugural Article PDF exists at paper sample/MPPT_Vol1_Issue1_Inaugural_Article.pdf');
-if (fs.existsSync(inauguralPdf)) {
-  const stat = fs.statSync(inauguralPdf);
-  assert(stat.size > 1500000, `Inaugural PDF file size is valid (~${(stat.size / (1024 * 1024)).toFixed(2)} MB)`);
 }
 
 const sampleHtml = path.join(root, 'paper sample', 'mppt_sample_paper.html');
@@ -82,7 +75,7 @@ assert(samplePaperContent.includes('jline1">MODERN PHARMACY<'), 'sample paper ha
 assert(samplePaperContent.includes('jline2">PRAXIS <span class="amp">&amp;</span> THERAPEUTICS<'), 'sample paper has Line 3 "PRAXIS & THERAPEUTICS"');
 assert(samplePaperContent.includes('href="../index.html#issues"'), 'sample paper back button links to ../index.html#issues');
 assert(samplePaperContent.includes('href="../certificate.html?type=author&id=MPPT-2026-V1I1-0001"'), 'sample paper certificate button links to ../certificate.html');
-assert(samplePaperContent.includes('href="MPPT_Vol1_Issue1_Sample_Paper.pdf"'), 'sample paper PDF button links to MPPT_Vol1_Issue1_Sample_Paper.pdf');
+assert(samplePaperContent.includes('href="MPPT_Vol1_Issue1_Inaugural_Article.pdf"'), 'sample paper PDF button links to MPPT_Vol1_Issue1_Inaugural_Article.pdf');
 assert(samplePaperContent.includes('REVIEWER COPY · UNDER REVIEW'), 'sample paper has Reviewer watermark string');
 assert(samplePaperContent.includes('GALLEY PROOF COPY · UNCORRECTED PROOF'), 'sample paper has Galley Proof watermark string');
 assert(samplePaperContent.includes('[Author Identifiers Redacted for Double-Blind Review]'), 'sample paper has Double-Blind redaction notice');
