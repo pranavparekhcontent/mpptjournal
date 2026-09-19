@@ -10,12 +10,12 @@
   .header { padding:24px 32px 18px; text-align:left; background:#fcfbfa; border-bottom:1px solid #f0eae1; }
   .journal-title { font-family:Georgia, serif; font-size:21px; color:#8c3b3b; font-weight:bold; letter-spacing:0.02em; margin-bottom:4px; }
   .journal-sub { font-size:10px; color:#8a7f6c; text-transform:uppercase; letter-spacing:0.12em; font-family:monospace; }
-  .body { padding:32px; font-size:14px; line-height:1.65; color:#2c251e; }
+  .body { padding:32px; font-size:14px; line-height:1.65; color:#2c251e; text-align: justify; text-justify: inter-word; }
   .kicker { font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:#a8874f; font-weight:bold; font-family:monospace; margin-bottom:8px; }
   .h1 { font-family:Georgia, serif; font-size:22px; color:#1c1812; line-height:1.3; margin:0 0 16px; }
-  .card { background:#fcfbfa; border:1px solid #e5dec9; border-left:3px solid #8c3b3b; padding:16px 18px; margin:20px 0; border-radius:2px; font-size:13px; }
+  .card { text-align:left; background:#fcfbfa; border:1px solid #e5dec9; border-left:3px solid #8c3b3b; padding:16px 18px; margin:20px 0; border-radius:2px; font-size:13px; }
   .meta-row { margin-bottom:6px; }
-  .meta-lbl { font-family:monospace; font-size:11px; text-transform:uppercase; color:#8a7f6c; display:inline-block; width:130px; }
+  .meta-lbl { font-family:monospace; font-size:11px; text-transform:uppercase; color:#8a7f6c; display:inline-block; min-width:175px; vertical-align:top; }
   .meta-val { font-weight:600; color:#1c1812; }
   .btn-wrap { text-align:center; margin:28px 0 20px; }
   .btn { display:inline-block; background:#8c3b3b; color:#ffffff !important; font-family:monospace; font-size:12px; font-weight:bold; text-transform:uppercase; letter-spacing:0.08em; padding:12px 26px; text-decoration:none; border-radius:2px; }
@@ -56,14 +56,14 @@
       <div class="meta-row"><span class="meta-lbl">Tracking ID:</span> <span class="meta-val" style="color:#8c3b3b;font-family:monospace;font-size:14px;">{{PAPER_ID}}</span></div>
       <div class="meta-row"><span class="meta-lbl">Manuscript Title:</span> <span class="meta-val">{{PAPER_TITLE}}</span></div>
       <div class="meta-row"><span class="meta-lbl">Corresponding Author:</span> <span class="meta-val">{{AUTHOR_NAME}}</span></div>
-      <div class="meta-row"><span class="meta-lbl">Intake Timestamp:</span> <span class="meta-val">{{TIMESTAMP}}</span></div>
+      <div class="meta-row"><span class="meta-lbl">Date &amp; Time Received:</span> <span class="meta-val">{{SUBMISSION_DATE_TIME}}</span></div>
       <div class="meta-row"><span class="meta-lbl">Current Stage:</span> <span class="meta-val" style="color:#2e7d32;">Stage 1: Editorial Desk Screening</span></div>
     </div>
 
     <p><strong>Next Movement:</strong> Your manuscript will now undergo statutory desk screening and similarity/plagiarism verification (&lt;10% threshold) within 1 to 3 days. Following clearance, it will be assigned to two independent doctorate-holding peer reviewers under double-blind protocol.</p>
 
     <div class="btn-wrap">
-      <a href="https://mpptjournal.com/track?id={{PAPER_ID}}" class="btn" target="_blank">Track Live Review Progress &rarr;</a>
+      <a href="https://mpptjournal.com/track.html" class="btn" target="_blank">Track Live Review Progress &rarr;</a>
     </div>
 
     <p style="font-size:12px;color:#5c5344;margin-top:20px;">

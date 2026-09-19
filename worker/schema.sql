@@ -165,3 +165,46 @@ CREATE TABLE IF NOT EXISTS counters (
 
 -- Initialize the first volume/issue counter
 INSERT OR IGNORE INTO counters (counter_key, counter_value) VALUES ('paper_seq_V1I1', 0);
+
+-- ============================================================
+-- BOARD_MEMBERS — Editorial Advisory Board Roster
+-- ============================================================
+CREATE TABLE IF NOT EXISTS board_members (
+  id              INTEGER PRIMARY KEY AUTOINCREMENT,
+  member_id       TEXT UNIQUE,
+  name            TEXT NOT NULL,
+  email           TEXT NOT NULL UNIQUE,
+  affiliation     TEXT DEFAULT '',
+  track           TEXT DEFAULT '',
+  session_term    TEXT DEFAULT '2026 – 2028 Biennium',
+  is_active       INTEGER DEFAULT 1,
+  created_at      TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_board_active ON board_members(is_active);
+CREATE INDEX IF NOT EXISTS idx_board_email ON board_members(email);
+
+-- ============================================================
+-- INBOUND_EMAILS — Incoming inquiries across editorial mailboxes
+-- ============================================================
+CREATE TABLE IF NOT EXISTS inbound_emails (
+  id              INTEGER PRIMARY KEY AUTOINCREMENT,
+  inbound_id      TEXT UNIQUE,
+  inbox           TEXT NOT NULL,
+  from_address    TEXT NOT NULL,
+  from_name       TEXT DEFAULT '',
+  subject         TEXT DEFAULT '',
+  body_text       TEXT DEFAULT '',
+  summary         TEXT DEFAULT '',
+  paper_id        TEXT DEFAULT NULL,
+  reply_status    TEXT DEFAULT 'pending',          -- pending, drafted, sent
+  reply_draft     TEXT DEFAULT NULL,
+  telegram_msg_id INTEGER DEFAULT NULL,
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  replied_at      TEXT DEFAULT NULL,
+  FOREIGN KEY (paper_id) REFERENCES manuscripts(paper_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_inbound_inbox ON inbound_emails(inbox);
+CREATE INDEX IF NOT EXISTS idx_inbound_paper ON inbound_emails(paper_id);
+CREATE INDEX IF NOT EXISTS idx_inbound_reply_status ON inbound_emails(reply_status);

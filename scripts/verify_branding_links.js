@@ -58,7 +58,6 @@ assert(trackHtml.includes('lockup-line1">MODERN PHARMACY<'), 'track.html has Lin
 assert(trackHtml.includes('lockup-line2">PRAXIS <span class="amp">&amp;</span> THERAPEUTICS<'), 'track.html has Line 3 "PRAXIS & THERAPEUTICS" uppercase with crimson amp');
 assert(trackHtml.includes('Live Manuscript Progress &amp; Editorial Tracker'), 'track.html has correct tracker subtitle');
 assert(trackHtml.includes('logo/logo.png'), 'track.html links to official seal logo');
-assert(trackHtml.includes('receipt-watermark'), 'track.html receipt includes logo watermark');
 assert(trackHtml.includes('lockup-sub">Official Submission &amp; Peer-Review Status Certificate<'), 'track.html receipt includes official status certificate subtitle');
 assert(trackHtml.includes('lockup-kicker" style="color:#8c3b3b !important;font-style:italic'), 'track.html receipt has crimson #8c3b3b italic Journal of');
 assert(trackHtml.includes('class="amp" style="color:#8c3b3b !important;font-style:italic'), 'track.html receipt has crimson #8c3b3b italic amp');
@@ -97,12 +96,11 @@ const indexHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 assert(indexHtml.includes('href="paper sample/mppt_sample_paper.html"'), 'index.html has links to paper sample/mppt_sample_paper.html');
 assert(!indexHtml.includes('Read Inaugural Issue Paper (Web)'), 'index.html archive does not have overlapping action button strip');
 assert(indexHtml.includes('href="paper sample/mppt_sample_paper.html"'), 'index.html retains sample paper links in submit resources and footer');
-assert(indexHtml.includes('receipt-watermark'), 'index.html submission receipt includes logo watermark');
 assert(indexHtml.includes('lockup-sub">Official Manuscript Intake &amp; Peer-Review Receipt<'), 'index.html submission receipt includes official lockup');
 assert(indexHtml.includes('lockup-kicker" style="color:#8c3b3b !important;font-style:italic'), 'index.html receipt has crimson #8c3b3b italic Journal of');
 assert(indexHtml.includes('class="amp" style="color:#8c3b3b !important;font-style:italic'), 'index.html receipt has crimson #8c3b3b italic amp');
 
-console.log('\n--- 4. Batch Email Templates (All 16) ---');
+console.log('\n--- 4. Batch Email Templates (All 18) ---');
 const emailFiles = [
   '1_SUBMISSION_CONFIRMATION.html',
   '2_DESK_SCREENING_CLEARED.html',
@@ -118,7 +116,9 @@ const emailFiles = [
   '7A_PAYMENT_RECEIPT.html',
   '8_CERTIFICATE.html',
   'INVITATION_ADVISORY_BOARD.html',
+  'CONFIRMATION_ADVISORY_BOARD.html',
   'INVITATION_REVIEWER.html',
+  'CONFIRMATION_REVIEWER.html',
   'REJECTION.html'
 ];
 

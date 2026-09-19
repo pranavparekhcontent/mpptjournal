@@ -88,6 +88,14 @@ Zoho SMTP over Direct TLS Sockets (smtppro.zoho.in:465 via cloudflare:sockets)
    - Headed by Publisher (Dr. Vishnu Neharkar).
    - Handles CERN/Zenodo archival, OAI-PMH indexing, Crossref DOI registration, and print/production inquiries.
 
+### Mandatory Email Template Formatting Invariants (Ctrl+J Rule)
+
+1. **Justified Text (Ctrl+J) Everywhere**: All paragraphs, guidance blocks, and alert/issue boxes in `email_templates/*.html` must use `text-align: justify; text-justify: inter-word;`.
+2. **Left-Aligned Header Branding**: Logo seal, title, and tagline (`Research · Practice · Better Health`) must be left-aligned.
+3. **Card Alignment**: Key-value rows in metadata cards must remain explicitly left-aligned (`.card { text-align: left; }`).
+4. **Clean Tracking Links**: Buttons link directly to `https://mpptjournal.com/track.html` (no `?id=...`). The `track.html` input box must be blank on load.
+5. **Submission Timestamp**: Labeled as `Date & Time Received:` in Indian Standard Time (IST).
+
 ---
 
 ## 4. Live Knowledge Base & Database Models (Cloudflare D1)

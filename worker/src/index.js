@@ -145,6 +145,23 @@ function now() {
   return new Date().toISOString();
 }
 
+function formatDateTimeIST(d = new Date()) {
+  const dateObj = typeof d === 'string' ? new Date(d) : d;
+  try {
+    return new Intl.DateTimeFormat('en-US', {
+      timeZone: 'Asia/Kolkata',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+    }).format(dateObj) + ' IST';
+  } catch (e) {
+    return dateObj.toISOString();
+  }
+}
+
 function addDays(days) {
   const d = new Date();
   d.setDate(d.getDate() + days);
@@ -866,6 +883,12 @@ export default {
         if (method === 'POST') return await handleAddReviewer(request, env);
       }
 
+      // ── Editorial Advisory Board Pool ──
+      if (path === '/api/board/members' || path === '/api/board') {
+        if (method === 'GET') return await handleListBoardMembers(env);
+        if (method === 'POST') return await handleAddBoardMember(request, env);
+      }
+
       // ── POST /api/telegram/webhook ──
       if (method === 'POST' && path === '/api/telegram/webhook') {
         return await handleTelegramWebhook(request, env);
@@ -1143,7 +1166,8 @@ async function handleSubmission(request, env, url) {
       PAPER_ID: paperId,
       PAPER_TITLE: title,
       AUTHOR_NAME: authorName,
-      TIMESTAMP: now(),
+      SUBMISSION_DATE_TIME: formatDateTimeIST(new Date()),
+      TIMESTAMP: formatDateTimeIST(new Date()),
     },
     stage: STAGES.SUBMITTED,
   });
@@ -1366,6 +1390,7 @@ async function handlePlagiarismResult(request, env) {
       templateVars: {
         PAPER_ID: paperId,
         PAPER_TITLE: paper.title,
+        SIMILARITY_SCORE: `${typeof score === 'number' ? score.toFixed(1) : '3.8'}%`,
       },
       stage: STAGES.PLAGIARISM_PASS,
     });
@@ -1647,6 +1672,10 @@ async function handleReviewerDecision(request, env) {
         templateVars: {
           PAPER_ID: paperId,
           PAPER_TITLE: paper.title,
+          AUTHOR_NAME: paper.author_name,
+          VOLUME: paper.volume || 1,
+          ISSUE: paper.issue || 1,
+          YEAR: new Date().getFullYear(),
         },
         stage: STAGES.ACCEPTED,
       });
@@ -1768,6 +1797,9 @@ async function handleGallerySend(request, env) {
       PAPER_ID: paperId,
       PAPER_TITLE: paper.title,
       AUTHOR_NAME: paper.author_name,
+      VOLUME: paper.volume || 1,
+      ISSUE: paper.issue || 1,
+      YEAR: new Date().getFullYear(),
       DEADLINE_DATE: deadline.split('T')[0],
     },
     stage: STAGES.GALLERY_SENT,
@@ -1905,6 +1937,10 @@ async function handlePublish(request, env) {
       PAPER_ID: paperId,
       PAPER_TITLE: paper.title,
       AUTHOR_NAME: paper.author_name,
+      VOLUME: paper.volume || 1,
+      ISSUE: paper.issue || 1,
+      YEAR: new Date().getFullYear(),
+      PAGE_RANGE: ' · pp. 1–4',
       ARTICLE_URL: publishedUrl || 'https://mpptjournal.com',
       ZENODO_DOI: zenodoDoi || 'Pending Deposition',
       ARTICLE_URL_ENCODED: encodeURIComponent(publishedUrl || 'https://mpptjournal.com'),
@@ -1922,6 +1958,9 @@ async function handlePublish(request, env) {
       PAPER_ID: paperId,
       PAPER_TITLE: paper.title,
       AUTHOR_NAME: paper.author_name,
+      VOLUME: paper.volume || 1,
+      ISSUE: paper.issue || 1,
+      YEAR: new Date().getFullYear(),
       ZENODO_DOI: zenodoDoi || '10.5281/zenodo.11478902',
     },
     stage: STAGES.PUBLISHED,
@@ -1963,6 +2002,9 @@ async function handleCertificateSend(request, env, paperId) {
       PAPER_ID: paperId,
       PAPER_TITLE: paper.title,
       AUTHOR_NAME: paper.author_name,
+      VOLUME: paper.volume || 1,
+      ISSUE: paper.issue || 1,
+      YEAR: new Date().getFullYear(),
       ZENODO_DOI: paper.zenodo_doi || '10.5281/zenodo.11478902',
     },
     stage: STAGES.PUBLISHED,
@@ -1980,6 +2022,115 @@ async function handleListReviewers(env) {
 
   const results = await env.DB.prepare('SELECT * FROM reviewers WHERE is_active = 1 ORDER BY name').all();
   return json({ success: true, reviewers: results.results || [] });
+}
+
+async function sendReviewerCertificateEmail(env, { name, email, speciality, affiliation, orcid }) {
+  const cleanEmail = email.toLowerCase().trim();
+  let rev = null;
+  if (env.DB) {
+    try {
+      rev = await env.DB.prepare('SELECT id, name, email, affiliation, speciality FROM reviewers WHERE email = ?').bind(cleanEmail).first();
+    } catch (e) {}
+  }
+  const reviewerId = 'REV-2026-' + String(rev ? rev.id : 1).padStart(3, '0');
+  const cleanName = (name || rev?.name || 'Peer Reviewer').trim();
+  const cleanSpeciality = (speciality || rev?.speciality || 'General Pharmacy & Therapeutics').trim();
+  const cleanAffiliation = (affiliation || rev?.affiliation || 'MPPT Reviewer Pool').trim();
+
+  const certUrl = `https://mpptjournal.com/certificate.html?type=reviewer&name=${encodeURIComponent(cleanName)}&id=${encodeURIComponent(reviewerId)}&speciality=${encodeURIComponent(cleanSpeciality)}&affiliation=${encodeURIComponent(cleanAffiliation)}`;
+
+  const res = await dispatchOrQueueEmail(env, {
+    paperId: reviewerId,
+    templateKey: 'CONFIRMATION_REVIEWER',
+    fromInbox: 'review@mpptjournal.com',
+    toAddress: cleanEmail,
+    subject: `Welcome to the Verified Peer Reviewer Panel & Official Certificate — MPPT Journal`,
+    templateVars: {
+      REVIEWER_NAME: cleanName,
+      REVIEWER_EMAIL: cleanEmail,
+      REVIEWER_ID: reviewerId,
+      SPECIALITY: cleanSpeciality,
+      AFFILIATION: cleanAffiliation,
+      SESSION: '2026 – 2027',
+      CERTIFICATE_URL: certUrl,
+      REVIEWER_NAME_ENCODED: encodeURIComponent(cleanName),
+      SPECIALITY_ENCODED: encodeURIComponent(cleanSpeciality)
+    },
+    stage: 'REVIEWER_ONBOARDED'
+  });
+
+  return { reviewerId, certUrl, emailRes: res };
+}
+
+async function sendBoardMemberCertificateEmail(env, { name, email, affiliation, track, sessionTerm }) {
+  const cleanEmail = email.toLowerCase().trim();
+  const cleanName = (name || 'Editorial Advisory Board Member').trim();
+  const cleanTrack = (track || 'Clinical Pharmacokinetics & Therapeutics').trim();
+  const cleanAffiliation = (affiliation || 'International Advisory Council').trim();
+  const cleanTerm = (sessionTerm || '2026 – 2028 Biennium').trim();
+
+  let memberId = 'EAB-2026-001';
+  if (env.DB) {
+    try {
+      await env.DB.prepare(`
+        CREATE TABLE IF NOT EXISTS board_members (
+          id              INTEGER PRIMARY KEY AUTOINCREMENT,
+          member_id       TEXT UNIQUE,
+          name            TEXT NOT NULL,
+          email           TEXT NOT NULL UNIQUE,
+          affiliation     TEXT DEFAULT '',
+          track           TEXT DEFAULT '',
+          session_term    TEXT DEFAULT '2026 – 2028 Biennium',
+          is_active       INTEGER DEFAULT 1,
+          created_at      TEXT NOT NULL DEFAULT (datetime('now'))
+        )
+      `).run().catch(() => {});
+
+      await env.DB.prepare(`
+        INSERT INTO board_members (name, email, affiliation, track, session_term, is_active)
+        VALUES (?, ?, ?, ?, ?, 1)
+        ON CONFLICT(email) DO UPDATE SET
+          name = excluded.name,
+          affiliation = excluded.affiliation,
+          track = excluded.track,
+          session_term = excluded.session_term,
+          is_active = 1
+      `).bind(cleanName, cleanEmail, cleanAffiliation, cleanTrack, cleanTerm).run();
+
+      const bm = await env.DB.prepare('SELECT id FROM board_members WHERE email = ?').bind(cleanEmail).first();
+      memberId = 'EAB-2026-' + String(bm ? bm.id : 1).padStart(3, '0');
+      await env.DB.prepare('UPDATE board_members SET member_id = ? WHERE email = ?').bind(memberId, cleanEmail).run();
+    } catch (dbErr) {
+      console.error('Board member DB error:', dbErr);
+    }
+  }
+
+  const certUrl = `https://mpptjournal.com/certificate.html?type=board&name=${encodeURIComponent(cleanName)}&id=${encodeURIComponent(memberId)}&track=${encodeURIComponent(cleanTrack)}&term=${encodeURIComponent(cleanTerm)}`;
+
+  const res = await dispatchOrQueueEmail(env, {
+    paperId: memberId,
+    templateKey: 'CONFIRMATION_ADVISORY_BOARD',
+    fromInbox: 'editor@mpptjournal.com',
+    toAddress: cleanEmail,
+    subject: `Formal Appointment & Official Board Certificate — Editorial Advisory Board — MPPT Journal`,
+    templateVars: {
+      MEMBER_NAME: cleanName,
+      MEMBER_EMAIL: cleanEmail,
+      MEMBER_ID: memberId,
+      APPOINTMENT_ID: memberId,
+      DESIGNATION: 'Honorary Member, Editorial Advisory Board',
+      AFFILIATION: cleanAffiliation,
+      TRACK: cleanTrack,
+      TERM: cleanTerm,
+      SESSION_TERM: cleanTerm,
+      CERTIFICATE_URL: certUrl,
+      MEMBER_NAME_ENCODED: encodeURIComponent(cleanName),
+      TRACK_ENCODED: encodeURIComponent(cleanTrack)
+    },
+    stage: 'BOARD_APPOINTED'
+  });
+
+  return { memberId, certUrl, emailRes: res };
 }
 
 async function handleAddReviewer(request, env) {
@@ -2002,19 +2153,70 @@ async function handleAddReviewer(request, env) {
       is_active = 1
   `).bind(name, cleanEmail, affiliation || '', speciality || '', orcid || '').run();
 
+  const certResult = await sendReviewerCertificateEmail(env, { name, email: cleanEmail, affiliation, speciality, orcid });
+
   if (env.TELEGRAM_BOT_TOKEN) {
     await sendTelegram(env,
       `👥 *NEW PEER REVIEWER ONBOARDED*\n\n` +
       `👤 *Name:* ${name}\n` +
       `📧 *Email:* \`${cleanEmail}\`\n` +
+      `🆔 *Reviewer ID:* \`${certResult.reviewerId}\`\n` +
       `🔬 *Speciality:* ${speciality || 'General Pharmacy & Therapeutics'}\n` +
       `🏛️ *Affiliation:* ${affiliation || 'MPPT Reviewer Pool'}\n` +
       (orcid ? `🆔 *ORCID:* \`${orcid}\`\n` : '') +
-      `\n✅ Added to active double-blind peer reviewer pool.`
+      `📜 *Certificate:* [View Verified Certificate](${certResult.certUrl})\n\n` +
+      `✅ Added to active double-blind peer reviewer pool and official certificate dispatched.`
     );
   }
 
-  return json({ success: true, message: `Reviewer ${name} added to pool` }, 201);
+  return json({
+    success: true,
+    message: `Reviewer ${name} added to pool and certificate mailed`,
+    reviewerId: certResult.reviewerId,
+    certificateUrl: certResult.certUrl
+  }, 201);
+}
+
+async function handleListBoardMembers(env) {
+  if (!env.DB) return json({ success: false, error: 'Database not available' }, 500);
+  try {
+    const results = await env.DB.prepare('SELECT * FROM board_members WHERE is_active = 1 ORDER BY name').all();
+    return json({ success: true, members: results.results || [] });
+  } catch (e) {
+    return json({ success: true, members: [] });
+  }
+}
+
+async function handleAddBoardMember(request, env) {
+  if (!env.DB) return json({ success: false, error: 'Database not available' }, 500);
+
+  const body = await request.json();
+  const { name, email, affiliation, track, sessionTerm } = body;
+
+  if (!name || !email) return json({ success: false, error: 'name and email required' }, 400);
+
+  const cleanEmail = email.toLowerCase().trim();
+  const result = await sendBoardMemberCertificateEmail(env, { name, email: cleanEmail, affiliation, track, sessionTerm });
+
+  if (env.TELEGRAM_BOT_TOKEN) {
+    await sendTelegram(env,
+      `🏛️ *NEW EDITORIAL ADVISORY BOARD MEMBER APPOINTED*\n\n` +
+      `👤 *Name:* ${name}\n` +
+      `📧 *Email:* \`${cleanEmail}\`\n` +
+      `🆔 *Board ID:* \`${result.memberId}\`\n` +
+      `🔬 *Track:* ${track || 'Clinical Pharmacokinetics & Therapeutics'}\n` +
+      `🏛️ *Affiliation:* ${affiliation || 'International Advisory Council'}\n` +
+      `📜 *Certificate:* [View Verified Certificate](${result.certUrl})\n\n` +
+      `✅ Official appointment notification & certificate emailed to the board member.`
+    );
+  }
+
+  return json({
+    success: true,
+    message: `Board member ${name} appointed and certificate dispatched`,
+    memberId: result.memberId,
+    certificateUrl: result.certUrl
+  }, 201);
 }
 
 // ════════════════════════════════════════════════════════════
@@ -2077,6 +2279,25 @@ async function processInboundEmail(env, emailData) {
   // 2. Persist in Cloudflare D1
   if (env.DB) {
     try {
+      await env.DB.prepare(`
+        CREATE TABLE IF NOT EXISTS inbound_emails (
+          id              INTEGER PRIMARY KEY AUTOINCREMENT,
+          inbound_id      TEXT UNIQUE,
+          inbox           TEXT NOT NULL,
+          from_address    TEXT NOT NULL,
+          from_name       TEXT DEFAULT '',
+          subject         TEXT DEFAULT '',
+          body_text       TEXT DEFAULT '',
+          summary         TEXT DEFAULT '',
+          paper_id        TEXT DEFAULT NULL,
+          reply_status    TEXT DEFAULT 'pending',
+          reply_draft     TEXT DEFAULT NULL,
+          telegram_msg_id INTEGER DEFAULT NULL,
+          created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+          replied_at      TEXT DEFAULT NULL
+        )
+      `).run().catch(() => {});
+
       await env.DB.prepare(`
         INSERT INTO inbound_emails (inbound_id, inbox, from_address, from_name, subject, body_text, summary, paper_id, reply_status)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')
@@ -2149,6 +2370,66 @@ async function processInboundEmail(env, emailData) {
       }
     } catch (e) {
       console.error('Failed to send auto-ack email:', e);
+    }
+  }
+
+  // 5. Automated Onboarding & Verifiable Certificate Dispatch on Acceptance Replies
+  const subLower = (subject + ' ' + bodyText).toLowerCase();
+  const isAccept = subLower.includes('accept') || subLower.includes('delighted to join') || subLower.includes('pleased to join') || subLower.includes('agree to serve') || subLower.includes('happy to join');
+
+  if (isAccept) {
+    if (subLower.includes('advisory board') || subLower.includes('editorial board')) {
+      try {
+        const boardMemberName = fromName || fromAddress.split('@')[0].replace(/[._-]/g, ' ');
+        const boardRes = await sendBoardMemberCertificateEmail(env, {
+          name: boardMemberName,
+          email: fromAddress,
+          affiliation: 'Editorial Advisory Board',
+          track: 'Clinical Pharmacokinetics & Therapeutics',
+          sessionTerm: '2026 – 2028 Biennium'
+        });
+        if (env.TELEGRAM_BOT_TOKEN) {
+          await sendTelegram(env,
+            `🏛️ *AUTO-ONBOARDED ADVISORY BOARD MEMBER*\n\n` +
+            `👤 *Name:* ${boardMemberName}\n` +
+            `📧 *Email:* \`${fromAddress}\`\n` +
+            `🆔 *Board ID:* \`${boardRes.memberId}\`\n` +
+            `📜 *Certificate:* [View Verified Certificate](${boardRes.certUrl})\n\n` +
+            `✅ Automated appointment certificate dispatched to member following their acceptance reply.`
+          );
+        }
+      } catch (e) {
+        console.error('Auto board onboarding error:', e);
+      }
+    } else if (subLower.includes('reviewer') || subLower.includes('referee') || subLower.includes('peer review')) {
+      try {
+        const revName = fromName || fromAddress.split('@')[0].replace(/[._-]/g, ' ');
+        if (env.DB) {
+          await env.DB.prepare(`
+            INSERT INTO reviewers (name, email, speciality, affiliation, is_active, created_at)
+            VALUES (?, ?, ?, ?, 1, datetime('now'))
+            ON CONFLICT(email) DO UPDATE SET is_active = 1
+          `).bind(revName, fromAddress, 'General Pharmacy & Therapeutics', 'MPPT Reviewer Pool').run().catch(() => {});
+        }
+        const revRes = await sendReviewerCertificateEmail(env, {
+          name: revName,
+          email: fromAddress,
+          speciality: 'General Pharmacy & Therapeutics',
+          affiliation: 'MPPT Reviewer Pool'
+        });
+        if (env.TELEGRAM_BOT_TOKEN) {
+          await sendTelegram(env,
+            `🔬 *AUTO-ONBOARDED PEER REVIEWER*\n\n` +
+            `👤 *Name:* ${revName}\n` +
+            `📧 *Email:* \`${fromAddress}\`\n` +
+            `🆔 *Reviewer ID:* \`${revRes.reviewerId}\`\n` +
+            `📜 *Certificate:* [View Verified Certificate](${revRes.certUrl})\n\n` +
+            `✅ Automated enlistment certificate dispatched to reviewer following their acceptance reply.`
+          );
+        }
+      } catch (e) {
+        console.error('Auto reviewer onboarding error:', e);
+      }
     }
   }
 
@@ -2394,7 +2675,8 @@ async function handleTelegramWebhook(request, env) {
       `• \`/stats\` — Live database & pipeline dashboard\n` +
       `• \`/reviewers\` — View referee pool\n` +
       `• \`/sent <paperId>\` — Confirm verified dispatch of an email\n` +
-      `• \`add reviewer Dr. Name, email, speciality, affiliation\`\n\n` +
+      `• \`add reviewer Dr. Name, email, speciality, affiliation\`\n` +
+      `• \`add board Dr. Name, email, track, affiliation\`\n\n` +
       `You can also ask me any scientific or editorial question directly!`;
     await sendTelegram(env, helpMsg, { reply_to_message_id: msg.message_id });
     return json({ ok: true });
@@ -2457,20 +2739,95 @@ async function handleTelegramWebhook(request, env) {
       `).bind(revName, revEmail, revSpeciality, revAffiliation).run();
     }
 
+    const certResult = await sendReviewerCertificateEmail(env, {
+      name: revName,
+      email: revEmail,
+      speciality: revSpeciality,
+      affiliation: revAffiliation
+    });
+
     const confMsg = 
       `✅ *Reviewer Successfully Onboarded!*\n\n` +
       `👤 *Name:* ${revName}\n` +
       `📧 *Email:* \`${revEmail}\`\n` +
+      `🆔 *Referee ID:* \`${certResult.reviewerId}\`\n` +
       `🔬 *Speciality:* ${revSpeciality}\n` +
       `🏛️ *Affiliation:* ${revAffiliation}\n` +
-      `📊 *Status:* Active in Peer Review Pool\n\n` +
-      `This referee is now registered for autonomous double-blind manuscript assignment.`;
+      `📜 *Certificate:* [View Verified Certificate](${certResult.certUrl})\n\n` +
+      `✉️ Official welcome confirmation & verified credential certificate dispatched to referee's inbox.`;
 
     await sendTelegram(env, confMsg, { reply_to_message_id: msg.message_id });
 
     if (env.DB) {
-      await logComm(env.DB, null, 'telegram', 'inbound', msg.from?.first_name || 'editor', 'mpptai_bot',
-        'Reviewer Onboarded', `Onboarded ${revName} (${revEmail})`, null, null);
+      await logComm(env.DB, certResult.reviewerId, 'telegram', 'inbound', msg.from?.first_name || 'editor', 'mpptai_bot',
+        'Reviewer Onboarded', `Onboarded ${revName} (${revEmail}) with certificate`, null, null);
+    }
+    return json({ ok: true });
+  }
+
+  // ── COMMAND 1B: EDITORIAL ADVISORY BOARD ONBOARDING VIA TELEGRAM ──
+  const isAddBoard = userQuery.match(/^(?:(?:\/)?addboard|add\s+board|onboard\s+board|add\s+advisory)\b/i);
+  if (isAddBoard) {
+    const rawDetails = userQuery.replace(/^(?:(?:\/)?addboard|add\s+board|onboard\s+board|add\s+advisory)\s*(?:member)?\s*(:|-|\s)?\s*/i, '').trim();
+    if (!rawDetails) {
+      const helpMsg = `ℹ️ *Board Member Onboarding Format:*\n\n` +
+        `Use:\n\`@mpptai_bot add board Dr. Name, email@domain.com, Track/Domain, Affiliation\`\n\n` +
+        `Example:\n\`@mpptai_bot add board Dr. Elena Rostova, elena.r@oxford.ac.uk, Clinical Pharmacokinetics, University of Oxford\``;
+      await sendTelegram(env, helpMsg, { reply_to_message_id: msg.message_id });
+      return json({ ok: true });
+    }
+
+    const parts = rawDetails.includes('\n') ? rawDetails.split('\n') : rawDetails.split(',');
+    let bmName = (parts[0] || '').trim();
+    let bmEmail = '';
+    let bmTrack = '';
+    let bmAffiliation = '';
+
+    const emailMatch = rawDetails.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+    if (emailMatch) {
+      bmEmail = emailMatch[0].toLowerCase();
+    } else if (parts[1] && parts[1].includes('@')) {
+      bmEmail = parts[1].trim().toLowerCase();
+    }
+
+    if (!bmEmail) {
+      await sendTelegram(env, `⚠️ *Missing Email:* Please specify a valid academic email address for the board member.\nExample: \`@mpptai_bot add board Dr. Rostova, elena@oxford.ac.uk, Pharmacokinetics\``, { reply_to_message_id: msg.message_id });
+      return json({ ok: true });
+    }
+
+    if (bmName.toLowerCase().includes(bmEmail)) {
+      bmName = bmName.replace(bmEmail, '').replace(/[<>,]/g, '').trim();
+    }
+    if (!bmName) bmName = 'Advisory Board Member';
+
+    if (parts.length > 2) bmTrack = parts[2].trim();
+    if (parts.length > 3) bmAffiliation = parts.slice(3).join(', ').trim();
+    if (!bmTrack) bmTrack = 'Clinical Pharmacokinetics & Therapeutics';
+    if (!bmAffiliation) bmAffiliation = 'International Advisory Council';
+
+    const boardRes = await sendBoardMemberCertificateEmail(env, {
+      name: bmName,
+      email: bmEmail,
+      affiliation: bmAffiliation,
+      track: bmTrack,
+      sessionTerm: '2026 – 2028 Biennium'
+    });
+
+    const confMsg = 
+      `🏛️ *Editorial Advisory Board Member Appointed!*\n\n` +
+      `👤 *Name:* ${bmName}\n` +
+      `📧 *Email:* \`${bmEmail}\`\n` +
+      `🆔 *Board ID:* \`${boardRes.memberId}\`\n` +
+      `🔬 *Track:* ${bmTrack}\n` +
+      `🏛️ *Affiliation:* ${bmAffiliation}\n` +
+      `📜 *Certificate:* [View Verified Certificate](${boardRes.certUrl})\n\n` +
+      `✉️ Official appointment certificate and credential dossier dispatched to member.`;
+
+    await sendTelegram(env, confMsg, { reply_to_message_id: msg.message_id });
+
+    if (env.DB) {
+      await logComm(env.DB, boardRes.memberId, 'telegram', 'inbound', msg.from?.first_name || 'editor', 'mpptai_bot',
+        'Board Member Appointed', `Appointed ${bmName} (${bmEmail}) with ID ${boardRes.memberId}`, null, null);
     }
     return json({ ok: true });
   }

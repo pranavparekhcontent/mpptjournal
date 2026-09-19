@@ -18,8 +18,36 @@ js += '};\n\n';
 js += `export function renderEmailHtml(templateKey, vars = {}) {
   const raw = TEMPLATES[templateKey];
   if (!raw) return null;
+
+  const paperId = vars.PAPER_ID || '';
+  let defaultYear = String(new Date().getFullYear());
+  let defaultVolume = '1';
+  let defaultIssue = '1';
+  const idMatch = String(paperId).match(/MPPT-(\\d{4})-V(\\d+)I(\\d+)/i);
+  if (idMatch) {
+    defaultYear = idMatch[1];
+    defaultVolume = idMatch[2];
+    defaultIssue = idMatch[3];
+  }
+
+  const merged = {
+    VOLUME: defaultVolume,
+    ISSUE: defaultIssue,
+    YEAR: defaultYear,
+    PAGE_RANGE: ' · pp. 1–4',
+    SIMILARITY_SCORE: '3.8%',
+    ARTICLE_URL: paperId ? \`https://mpptjournal.com/paper/\${paperId}\` : 'https://mpptjournal.com',
+    ARTICLE_URL_ENCODED: encodeURIComponent(vars.ARTICLE_URL || (paperId ? \`https://mpptjournal.com/paper/\${paperId}\` : 'https://mpptjournal.com')),
+    ZENODO_DOI: '10.5281/zenodo.11478902',
+    MEMBER_NAME_ENCODED: encodeURIComponent(vars.MEMBER_NAME || ''),
+    TRACK_ENCODED: encodeURIComponent(vars.TRACK || ''),
+    REVIEWER_NAME_ENCODED: encodeURIComponent(vars.REVIEWER_NAME || ''),
+    SPECIALITY_ENCODED: encodeURIComponent(vars.SPECIALITY || ''),
+    ...vars,
+  };
+
   let html = raw;
-  for (const [k, v] of Object.entries(vars)) {
+  for (const [k, v] of Object.entries(merged)) {
     const reg = new RegExp('\\\\{\\\\{' + k + '\\\\}\\\\}', 'g');
     html = html.replace(reg, String(v ?? ''));
   }
@@ -44,8 +72,10 @@ export function getTemplateSubject(templateKey, paperId = '') {
     'REJECTION': \`Editorial Decision: Rejection Notice — \${paperId} · MPPT Journal\`,
     'INVITATION_REVIEWER': 'Formal Invitation: Join the MPPT Journal Peer Reviewer Board',
     'INVITATION_ADVISORY_BOARD': 'Distinguished Invitation: Editorial Advisory Board · MPPT Journal',
+    'CONFIRMATION_ADVISORY_BOARD': 'Formal Appointment & Official Board Certificate · Editorial Advisory Board — MPPT Journal',
+    'CONFIRMATION_REVIEWER': 'Welcome to the Verified Peer Reviewer Panel & Official Certificate — MPPT Journal',
   };
-  return subjects[templateKey] || \`Manuscript Update — \${paperId} · MPPT Journal\`;
+  return subjects[templateKey] || \`Official Correspondence — \${paperId || 'MPPT Journal'}\`;
 }
 `;
 

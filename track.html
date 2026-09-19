@@ -579,7 +579,7 @@ footer a:hover { text-decoration: underline; }
       <form class="lookup-form" id="lookupForm">
         <div class="input-wrap">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--dim)" stroke-width="2" style="position:absolute;left:13px;pointer-events:none"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="lookupId" class="lookup-input" placeholder="e.g. MPPT-2026-V1I1-0001" required>
+          <input type="text" id="lookupId" class="lookup-input" placeholder="" autocomplete="off" spellcheck="false" required>
         </div>
         <button type="submit" class="lookup-btn">Track Paper</button>
       </form>
@@ -623,6 +623,10 @@ footer a:hover { text-decoration: underline; }
         <span id="trackDate">—</span>
       </div>
       <div class="meta-item">
+        <strong>Scheduled Issue</strong>
+        <span id="trackVolumeIssue">Volume 1, Issue 1 (2026)</span>
+      </div>
+      <div class="meta-item">
         <strong>APC Fee Status</strong>
         <span style="color:var(--green);font-weight:600">₹0.00 (Inaugural Vol 1 Waiver)</span>
       </div>
@@ -637,10 +641,30 @@ footer a:hover { text-decoration: underline; }
     </div>
   </div>
 
-  <!-- Author Action Suite: Revision Submission & Official Documents -->
+  <!-- Author Action Suite: Revision Submission, Proof Approval & Official Documents -->
   <div class="action-grid" id="actionGrid" style="display:none">
+    <!-- Galley Proof Approval Card (Displayed when stage == GALLERY_SENT) -->
+    <div class="action-card" id="proofCard" style="display:none; border: 1.5px solid var(--acc); background: #fdfbf7;">
+      <div class="action-card-header">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg>
+        <h3 style="color:var(--acc)">Galley Proof Sign-Off Required</h3>
+      </div>
+      <p>Your accepted manuscript has been typeset in MPPT Journal 2-column layout. Please inspect the web proof carefully before confirming final publication.</p>
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:14px;">
+        <a id="btnInspectProofInTrack" href="#" target="_blank" class="btn" style="justify-content:center; padding:10px 14px; background:#b45309; color:#fff !important; text-decoration:none;">
+          Inspect Typeset Web Proof &rarr;
+        </a>
+        <button type="button" class="btn filled" id="btnApproveProofInTrack" style="justify-content:center; padding:12px 14px; background:var(--acc); color:#fff !important; font-weight:700;">
+          ✓ Approve Galley Proof for Publication
+        </button>
+      </div>
+      <p style="font-size:11px; color:var(--dim); margin-top:10px; line-height:1.4;">
+        Need minor corrections? Reply directly to the galley proof email or email <a href="mailto:editor@mpptjournal.com" style="color:var(--acc);font-weight:600">editor@mpptjournal.com</a> with your annotated PDF.
+      </p>
+    </div>
+
     <!-- Submit Revision Card -->
-    <div class="action-card">
+    <div class="action-card" id="revisionCard">
       <div class="action-card-header">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
         <h3>Submit Manuscript Revision</h3>
@@ -662,7 +686,10 @@ footer a:hover { text-decoration: underline; }
         <h3>Official Author Documents</h3>
       </div>
       <p>Download signed submission receipts, review verification documents, or communicate directly with the editorial desk.</p>
-      <div style="display:flex;flex-direction:column;gap:10px;margin-top:auto">
+        <a id="btnViewCertInTrack" href="#" target="_blank" class="btn" style="display:none;justify-content:flex-start;padding:10px 14px;text-align:left;background:#fffdf8;border-color:var(--gold);color:#1c1812;font-weight:600">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.2" style="flex-shrink:0"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+          <span style="flex:1">View Official Certificate of Publication &rarr;</span>
+        </a>
         <button type="button" class="btn" id="btnDownloadReceipt" style="justify-content:flex-start;padding:10px 14px;text-align:left">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           <span style="flex:1">Download Official Receipt (PDF/HTML)</span>
@@ -874,6 +901,8 @@ const API_BASE = 'https://mppt-api.pranavparekhcontent.workers.dev';
           email: p.author_email || 'author@university.edu',
           affiliation: p.author_affiliation || 'Department of Pharmacy',
           category: p.subject_scope || 'General Pharmacy',
+          volume: p.volume || 1,
+          issue: p.issue || 1,
           submittedAt: p.submitted_at || new Date().toISOString(),
           stage: p.stage || 'SUBMITTED',
           stageLabel: p.stageLabel || p.stage,
@@ -913,6 +942,8 @@ const API_BASE = 'https://mppt-api.pranavparekhcontent.workers.dev';
         email: localMatch.email,
         affiliation: localMatch.affiliation,
         category: localMatch.category,
+        volume: localMatch.volume || (localMatch.paperId && localMatch.paperId.match(/V(\d+)I(\d+)/i) ? parseInt(localMatch.paperId.match(/V(\d+)I(\d+)/i)[1]) : 1),
+        issue: localMatch.issue || (localMatch.paperId && localMatch.paperId.match(/V(\d+)I(\d+)/i) ? parseInt(localMatch.paperId.match(/V(\d+)I(\d+)/i)[2]) : 1),
         submittedAt: localMatch.submittedAt || new Date().toISOString(),
         stage: 'UNDER_REVIEW',
         stageLabel: 'Under Double-Blind Peer Review',
@@ -966,6 +997,14 @@ const API_BASE = 'https://mppt-api.pranavparekhcontent.workers.dev';
   
   if (dateEl) dateEl.textContent = formattedDate;
 
+  const volEl = document.getElementById('trackVolumeIssue');
+  if (volEl) {
+    const vol = activePaper.volume || 1;
+    const iss = activePaper.issue || 1;
+    const subYear = !isNaN(subDate.getTime()) ? subDate.getFullYear() : new Date().getFullYear();
+    volEl.textContent = `Volume ${vol}, Issue ${iss} (${subYear || 2026})`;
+  }
+
   // Status Pill styling
   if (pillEl) {
     pillEl.textContent = activePaper.stageLabel || activePaper.stage;
@@ -999,6 +1038,20 @@ const API_BASE = 'https://mppt-api.pranavparekhcontent.workers.dev';
     }
   }
 
+
+  // ── GALLEY PROOF SIGN-OFF DISPLAY ──
+  const proofCard = document.getElementById('proofCard');
+  if (proofCard) {
+    if (s === 'GALLERY_SENT') {
+      proofCard.style.display = 'block';
+      const inspectBtn = document.getElementById('btnInspectProofInTrack');
+      if (inspectBtn) {
+        inspectBtn.href = `paper sample/mppt_sample_paper.html?mode=proof&id=${encodeURIComponent(activePaper.paperId)}`;
+      }
+    } else {
+      proofCard.style.display = 'none';
+    }
+  }
 
   // ── DYNAMIC 5-STEP TIMELINE ENGINE ──
   const step1 = document.getElementById('step1');
@@ -1101,10 +1154,25 @@ const API_BASE = 'https://mppt-api.pranavparekhcontent.workers.dev';
       step5.className = 'step done';
       if (s5t) s5t.textContent = 'Published Live (Volume 1, Issue 1)';
       step5.querySelector('.step-node').textContent = '✓';
-      if (activePaper.zenodoDoi && s5desc) {
-        s5desc.innerHTML = `Published Open Access under CC BY 4.0. DOI: <a href="https://doi.org/${escapeHtml(activePaper.zenodoDoi)}" target="_blank" style="color:var(--acc);font-weight:bold">${escapeHtml(activePaper.zenodoDoi)}</a>.`;
+      
+      const certBtn = document.getElementById('btnViewCertInTrack');
+      if (certBtn) {
+        certBtn.style.display = 'flex';
+        certBtn.href = `certificate.html?id=${encodeURIComponent(activePaper.paperId)}`;
       }
-    } else if (s === 'GALLERY_SENT' || s === 'GALLERY_CONFIRMED' || s === 'PAYMENT_PENDING' || s === 'PAYMENT_VERIFIED') {
+
+      if (s5desc) {
+        let desc = '';
+        if (activePaper.zenodoDoi) {
+          desc += `Published Open Access under CC BY 4.0. DOI: <a href="https://doi.org/${escapeHtml(activePaper.zenodoDoi)}" target="_blank" style="color:var(--acc);font-weight:bold">${escapeHtml(activePaper.zenodoDoi)}</a>. `;
+        }
+        desc += `<a href="certificate.html?id=${encodeURIComponent(activePaper.paperId)}" target="_blank" style="color:#2e7d32;font-weight:bold">🎓 View Official Publication Certificate &rarr;</a>`;
+        s5desc.innerHTML = desc;
+      }
+    } else {
+      const certBtn = document.getElementById('btnViewCertInTrack');
+      if (certBtn) certBtn.style.display = 'none';
+      if (s === 'GALLERY_SENT' || s === 'GALLERY_CONFIRMED' || s === 'PAYMENT_PENDING' || s === 'PAYMENT_VERIFIED') {
       step5.className = 'step in-progress';
       if (s5t) s5t.textContent = 'Galley Proof & Typesetting';
       step5.querySelector('.step-node').textContent = '•';
@@ -1264,6 +1332,38 @@ const API_BASE = 'https://mppt-api.pranavparekhcontent.workers.dev';
     } finally {
       revSubmitBtn.disabled = false;
       revSubmitBtn.textContent = 'Submit Revision to Editor';
+    }
+  });
+
+  // ── GALLEY PROOF ONE-CLICK APPROVAL HANDLER ──
+  document.getElementById('btnApproveProofInTrack')?.addEventListener('click', async () => {
+    const confirmApproval = confirm(
+      `Confirm Galley Proof Approval for ${activePaper.paperId}?\n\nBy clicking OK, you confirm that you have inspected the typeset proof and authorize Journal of Modern Pharmacy Praxis & Therapeutics to publish and archive this manuscript under CC BY 4.0 Open Access with permanent CERN/Zenodo deposition.`
+    );
+    if (!confirmApproval) return;
+
+    const btn = document.getElementById('btnApproveProofInTrack');
+    btn.disabled = true;
+    btn.textContent = 'Transmitting Approval to D1 Ledger...';
+
+    try {
+      const res = await fetch(`${API_BASE}/api/gallery/confirm`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ paperId: activePaper.paperId })
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success) {
+        alert(`✓ Galley Proof Approved Successfully!\n\nYour sign-off has been logged in the MPPT Journal D1 Ledger for ${activePaper.paperId}.\nThe Managing Editor has been notified via Telegram, and your paper is now queued for final publication & Zenodo DOI registration.`);
+        window.location.reload();
+      } else {
+        throw new Error(data.error || 'Failed to register proof confirmation');
+      }
+    } catch (err) {
+      alert('Proof Approval Note: ' + err.message + '\nAlternatively, you can reply directly to the galley proof email to confirm approval.');
+      btn.disabled = false;
+      btn.textContent = '✓ Approve Galley Proof for Publication';
     }
   });
   })();
