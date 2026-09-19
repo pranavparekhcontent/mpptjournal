@@ -380,10 +380,27 @@ async function notifyStageChange(env, paper, newStage, actor = 'editorial_board'
 async function sendViaZohoSmtp(env, { from, to, subject, html }) {
   const host = env.ZOHO_SMTP_HOST || 'smtp.zoho.in';
   const port = parseInt(env.ZOHO_SMTP_PORT || '465', 10);
-  const user = env.ZOHO_SMTP_USER || from;
-  const pass = env.ZOHO_SMTP_PASS || env.ZOHO_APP_PASSWORD;
 
-  if (!pass) return { sent: false, error: 'No Zoho SMTP password configured in worker secrets' };
+  const cleanFrom = (from || 'editor@mpptjournal.com').toLowerCase().trim();
+  let user = 'editor@mpptjournal.com';
+  let pass = env.ZOHO_PASS_EDITOR || env.ZOHO_SMTP_PASS || env.ZOHO_APP_PASSWORD;
+  let senderName = 'MPPT Journal Editorial Desk';
+
+  if (cleanFrom.includes('review')) {
+    user = 'review@mpptjournal.com';
+    pass = env.ZOHO_PASS_REVIEW || pass;
+    senderName = 'MPPT Journal Peer Review Desk';
+  } else if (cleanFrom.includes('publisher')) {
+    user = 'publisher@mpptjournal.com';
+    pass = env.ZOHO_PASS_PUBLISHER || pass;
+    senderName = 'MPPT Journal Publishing & Archival Desk';
+  } else {
+    user = 'editor@mpptjournal.com';
+    pass = env.ZOHO_PASS_EDITOR || pass;
+    senderName = 'MPPT Journal Editor-in-Chief Desk';
+  }
+
+  if (!pass) return { sent: false, error: `No Zoho SMTP password configured for ${user}` };
 
   let writer = null;
   try {
@@ -443,9 +460,8 @@ async function sendViaZohoSmtp(env, { from, to, subject, html }) {
     const pRes = await sendCmd(pB64);
     if (!pRes.startsWith('235')) throw new Error('Password authentication failed: ' + pRes);
 
-    const mailFrom = user || 'editor@mpptjournal.com';
-    const replyTo = from || mailFrom;
-    const fromRes = await sendCmd(`MAIL FROM:<${mailFrom}>`);
+    const replyTo = from || user;
+    const fromRes = await sendCmd(`MAIL FROM:<${user}>`);
     if (!fromRes.startsWith('250')) throw new Error('MAIL FROM failed: ' + fromRes);
 
     const toRes = await sendCmd(`RCPT TO:<${to}>`);
@@ -455,7 +471,7 @@ async function sendViaZohoSmtp(env, { from, to, subject, html }) {
     if (!dataRes.startsWith('354')) throw new Error('DATA initiation failed: ' + dataRes);
 
     const emailHeaders = [
-      `From: MPPT Journal Editorial Desk <${mailFrom}>`,
+      `From: ${senderName} <${user}>`,
       `Reply-To: <${replyTo}>`,
       `To: <${to}>`,
       `Subject: ${subject}`,
